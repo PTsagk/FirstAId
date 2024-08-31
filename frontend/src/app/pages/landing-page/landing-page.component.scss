@@ -1,0 +1,42 @@
+.landing-page-background {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+.robot-image {
+  width: 300px;
+  height: 300px;
+  z-index: 2;
+  position: relative;
+}
+
+.white-box {
+  position: absolute;
+  top: 0;
+  background-color: white;
+  width: 70%;
+  height: 100vh;
+  z-index: -1;
+}
+
+.main-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+
+  p {
+    font-size: 20px;
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  button {
+    font-size: 15px;
+    margin-top: 50px;
+  }
+}
