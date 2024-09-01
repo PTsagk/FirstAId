@@ -40,3 +40,50 @@
     margin-top: 50px;
   }
 }
+
+.about {
+  padding: 30px 100px;
+  font-size: 18px;
+}
+
+.user-options {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 100px;
+  margin-top: 50px;
+
+  i {
+    font-size: 70px;
+  }
+}
+
+.doctor,
+.patient {
+  text-align: center;
+  p {
+    font-weight: 500;
+  }
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  i {
+    background-color: white;
+    border-radius: 100%;
+    padding: 10px;
+    font-size: 30px;
+  }
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}

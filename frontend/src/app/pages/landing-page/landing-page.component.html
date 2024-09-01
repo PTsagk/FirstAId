@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="main-content">
+<section class="main-content">
   <img
     class="landing-page-background"
     src="../../../assets/landing-page-background.png"
@@ -12,5 +12,63 @@
     next generation in healthcare that uses AI Technology to connect doctors and
     patients like never before!
   </p>
-  <button mat-flat-button>Learn more</button>
-</div>
+  <button mat-flat-button class="bg-primary text-secondary">Learn more</button>
+</section>
+<section class="about bg-primary text-secondary">
+  <h1>
+    <i class="fa-solid fa-question" style="margin-right: 10px"></i>About this
+    platform
+  </h1>
+  <p>
+    I'm Panagiotis Tsagkouris, and together with my mentor, Andreas Menychtas,
+    I've brought to life an innovative platform as part of my thesis project.
+    The goal is to reshape the future of healthcare. Imagine a world where
+    contacting your doctor and scheduling appointments is not just faster but
+    also more efficient than ever before. With this platform, it's a reality.
+    From managing appointment schedules to offering medical advice and accessing
+    patient histories, everything happens seamlessly and instantly, without the
+    need for direct human interaction.
+  </p>
+</section>
+<section class="about bg-secondary">
+  <h1 class="text-primary">
+    <i class="fa-solid fa-question" style="margin-right: 10px"></i>
+    Who is this platform for
+  </h1>
+  <div class="user-options">
+    <div class="doctor">
+      <i class="fa-duotone fa-solid fa-user-nurse text-primary"></i>
+      <h1 class="text-primary">Doctors</h1>
+      <p>
+        Doctors who need assistant contacting with patients, managing their
+        schedule and collecting info about their patients
+      </p>
+      <button mat-flat-button class="bg-primary text-secondary">
+        Register as Doctor
+      </button>
+    </div>
+    <div class="patient">
+      <i class="fa-solid fa-user-tie text-muted"></i>
+      <h1 class="text-primary">Patients</h1>
+      <p>
+        Patients who need to contact a doctor without needing to wait in
+        telephone line or email response from someone.
+      </p>
+      <button mat-flat-button class="bg-muted text-primary">
+        Register as User
+      </button>
+    </div>
+  </div>
+</section>
+<footer class="bg-primary">
+  <h2 class="text-secondary">Contact Information</h2>
+  <div class="socials">
+    <a href="#"> <i class="fa-brands fa-facebook"></i></a>
+    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+    <a href="#"> <i class="fa-brands fa-github"></i></a>
+  </div>
+  <p class="text-secondary">
+    Create by Panagiotis Tsagkouris as part of my thesis project with my mentor
+    Andreas Menychtas
+  </p>
+</footer>
