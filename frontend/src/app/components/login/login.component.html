@@ -1,0 +1,25 @@
+<div class="form-container">
+  <div class="right-side bg-primary">
+    <i class="fa-duotone fa-solid fa-user-nurse"></i>
+    <h2>I am a doctor</h2>
+    <span>Not a doctor?</span>
+    <button mat-stroked-button class="bg-secondary text-primary">Switch to patient</button>
+  </div>
+  <form (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Input</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Select</mat-label>
+      <mat-select>
+        <mat-option value="one">First option</mat-option>
+        <mat-option value="two">Second option</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Textarea</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
+  </form>
+</div>

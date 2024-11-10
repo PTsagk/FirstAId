@@ -42,12 +42,13 @@
 }
 
 .about {
-  padding: 30px 100px;
+  padding: 30px 80px;
   font-size: 18px;
 }
 
 .user-options {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   gap: 100px;
   margin-top: 50px;
@@ -59,6 +60,8 @@
 
 .doctor,
 .patient {
+  width: 40%;
+  min-width: 300px;
   text-align: center;
   p {
     font-weight: 500;
