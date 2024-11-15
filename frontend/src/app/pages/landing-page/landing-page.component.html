@@ -43,7 +43,11 @@
         Doctors who need assistant contacting with patients, managing their
         schedule and collecting info about their patients
       </p>
-      <button mat-flat-button class="bg-primary text-secondary">
+      <button
+        mat-flat-button
+        class="bg-primary text-secondary"
+        (click)="accountService.register(true)"
+      >
         Register as Doctor
       </button>
     </div>
@@ -54,7 +58,11 @@
         Patients who need to contact a doctor without needing to wait in
         telephone line or email response from someone.
       </p>
-      <button mat-flat-button class="bg-muted text-primary">
+      <button
+        mat-flat-button
+        class="bg-muted text-primary"
+        (click)="accountService.register(false)"
+      >
         Register as User
       </button>
     </div>
