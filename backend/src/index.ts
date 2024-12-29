@@ -5,7 +5,7 @@
 // import cors from "cors";
 const express = require("express");
 const dotenv = require("dotenv");
-const userRouter = require("./routes/users.ts");
+const userRouter = require("./routes/users");
 const cors = require("cors");
 const app = express();
 dotenv.config();

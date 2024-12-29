@@ -1,5 +1,5 @@
 const Express = require("express");
-const { connectDB, closeDB } = require("../connect.ts");
+const { connectDB, closeDB } = require("../connect");
 const router = Express.Router();
 
 router.get("/", async (req, res) => {
