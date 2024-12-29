@@ -17,6 +17,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -40,8 +41,7 @@ export class RegisterComponent {
   constructor(
     private dialogRef: MatDialogRef<RegisterComponent>,
     public accountService: AccountService,
-    private http: HttpClient,
-    private fb: FormBuilder
+    private http: HttpClient
   ) {
     this.userInfo = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -54,17 +54,29 @@ export class RegisterComponent {
     });
   }
   onSubmit(userInfo: FormGroup) {
-    console.log(userInfo.value);
+    // set proffesion to None
+
     if (userInfo.status != 'VALID') return;
     this.http
-      .post(environment.api_url + '/users/register', userInfo.value)
-      .subscribe((res) => {
-        console.log(res);
+      .post(
+        environment.api_url +
+          `/users/${this.isDoctor ? 'doctors' : 'patients'}/register`,
+        userInfo.value
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.dialogRef.close();
+          Swal.fire('Success', res, 'success');
+        },
+        error: (err) => {
+          Swal.fire('Error', err.error.text, 'error');
+        },
       });
-    this.dialogRef.close();
   }
 
   switchUser() {
     this.isDoctor = !this.isDoctor;
+    if (!this.isDoctor) this.userInfo.get('profession')?.setValue('None');
+    else this.userInfo.get('profession')?.setValue('');
   }
 }
