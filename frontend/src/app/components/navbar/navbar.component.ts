@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { LoginComponent } from '../login/login.component';
+import { AccountService } from '../../../services/account.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,12 +11,8 @@ import { LoginComponent } from '../login/login.component';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  constructor(public dialog: MatDialog) {}
-
-  signUp() {
-    this.dialog.open(LoginComponent, {
-      width: '80%',
-      height: '80vh',
-    });
-  }
+  constructor(
+    public dialog: MatDialog,
+    public accountService: AccountService
+  ) {}
 }

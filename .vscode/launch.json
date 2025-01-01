@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "request": "launch",
+      "type": "node",
+      "cwd": "${workspaceFolder}/backend",
+      "name": "node-app",
+      "program": "${workspaceRoot}/backend/src/index.ts",
+      "sourceMaps": false
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Chrome",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/frontend",
+      "sourceMaps": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Hybrid",
+      "configurations": ["node-app", "Chrome"]
+    }
+  ]
+}
