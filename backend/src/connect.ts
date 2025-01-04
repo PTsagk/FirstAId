@@ -1,9 +1,9 @@
-const { MongoClient } = require("mongodb");
+import { MongoClient } from "mongodb";
 
 let client;
 let db;
 
-async function initializeDB() {
+async function connectDB() {
   try {
     // If already connected, return the existing db instance
     if (db) {
@@ -26,7 +26,7 @@ async function initializeDB() {
 }
 
 // Close the client connection gracefully (e.g., during server shutdown)
-async function closeDatabase() {
+async function closeDB() {
   if (client) {
     await client.close();
     client = null;
@@ -34,4 +34,4 @@ async function closeDatabase() {
   }
 }
 
-module.exports = { initializeDB, closeDatabase };
+export { connectDB, closeDB };
