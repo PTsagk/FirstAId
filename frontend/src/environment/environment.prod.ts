@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   apiKey: 'prodKey',
-  apiUrl: 'https://api.example.com',
+  apiUrl: 'https://first-aid-api.onrender.com/',
 };
