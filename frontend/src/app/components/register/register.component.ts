@@ -17,7 +17,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import Swal from 'sweetalert2';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -30,6 +32,7 @@ import Swal from 'sweetalert2';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -38,10 +41,12 @@ export class RegisterComponent {
   @Input() isDoctor: boolean = true;
 
   userInfo: FormGroup;
+  pending: boolean = false;
   constructor(
     private dialogRef: MatDialogRef<RegisterComponent>,
     public accountService: AccountService,
-    private http: HttpClient
+    private http: HttpClient,
+    private snackBar: MatSnackBar
   ) {
     this.userInfo = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -57,6 +62,7 @@ export class RegisterComponent {
     // set proffesion to None
 
     if (userInfo.status != 'VALID') return;
+    this.pending = true;
     this.http
       .post(
         environment.api_url +
@@ -66,10 +72,17 @@ export class RegisterComponent {
       .subscribe({
         next: (res: any) => {
           this.dialogRef.close();
-          Swal.fire('Success', res, 'success');
+          this.snackBar.open('Account created successfully', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+          });
         },
         error: (err) => {
-          Swal.fire('Error', err.error.text, 'error');
+          this.pending = false;
+          this.snackBar.open('Something went wrong', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+          });
         },
       });
   }

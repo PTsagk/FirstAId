@@ -84,7 +84,12 @@
         <mat-label>Textarea</mat-label>
         <textarea matInput></textarea>
       </mat-form-field> -->
-    <button type="submit" mat-flat-button class="bg-primary text-secondary">
+    <button
+      type="submit"
+      [disabled]="pending"
+      mat-flat-button
+      class="bg-primary text-secondary"
+    >
       Register
     </button>
     <p style="margin-top: 20px">
@@ -96,5 +101,8 @@
         >Login</span
       >
     </p>
+    <div class="loading" *ngIf="pending">
+      <mat-spinner></mat-spinner>
+    </div>
   </form>
 </div>

@@ -1,0 +1,26 @@
+@import "~@angular/material/theming";
+
+// Define your custom palettes
+$my-primary: mat-palette($mat-indigo); // Example: Using a pre-defined palette
+$my-accent: mat-palette($mat-pink, A200, A100, A400); // Example: Custom accent
+$my-warn: mat-palette($mat-red);
+
+// Create your theme configuration
+$my-theme: mat-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn,
+    ),
+  )
+);
+
+// Include the theme in your styles
+@include angular-material-theme($my-theme);
+
+// Optional: Include typography styles (if needed)
+@include mat-typography-config($my-theme); // If you've customized typography
+
+// Optional: Include density styles (if needed)
+@include mat-density($my-theme); // If you've customized density

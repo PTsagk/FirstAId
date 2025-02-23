@@ -1,5 +1,6 @@
 const Express = require("express");
 const { connectDB, closeDB } = require("../connect");
+const bcrypt = require("bcrypt");
 const router = Express.Router();
 
 router.get("/", async (req, res) => {
@@ -22,7 +23,10 @@ router.post("/:user/register", async (req, res) => {
       return res.status(400).send("Invalid user type");
     const db = await connectDB();
     const collection = db.collection(userType);
-    await collection.insertOne(req.body);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const user = { ...req.body, password: hashedPassword };
+    await collection.insertOne(user);
     await closeDB();
     res.json("Account created successfully");
   } catch (error) {
@@ -38,13 +42,12 @@ router.post("/login/:user", async (req, res) => {
       return res.status(400).send("Invalid user type");
     const db = await connectDB();
     const collection = db.collection(userType);
-    const result = await collection.findOne({
-      email: req.body.email,
-      password: req.body.password,
-    });
+    const user = await collection.findOne({ email: req.body.email });
     await closeDB();
-    if (!result) return res.status(401).send("Invalid email or password");
-    res.send(result);
+    if (!user) return res.status(401).send("Invalid email or password");
+    const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+    if (!isPasswordValid) return res.status(401).send("Invalid email or password");
+    res.send(user);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
