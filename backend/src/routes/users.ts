@@ -35,7 +35,7 @@ router.post("/:user/register", async (req, res) => {
   }
 });
 
-router.post("/login/:user", async (req, res) => {
+router.post("/:user/login", async (req, res) => {
   try {
     const userType = req.params.user;
     if (userType !== "doctors" && userType !== "patients")
@@ -45,8 +45,12 @@ router.post("/login/:user", async (req, res) => {
     const user = await collection.findOne({ email: req.body.email });
     await closeDB();
     if (!user) return res.status(401).send("Invalid email or password");
-    const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
-    if (!isPasswordValid) return res.status(401).send("Invalid email or password");
+    const isPasswordValid = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!isPasswordValid)
+      return res.status(401).send("Invalid email or password");
     res.send(user);
   } catch (error) {
     console.error(error);

@@ -6,6 +6,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { AccountService } from '../../../services/account.service';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../environment/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -16,22 +26,60 @@ import { AccountService } from '../../../services/account.service';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   @Input() isDoctor: boolean = true;
+  userInfo: FormGroup;
+  pending: boolean = false;
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
     private dialog: MatDialog,
-    public accountService: AccountService
-  ) {}
+    public accountService: AccountService,
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) {
+    this.userInfo = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+    });
+  }
   switchUser() {
     this.isDoctor = !this.isDoctor;
   }
 
-  onSubmit(ev: Event) {
-    ev.preventDefault();
+  onSubmit(userInfo: FormGroup) {
+    // set proffesion to None
+
+    if (userInfo.status != 'VALID') return;
+    this.pending = true;
+    this.http
+      .post(
+        environment.api_url +
+          `/users/${this.isDoctor ? 'doctors' : 'patients'}/login`,
+        userInfo.value
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.dialogRef.close();
+          this.snackBar.open('Login Successful', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+          });
+        },
+        error: (err) => {
+          this.pending = false;
+          console.log(err);
+          this.snackBar.open('Something went wrong', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+          });
+        },
+      });
   }
 }

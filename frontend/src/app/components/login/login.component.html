@@ -23,15 +23,19 @@
       Switch to doctor
     </button>
   </div>
-  <form class="login-form" (submit)="onSubmit($event)">
+  <form
+    class="login-form"
+    [formGroup]="userInfo"
+    (ngSubmit)="onSubmit(userInfo)"
+  >
     <h1 class="text-primary">Login</h1>
     <mat-form-field class="cell">
       <mat-label>Email</mat-label>
-      <input type="email" required matInput />
+      <input formControlName="email" type="email" required matInput />
     </mat-form-field>
     <mat-form-field class="cell">
       <mat-label>Password</mat-label>
-      <input type="password" required matInput />
+      <input formControlName="password" type="password" required matInput />
     </mat-form-field>
 
     <button type="submit" mat-flat-button class="bg-primary text-secondary">
