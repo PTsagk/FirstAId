@@ -9,4 +9,5 @@ export const routes: Routes = [
         (m) => m.LandingPageComponent
       ),
   },
+  { path: '**', redirectTo: 'home' },
 ];
