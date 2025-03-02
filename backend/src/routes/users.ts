@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 
-const Express = require("express");
-const { connectDB, closeDB } = require("../connect");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import Express from "express";
+import { connectDB, closeDB } from "../connect";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 const router = Express.Router();
 
 router.get("/", async (req, res) => {
@@ -85,4 +85,4 @@ const authenticateToken = (req, res, next) => {
 
 router.use(authenticateToken);
 
-module.exports = router;
+export default router;

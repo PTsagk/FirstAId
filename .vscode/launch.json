@@ -2,20 +2,26 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "request": "launch",
-      "type": "node",
-      "cwd": "${workspaceFolder}/backend",
-      "name": "node-app",
-      "program": "${workspaceRoot}/backend/src/index.ts",
-      "sourceMaps": false
-    },
-    {
       "type": "chrome",
       "request": "launch",
       "name": "Chrome",
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}/frontend",
       "sourceMaps": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "node-app",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/backend/dist/index.js",
+      "outFiles": ["${workspaceFolder}/backend/dist/**/*.js"],
+      "sourceMaps": true,
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "env": {
+        "NODE_ENV": "development",
+        "MONGO_URI": "mongodb+srv://laptop:laptopdatabaseconnect@nodeexpressproject.a4pus.mongodb.net/"
+      }
     }
   ],
   "compounds": [

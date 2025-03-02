@@ -11,7 +11,7 @@ async function connectDB() {
     }
 
     // Set up a new connection if none exists
-    const url = process.env.MONGO_URL;
+    const url = process.env.MONGO_URI;
     client = new MongoClient(url);
     await client.connect();
 

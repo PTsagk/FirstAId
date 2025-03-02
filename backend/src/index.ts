@@ -1,19 +1,14 @@
-// src/index.ts
-// import express from "express";
-// import dotenv from "dotenv";
-// import userRouter from "./routes/users";
-// import cors from "cors";
-const express = require("express");
-const dotenv = require("dotenv");
-const cookieParser = require("cookie-parser");
-const userRouter = require("./routes/users");
-const cors = require("cors");
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import userRouter from "./routes/users";
+import cors from "cors";
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 const corsOptions = {
-  origin: ["http://localhost:4200", "https://first-ai-d.netlify.app"], // Add your allowed domains here
+  origin: ["http://localhost:4200", "https://first-ai-d.netlify.app"],
   optionsSuccessStatus: 200,
   credentials: true,
 };
