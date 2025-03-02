@@ -58,10 +58,10 @@ router.post("/:user/login", async (req: Request, res: Response) => {
     const token = jwt.sign({ id: user._id, userType }, "your_jwt_secret", {
       expiresIn: "1d",
     });
-
+    console.log(process.env.NODE_ENV);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
     });
     res.json(user);
   } catch (error) {
