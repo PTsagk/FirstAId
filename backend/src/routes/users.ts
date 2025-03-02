@@ -1,6 +1,9 @@
+import { Request, Response } from "express";
+
 const Express = require("express");
 const { connectDB, closeDB } = require("../connect");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const router = Express.Router();
 
 router.get("/", async (req, res) => {
@@ -35,7 +38,7 @@ router.post("/:user/register", async (req, res) => {
   }
 });
 
-router.post("/:user/login", async (req, res) => {
+router.post("/:user/login", async (req: Request, res: Response) => {
   try {
     const userType = req.params.user;
     if (userType !== "doctors" && userType !== "patients")
@@ -51,11 +54,35 @@ router.post("/:user/login", async (req, res) => {
     );
     if (!isPasswordValid)
       return res.status(401).send("Invalid email or password");
-    res.send(user);
+
+    const token = jwt.sign({ id: user._id, userType }, "your_jwt_secret", {
+      expiresIn: "1d",
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+    });
+    res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
+
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).send("Access Denied");
+
+  try {
+    const verified = jwt.verify(token, "your_jwt_secret");
+    req.user = verified;
+    next();
+  } catch (error) {
+    res.status(400).send("Invalid Token");
+  }
+};
+
+router.use(authenticateToken);
 
 module.exports = router;

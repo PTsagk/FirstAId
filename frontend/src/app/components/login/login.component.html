@@ -50,5 +50,8 @@
         >Register</span
       >
     </p>
+    <div class="loading" *ngIf="pending">
+      <mat-spinner></mat-spinner>
+    </div>
   </form>
 </div>

@@ -16,6 +16,7 @@ import {
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -62,7 +64,8 @@ export class LoginComponent {
       .post(
         environment.api_url +
           `/users/${this.isDoctor ? 'doctors' : 'patients'}/login`,
-        userInfo.value
+        userInfo.value,
+        { withCredentials: true }
       )
       .subscribe({
         next: (res: any) => {
@@ -71,6 +74,7 @@ export class LoginComponent {
             duration: 2000,
             verticalPosition: 'top',
           });
+          this.pending = false;
         },
         error: (err) => {
           this.pending = false;
