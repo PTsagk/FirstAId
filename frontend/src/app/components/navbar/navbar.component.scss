@@ -2,6 +2,7 @@ nav {
   padding: 20px;
   display: flex;
   justify-content: space-between;
+  height: 30px;
 }
 
 h1 {
@@ -11,4 +12,24 @@ h1 {
 .login-components {
   display: flex;
   gap: 10px;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-icon {
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.info-icon:hover {
+  background-color: rgb(219, 219, 219);
 }

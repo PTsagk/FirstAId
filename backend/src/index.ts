@@ -1,10 +1,10 @@
 import express from "express";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/users";
 import cors from "cors";
 const app = express();
-dotenv.config();
+dotenv.config({ path: "../.env", override: true });
 const port = process.env.PORT || 3000;
 app.use(express.json());
 const corsOptions = {

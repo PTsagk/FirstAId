@@ -79,9 +79,10 @@ export class RegisterComponent {
         },
         error: (err) => {
           this.pending = false;
-          this.snackBar.open('Something went wrong', '', {
+          this.snackBar.open(err.error, '', {
             duration: 2000,
             verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
           });
         },
       });

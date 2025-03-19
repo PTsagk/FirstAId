@@ -1,6 +1,6 @@
-<nav class="bg-muted">
+<nav [ngClass]="{ 'bg-secondary b-1': !hideButtons, 'bg-muted': hideButtons }">
   <h1>First <span class="text-primary">AI</span>d</h1>
-  <div class="login-components">
+  <div *ngIf="hideButtons" class="login-components">
     <button
       mat-stroked-button
       class="bg-secondary text-primary"
@@ -15,5 +15,15 @@
     >
       Login
     </button>
+  </div>
+  <div *ngIf="userInfo" class="user-info">
+    <div class="info-icon">
+      <i class="fa-solid fa-sliders"></i>
+    </div>
+    <div class="info-icon">
+      <i class="fa-regular fa-bell"></i>
+    </div>
+    <span>{{ userInfo.name }}</span>
+    <img [src]="userInfo.img || '../../../assets/user-26.png'" alt="" />
   </div>
 </nav>

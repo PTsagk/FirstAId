@@ -1,18 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AccountService } from '../../../services/account.service';
+import { NgClass, NgIf } from '@angular/common';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatDialogModule],
+  imports: [MatButtonModule, MatDialogModule, NgIf, NgClass],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnDestroy {
+  hideButtons: boolean = true;
+  protected destroy$ = new Subject<void>();
+
+  userInfo: any = null;
   constructor(
     public dialog: MatDialog,
-    public accountService: AccountService
-  ) {}
+    public accountService: AccountService,
+    private router: Router
+  ) {
+    this.accountService.userInfo
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((userInfo) => {
+        this.userInfo = userInfo;
+      });
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        if (event.url === '/home') {
+          this.hideButtons = true;
+        } else {
+          this.hideButtons = false;
+        }
+      }
+    });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

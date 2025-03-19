@@ -90,6 +90,10 @@ $muted-color: #e4e4e4;
   color: $muted-color !important;
 }
 
+.b-1 {
+  border: 1px solid $muted-color !important;
+}
+
 html,
 body {
   height: 100%;
@@ -110,4 +114,11 @@ align-items-center {
 
 justify-content-center {
   justify-content: center !important;
+}
+.mat-mdc-snack-bar-container {
+  &.snackbar-error {
+    --mdc-snackbar-container-color: rgb(233, 27, 54);
+    --mat-mdc-snack-bar-button-color: rgb(233, 27, 54);
+    --mdc-snackbar-supporting-text-color: white;
+  }
 }

@@ -17,6 +17,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -44,7 +45,8 @@ export class LoginComponent {
     private dialog: MatDialog,
     public accountService: AccountService,
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.userInfo = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -75,6 +77,12 @@ export class LoginComponent {
             verticalPosition: 'top',
           });
           this.pending = false;
+          this.accountService.userInfo.next(res);
+          if (this.isDoctor) {
+            this.router.navigate(['/doctors/dashboard']);
+          } else {
+            this.router.navigate(['/patients/dashboard']);
+          }
         },
         error: (err) => {
           this.pending = false;
@@ -82,6 +90,7 @@ export class LoginComponent {
           this.snackBar.open('Something went wrong', '', {
             duration: 2000,
             verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
           });
         },
       });

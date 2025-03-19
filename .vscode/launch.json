@@ -20,7 +20,8 @@
       "preLaunchTask": "tsc: build - tsconfig.json",
       "env": {
         "NODE_ENV": "development",
-        "MONGO_URI": "mongodb+srv://laptop:laptopdatabaseconnect@nodeexpressproject.a4pus.mongodb.net/"
+        "MONGO_URI": "mongodb+srv://laptop:laptopdatabaseconnect@nodeexpressproject.a4pus.mongodb.net/",
+        "JWT_SECRET": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTc0MTAyNDI2OCwiaWF0IjoxNzQxMDI0MjY4fQ.fAydRxQ0Af5X6GITmCrgdEu3VOmiE7aj46cpxBYxRXE"
       }
     }
   ],
