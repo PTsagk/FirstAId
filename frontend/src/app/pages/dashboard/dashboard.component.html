@@ -1,1 +1,13 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <app-dashboard-box [color]="'#00c450'" [icon]="'fa-solid fa-bed'" [title]="'Appointments'" [value]="86" [description]="'Appointments for today'">
+  </app-dashboard-box>
+
+  <app-dashboard-box [color]="'orange'" [icon]="'fa-solid fa-warning'" [title]="'Emergencies'" [value]="126" [description]="'Emergencies'">
+  </app-dashboard-box>
+
+  <app-dashboard-box [color]="'red'" [icon]="'fa-solid fa-circle-exclamation'" [title]="'Critical'" [value]="32" [description]="'Critical cases'">
+  </app-dashboard-box>
+
+</div>
+<app-patient-list></app-patient-list>
+<app-calendar></app-calendar>

@@ -1,0 +1,25 @@
+.dashboard-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 16px;
+  width: 250px;
+}
+
+.icon {
+  font-size: 24px;
+  margin-right: 16px;
+}
+
+.content h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.content p {
+  margin: 0;
+  color: #666;
+}

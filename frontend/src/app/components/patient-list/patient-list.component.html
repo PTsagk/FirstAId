@@ -1,0 +1,34 @@
+<div class="patient-list">
+  <h3>Patient</h3>
+  <p>This is your several latest patient list</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Ward No.</th>
+        <th>Priority</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let patient of patients">
+        <td>
+          {{ patient.name }}
+        </td>
+        <td>
+          {{ patient.ward }}
+        </td>
+        <td [ngClass]="patient.priority.toLowerCase()">
+          {{ patient.priority }}
+        </td>
+        <td>
+          {{ patient.startDate }}
+        </td>
+        <td>
+          {{ patient.endDate }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
