@@ -1,14 +1,26 @@
-import { NgClass, NgFor } from '@angular/common';
-import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-patient-list',
   templateUrl: './patient-list.component.html',
   styleUrls: ['./patient-list.component.scss'],
   standalone: true,
-  imports: [NgClass, NgFor],
+  imports: [MatPaginator, MatTableModule, NgClass],
 })
-export class PatientListComponent {
+export class PatientListComponent implements AfterViewInit {
+  displayedColumns: string[] = [
+    'name',
+    'ward',
+    'priority',
+    'startDate',
+    'endDate',
+  ];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   patients = [
     {
       name: 'Adam Messy',
@@ -38,5 +50,32 @@ export class PatientListComponent {
       startDate: 'June 1, 2023',
       endDate: 'June 5, 2023',
     },
+    {
+      name: 'Mathias Olivera',
+      ward: '#248957',
+      priority: 'Medium',
+      startDate: 'June 1, 2023',
+      endDate: 'June 5, 2023',
+    },
+    {
+      name: 'Mathias Olivera',
+      ward: '#248957',
+      priority: 'Medium',
+      startDate: 'June 1, 2023',
+      endDate: 'June 5, 2023',
+    },
+    {
+      name: 'Mathias Olivera',
+      ward: '#248957',
+      priority: 'Medium',
+      startDate: 'June 1, 2023',
+      endDate: 'June 5, 2023',
+    },
+    // Add more patient data as needed
   ];
+  dataSource = new MatTableDataSource(this.patients);
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 }
