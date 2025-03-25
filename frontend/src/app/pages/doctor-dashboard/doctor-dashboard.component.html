@@ -6,21 +6,26 @@
       <span>Dashboard</span>
     </div>
     <div class="sidebar-item" routerLink="calendar">
-      <i class="fa-solid fa-gauge-high"></i>
+      <i class="fa-solid fa-calendar-days"></i>
       <span>Calendar</span>
     </div>
-    <div class="sidebar-item">
-      <i class="fa-solid fa-gauge-high"></i>
-      <span>Dashboard</span>
+    <div class="sidebar-item" routerLink="patient-history">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <span>Patient History</span>
     </div>
-    <span class="sidebar-header">MAIN</span>
-    <div class="sidebar-item">
+    <span class="sidebar-header">CHAT BOT</span>
+    <div class="sidebar-item" routerLink="chat-bot">
       <i class="fa-solid fa-gauge-high"></i>
-      <span>Dashboard</span>
+      <span>Assistant</span>
+    </div>
+    <div class="sidebar-item">
+      <i class="fa-solid fa-sliders"></i>
+      <span>Assistant Settings</span>
     </div>
   </mat-drawer>
   <mat-drawer-content>
     <span
+      class="sidebar-toggle"
       style="
         padding: 5px;
         background-color: rgb(233, 233, 233);

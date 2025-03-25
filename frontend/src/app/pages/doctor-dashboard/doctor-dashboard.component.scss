@@ -3,8 +3,8 @@
   width: 100%;
 
   .sidebar {
-    width: 300px;
-    overflow: hidden; // Hide the scrollbar
+    width: 250px;
+    overflow: visible;
   }
 
   .mat-drawer-content {
@@ -45,4 +45,12 @@
   .mat-drawer-inner-container {
     padding-top: 20px;
   }
+}
+.sidebar-toggle {
+  position: absolute;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  border-radius: 0 20px 20px 0;
+  top: 25vh;
 }

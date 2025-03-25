@@ -1,26 +1,43 @@
 import { Component } from '@angular/core';
-
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatCalendar } from '@angular/material/datepicker';
-import { DatePipe } from '@angular/common';
+import { FullCalendarModule } from '@fullcalendar/angular'; // Import FullCalendar module
+import dayGridPlugin from '@fullcalendar/daygrid'; // Month view plugin
+import interactionPlugin from '@fullcalendar/interaction'; // Interaction plugin for adding events
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatCalendar,
-    DatePipe,
-  ],
+  imports: [FullCalendarModule],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent {
-  selectedDate: Date | null = null;
+  calendarOptions = {
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    editable: true,
+    selectable: true,
+    select: this.handleDateSelect.bind(this),
+    events: [{ title: 'Existing Event', date: '2025-06-10' }],
+    headerToolbar: {
+      left: '',
+      center: 'title',
+      right: 'prev,next',
+    },
+  };
+
+  handleDateSelect(selectInfo: any) {
+    const title = prompt('Enter event title:');
+    const calendarApi = selectInfo.view.calendar;
+
+    calendarApi.unselect();
+
+    if (title) {
+      calendarApi.addEvent({
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay,
+      });
+    }
+  }
 }
