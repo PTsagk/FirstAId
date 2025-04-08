@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const router = Express.Router();
 import { ObjectId } from "mongodb";
-
+import { authenticateToken } from "./auth";
 interface AuthenticatedRequest extends Request {
   user?: {
     id?: string;
@@ -70,24 +70,6 @@ router.post("/:user/login", async (req: Request, res: Response) => {
   }
 });
 
-const authenticateToken = (
-  req: AuthenticatedRequest,
-  res: Response,
-  next: Function
-) => {
-  const token = req.cookies.token;
-  if (!token) return res.status(401).send("Access Denied");
-
-  try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-    if (!verified) return res.status(401).send("Access Denied");
-    req.user = verified;
-    next();
-  } catch (error) {
-    res.status(400).send("Invalid Token");
-  }
-};
-
 router.get(
   "/",
   authenticateToken,
@@ -108,7 +90,5 @@ router.get(
     }
   }
 );
-
-router.use(authenticateToken);
 
 export default router;

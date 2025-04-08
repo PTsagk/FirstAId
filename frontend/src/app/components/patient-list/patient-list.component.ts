@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CreateAppointmentComponent } from '../create-appointment/create-appointment.component';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environment/environment';
 
 @Component({
   selector: 'app-patient-list',
@@ -17,7 +19,7 @@ export class PatientListComponent implements AfterViewInit {
   displayedColumns: string[] = ['name', 'email', 'priority', 'date', 'time'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private http: HttpClient) {}
 
   patients = [
     {
@@ -71,9 +73,29 @@ export class PatientListComponent implements AfterViewInit {
     },
     // Add more patient data as needed
   ];
-  dataSource = new MatTableDataSource(this.patients);
 
+  dataSource = new MatTableDataSource(this.patients);
   ngAfterViewInit() {
+    this.http
+      .get(environment.api_url + '/appointments', {
+        withCredentials: true,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.dataSource.data = res.appointments.map((appointment: any) => {
+            return {
+              name: appointment.patient.fullname,
+              email: appointment.patient.email,
+              priority: appointment.severity,
+              date: appointment.appointmentDate,
+              time: appointment.appointmentTime,
+            };
+          });
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
     this.dataSource.paginator = this.paginator;
   }
 

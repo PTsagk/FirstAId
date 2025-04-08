@@ -51,7 +51,6 @@ export class CreateAppointmentComponent implements OnInit {
     private ac: AccountService
   ) {
     this.appointmentInfo = this.fb.group({
-      doctorId: [''],
       fullname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       description: ['', Validators.required],
@@ -64,16 +63,16 @@ export class CreateAppointmentComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit(form: FormGroup) {
-    const doctorId = this.ac.userInfo.getValue()?._id;
-    if (form.valid && doctorId) {
-      this.appointmentInfo.patchValue({
-        doctorId: doctorId,
-      });
+    if (form.valid) {
       this.pending = true;
       this.http
-        .post(environment.api_url + '/appointments/create', {
-          appointmentInfo: form.value,
-        })
+        .post(
+          environment.api_url + '/appointments/create',
+          {
+            appointmentInfo: form.value,
+          },
+          { withCredentials: true }
+        )
         .subscribe({
           next: (res: any) => {
             this.snackBar.open('Appointment created successfuly', '', {
