@@ -18,7 +18,7 @@ export class CalendarComponent implements OnInit {
     initialView: 'dayGridMonth',
     editable: true,
     selectable: true,
-    select: this.handleDateSelect.bind(this),
+    // select: this.handleDateSelect.bind(this),
     events: [],
     // add custom height
     height: '100%',
@@ -60,19 +60,19 @@ export class CalendarComponent implements OnInit {
       `,
     };
   }
-  handleDateSelect(selectInfo: any) {
-    const title = prompt('Enter event title:');
-    const calendarApi = selectInfo.view.calendar;
+  // handleDateSelect(selectInfo: any) {
+  //   const title = prompt('Enter event title:');
+  //   const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect();
+  //   calendarApi.unselect();
 
-    if (title) {
-      calendarApi.addEvent({
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      });
-    }
-  }
+  //   if (title) {
+  //     calendarApi.addEvent({
+  //       title,
+  //       start: selectInfo.startStr,
+  //       end: selectInfo.endStr,
+  //       allDay: selectInfo.allDay,
+  //     });
+  //   }
+  // }
 }

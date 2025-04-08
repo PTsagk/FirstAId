@@ -10,10 +10,26 @@ import { NgModel, FormsModule } from '@angular/forms';
 })
 export class ChatBotComponent {
   messages = [
-    { text: 'Hello! How can I assist you today?', sender: 'bot' },
-    { text: 'Can you help me find a doctor?', sender: 'user' },
-    { text: 'Sure! Please provide your location.', sender: 'bot' },
-    { text: 'Sure! Please provide your location.', sender: 'bot' },
+    {
+      text: "Hello! I'm MediBot, your virtual healthcare assistant. How can I help you today?",
+      sender: 'bot',
+    },
+    {
+      text: "I've been experiencing severe headaches for the past three days.",
+      sender: 'user',
+    },
+    {
+      text: "I'm sorry to hear that. Can you describe the pain? Is it constant or intermittent, and have you noticed any triggers?",
+      sender: 'bot',
+    },
+    {
+      text: "It's a throbbing pain, usually worse in the morning. Light makes it worse.",
+      sender: 'user',
+    },
+    {
+      text: 'Thank you for sharing those symptoms. Light sensitivity with throbbing pain could indicate a migraine. Have you taken any medication or had similar episodes before?',
+      sender: 'bot',
+    },
   ];
   userMessage = '';
 
@@ -25,7 +41,7 @@ export class ChatBotComponent {
       // Simulate bot response
       setTimeout(() => {
         this.messages.push({
-          text: 'Thank you for your message!',
+          text: "Based on what you've described, I recommend consulting with a neurologist. Would you like me to help you find the nearest available doctor?",
           sender: 'bot',
         });
       }, 1000);
