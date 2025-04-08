@@ -7,6 +7,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CreateAppointmentComponent } from '../create-appointment/create-appointment.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
+import { AppointmentService } from '../../../services/appointment.service';
 
 @Component({
   selector: 'app-patient-list',
@@ -19,88 +20,24 @@ export class PatientListComponent implements AfterViewInit {
   displayedColumns: string[] = ['name', 'email', 'priority', 'date', 'time'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(private dialog: MatDialog, private http: HttpClient) {}
+  constructor(
+    private dialog: MatDialog,
+    private appointmentService: AppointmentService
+  ) {}
 
-  patients = [
-    {
-      name: 'Adam Messy',
-      email: 'test@gmail.com',
-      priority: 'Medium',
-      date: 'June 3, 2023',
-      time: '10:00 AM',
-    },
-    {
-      name: 'Celine Aluista',
-      email: 'test@gmail.com',
-      priority: 'Low',
-      date: 'May 31, 2023',
-      time: '10:00 AM',
-    },
-    {
-      name: 'Malachi Ardo',
-      email: 'test@gmail.com',
-      priority: 'High',
-      date: 'June 7, 2023',
-      time: '10:00 AM',
-    },
-    {
-      name: 'Mathias Olivera',
-      email: 'test@gmail.com',
-      priority: 'Medium',
-      date: 'June 1, 2023',
-      time: '10:00 AM',
-    },
-    {
-      name: 'Mathias Olivera',
-      email: 'test@gmail.com',
-      priority: 'Medium',
-      date: 'June 1, 2023',
-      time: '10:00 AM',
-    },
-    {
-      name: 'Mathias Olivera',
-      email: 'test@gmail.com',
-      priority: 'Medium',
-      date: 'June 1, 2023',
-      time: '10:00 AM',
-    },
-    {
-      name: 'Mathias Olivera',
-      email: 'test@gmail.com',
-      priority: 'Medium',
-      date: 'June 1, 2023',
-      time: '10:00 AM',
-    },
-    // Add more patient data as needed
-  ];
+  patients = [];
 
   dataSource = new MatTableDataSource(this.patients);
   ngAfterViewInit() {
-    this.http
-      .get(environment.api_url + '/appointments', {
-        withCredentials: true,
-      })
-      .subscribe({
-        next: (res: any) => {
-          this.dataSource.data = res.appointments.map((appointment: any) => {
-            return {
-              name: appointment.patient.fullname,
-              email: appointment.patient.email,
-              priority: appointment.severity,
-              date: appointment.appointmentDate,
-              time: appointment.appointmentTime,
-            };
-          });
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    this.appointmentService.appointments.subscribe((appointments: any) => {
+      this.patients = appointments;
+      this.dataSource.data = this.patients;
+    });
     this.dataSource.paginator = this.paginator;
   }
 
   createAppointment() {
-    const modal = this.dialog.open(CreateAppointmentComponent, {
+    this.dialog.open(CreateAppointmentComponent, {
       width: '500px',
     });
   }

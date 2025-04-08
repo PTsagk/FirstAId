@@ -12,6 +12,9 @@ router.post("/create", async (req: Request, res: Response) => {
       return res.status(400).send("Invalid appointment data");
     }
     appointmentInfo.doctorId = req.user.id;
+    appointmentInfo.appointmentDate = moment(
+      appointmentInfo.appointmentDate
+    ).format("YYYY-MM-DD");
     const db = await connectDB();
     const collection = db.collection("appointments");
     await collection.insertOne(appointmentInfo);
@@ -19,7 +22,7 @@ router.post("/create", async (req: Request, res: Response) => {
     await sendEmail(
       appointmentInfo.email,
       appointmentInfo.fullname,
-      moment(appointmentInfo.appointmentDate).format("YYYY-MM-DD"),
+      appointmentInfo.appointmentDate,
       appointmentInfo.appointmentTime
     );
     res.json("OK");
