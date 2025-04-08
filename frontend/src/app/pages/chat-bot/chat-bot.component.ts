@@ -13,6 +13,7 @@ export class ChatBotComponent {
     { text: 'Hello! How can I assist you today?', sender: 'bot' },
     { text: 'Can you help me find a doctor?', sender: 'user' },
     { text: 'Sure! Please provide your location.', sender: 'bot' },
+    { text: 'Sure! Please provide your location.', sender: 'bot' },
   ];
   userMessage = '';
 

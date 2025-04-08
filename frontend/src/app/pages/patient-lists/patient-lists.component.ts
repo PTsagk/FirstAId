@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { PatientListComponent } from '../../components/patient-list/patient-list.component';
 
 @Component({
-  selector: 'app-patient-history',
+  selector: 'app-patient-lists',
   standalone: true,
   imports: [PatientListComponent],
-  templateUrl: './patient-history.component.html',
-  styleUrl: './patient-history.component.scss',
+  templateUrl: './patient-lists.component.html',
+  styleUrl: './patient-lists.component.scss',
 })
-export class PatientHistoryComponent {}
+export class PatientListsComponent {}

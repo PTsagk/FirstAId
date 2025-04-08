@@ -22,7 +22,8 @@ export class AccountService {
       .subscribe({
         next: (res: any) => {
           this.userInfo.next(res);
-          this.router.navigate([`/${res.userType}/dashboard`]);
+          if (this.router.url.includes('/home'))
+            this.router.navigate([`/${res.userType}/dashboard`]);
         },
         error: (err) => {
           console.log(err);

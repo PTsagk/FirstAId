@@ -1,0 +1,71 @@
+<div class="chat-container">
+  <!-- Sidebar -->
+  <div class="chat-sidebar">
+    <h3>Messages</h3>
+
+    <input type="text" placeholder="Search..." class="chat-search" />
+    <div class="chat-list">
+      <div class="chat-item active">
+        <img src="assets/user1.jpg" alt="User" />
+        <div class="chat-details">
+          <h4>Edwin Johnson</h4>
+          <p>Cool! Is there a coffee machine...</p>
+        </div>
+        <span class="chat-time">9:01</span>
+      </div>
+      <div class="chat-item">
+        <img src="assets/user2.jpg" alt="User" />
+        <div class="chat-details">
+          <h4>Albert Flores</h4>
+          <p>Hi, I'm confirming your check-in...</p>
+        </div>
+        <span class="chat-time">10:37</span>
+      </div>
+      <!-- Add more chat items as needed -->
+    </div>
+  </div>
+
+  <!-- Main Chat Area -->
+  <div class="chat-main">
+    <div class="chat-header">
+      <img src="assets/user1.jpg" alt="User" />
+      <div class="chat-header-details">
+        <h4>Edwin Johnson</h4>
+        <p>1-Bedroom Apartment, 45 m² - $80/night</p>
+      </div>
+    </div>
+    <div class="chat-messages">
+      <div class="message bot-message">
+        <p>
+          Hi! I'm interested in the apartment listing I saw online. Is it still
+          available for next weekend?
+        </p>
+      </div>
+      <div class="message user-message">
+        <p>
+          Hi there! Yes, it's available on those dates. Just to confirm, will it
+          be just you, or are you traveling with others?
+        </p>
+      </div>
+      <div class="message bot-message">
+        <p>
+          We're looking for a place with a nice view or a cozy balcony, if
+          possible.
+        </p>
+      </div>
+      <div class="message user-message">
+        <p>
+          Great! The apartment has a small balcony with a view of the sea —
+          perfect for morning coffee! 😊
+        </p>
+        <img src="assets/balcony.jpg" alt="Balcony" />
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" placeholder="Your message" [(ngModel)]="userMessage" />
+      <button (click)="sendMessage()">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>

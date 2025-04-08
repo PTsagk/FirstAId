@@ -1,0 +1,22 @@
+footer {
+  padding: 20px;
+  text-align: center;
+  i {
+    background-color: white;
+    border-radius: 100%;
+    padding: 10px;
+    font-size: 30px;
+  }
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}

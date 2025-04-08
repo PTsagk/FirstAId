@@ -1,0 +1,11 @@
+.create-appointment-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+
+  textarea {
+    resize: none;
+    height: 100px;
+  }
+}

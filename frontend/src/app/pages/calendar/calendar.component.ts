@@ -17,7 +17,16 @@ export class CalendarComponent {
     editable: true,
     selectable: true,
     select: this.handleDateSelect.bind(this),
-    events: [{ title: 'Existing Event', date: '2025-06-10' }],
+    events: [
+      {
+        title: 'Existing Event',
+        date: '2025-06-10',
+        backgroundColor: '#ff9f89',
+        borderColor: '#ff9f89',
+      },
+    ],
+    // add custom height
+    height: '100%',
     headerToolbar: {
       left: '',
       center: 'title',

@@ -1,0 +1,62 @@
+<form
+  class="create-appointment-form"
+  [formGroup]="appointmentInfo"
+  (ngSubmit)="onSubmit(appointmentInfo)"
+>
+  <span style="margin-bottom: 20px; font-size: 18px">Create appointment</span>
+
+  <mat-form-field class="cell">
+    <mat-label>Fullname</mat-label>
+    <input formControlName="fullname" type="text" required matInput />
+  </mat-form-field>
+  <mat-form-field class="cell">
+    <mat-label>Email</mat-label>
+    <input formControlName="email" type="email" required matInput />
+  </mat-form-field>
+  <mat-form-field class="cell">
+    <mat-label>Description</mat-label>
+    <textarea
+      placeholder="Describe your symptoms"
+      formControlName="description"
+      type="text"
+      required
+      matInput
+    ></textarea>
+  </mat-form-field>
+  <mat-form-field class="cell">
+    <mat-label>Severity</mat-label>
+    <mat-select formControlName="severity" required>
+      <mat-option value="low">Low</mat-option>
+      <mat-option value="high">Emergencies</mat-option>
+      <mat-option value="critical">Critical</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div style="display: flex; justify-content: space-between; gap: 10px">
+    <!-- Date Picker -->
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="datePicker"
+        formControlName="appointmentDate"
+        required
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="datePicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+    </mat-form-field>
+    <!-- Time Picker -->
+    <input
+      matInput
+      formControlName="appointmentDate"
+      required
+      [ngxMatTimepicker]="timePicker"
+    />
+    <ngx-mat-timepicker #timePicker></ngx-mat-timepicker>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>

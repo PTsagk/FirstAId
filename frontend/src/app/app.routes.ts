@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { DoctorDashboardComponent } from './pages/doctor-dashboard/doctor-dashboard.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
-import { PatientHistoryComponent } from './pages/patient-history/patient-history.component';
+import { PatientListsComponent } from './pages/patient-lists/patient-lists.component';
 import { ChatBotComponent } from './pages/chat-bot/chat-bot.component';
 
 export const routes: Routes = [
@@ -20,7 +20,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'calendar', component: CalendarComponent },
-      { path: 'patient-history', component: PatientHistoryComponent },
+      { path: 'patient-list', component: PatientListsComponent },
       { path: 'chat-bot', component: ChatBotComponent },
     ],
   },
