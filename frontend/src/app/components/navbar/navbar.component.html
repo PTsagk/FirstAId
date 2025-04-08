@@ -1,6 +1,6 @@
-<nav [ngClass]="{ 'bg-secondary b-1': !hideButtons, 'bg-muted': hideButtons }">
+<nav [ngClass]="{ 'bg-secondary b-1': hideButtons, 'bg-muted': !hideButtons }">
   <h1>First <span class="text-primary">AI</span>d</h1>
-  <div *ngIf="hideButtons" class="login-components">
+  <div *ngIf="!hideButtons" class="login-components">
     <button
       mat-stroked-button
       class="bg-secondary text-primary"

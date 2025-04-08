@@ -14,7 +14,7 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent implements OnDestroy {
-  hideButtons: boolean = true;
+  hideButtons: boolean = false;
   protected destroy$ = new Subject<void>();
 
   userInfo: any = null;
@@ -30,10 +30,10 @@ export class NavbarComponent implements OnDestroy {
       });
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (event.url === '/home') {
-          this.hideButtons = true;
-        } else {
+        if (event.url === '/' || event.url === '/home') {
           this.hideButtons = false;
+        } else {
+          this.hideButtons = true;
         }
       }
     });

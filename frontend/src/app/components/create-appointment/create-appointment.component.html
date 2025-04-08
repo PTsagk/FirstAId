@@ -48,15 +48,26 @@
       ></mat-datepicker-toggle>
       <mat-datepicker #datePicker></mat-datepicker>
     </mat-form-field>
+
     <!-- Time Picker -->
-    <input
-      matInput
-      formControlName="appointmentDate"
-      required
-      [ngxMatTimepicker]="timePicker"
-    />
-    <ngx-mat-timepicker #timePicker></ngx-mat-timepicker>
+    <mat-form-field>
+      <mat-label>Choose a time</mat-label>
+      <input
+        [ngxMatTimepicker]="timePicker"
+        matInput
+        required
+        formControlName="appointmentTime"
+      />
+      <ngx-mat-timepicker-toggle
+        matIconSuffix
+        [for]="timePicker"
+      ></ngx-mat-timepicker-toggle>
+      <ngx-mat-timepicker [minutesGap]="15" #timePicker></ngx-mat-timepicker>
+    </mat-form-field>
   </div>
 
   <button mat-raised-button color="primary" type="submit">Submit</button>
+  @if(pending){
+  <div class="loading"><mat-spinner></mat-spinner></div>
+  }
 </form>
