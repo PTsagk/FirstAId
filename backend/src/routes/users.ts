@@ -7,12 +7,6 @@ import jwt from "jsonwebtoken";
 const router = Express.Router();
 import { ObjectId } from "mongodb";
 import { authenticateToken } from "./auth";
-interface AuthenticatedRequest extends Request {
-  user?: {
-    id?: string;
-    userType?: string;
-  };
-}
 
 router.post("/:user/register", async (req, res) => {
   try {
@@ -70,25 +64,21 @@ router.post("/:user/login", async (req: Request, res: Response) => {
   }
 });
 
-router.get(
-  "/",
-  authenticateToken,
-  async (req: AuthenticatedRequest, res: Response) => {
-    try {
-      const userType = req.user.userType;
-      if (userType !== "doctors" && userType !== "patients")
-        return res.status(400).send("Invalid user type");
-      const db = await connectDB();
-      const collection = db.collection(userType);
-      const user = await collection.findOne({ _id: new ObjectId(req.user.id) });
-      await closeDB();
-      if (!user) return res.status(404).send("User not found");
-      res.json(user);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
-    }
+router.get("/", authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const userType = req.user.userType;
+    if (userType !== "doctors" && userType !== "patients")
+      return res.status(400).send("Invalid user type");
+    const db = await connectDB();
+    const collection = db.collection(userType);
+    const user = await collection.findOne({ _id: new ObjectId(req.user.id) });
+    await closeDB();
+    if (!user) return res.status(404).send("User not found");
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
-);
+});
 
 export default router;
