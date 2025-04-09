@@ -17,14 +17,14 @@ const corsOptions = {
 
 // Define cookie options with SameSite attribute
 const cookieOptions = {
-  sameSite: "lax", // or 'none' if you are using https
+  sameSite: "none",
   secure: process.env.NODE_ENV === "production",
   httpOnly: true,
 };
 
 app.use(express.urlencoded({ extended: true, limit: 4000000 }));
 app.use(express.json({ limit: 4000000 }));
-app.use(cookieParser(process.env.COOKIE_SECRET, cookieOptions));
+app.use(cookieParser(process.env.JWT_SECRET, cookieOptions));
 app.use(cors(corsOptions));
 app.use("/users", userRouter);
 app.use("/appointments", authenticateToken, appointmentRouter);
