@@ -6,3 +6,21 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
+.filter-input {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  width: 200px;
+}
+
+.clear-button {
+  position: absolute;
+  right: 5px;
+  top: 8px;
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  cursor: pointer;
+}
