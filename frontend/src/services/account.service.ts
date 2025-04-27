@@ -17,11 +17,28 @@ export class AccountService {
     private http: HttpClient,
     private router: Router
   ) {
+    const cachedUserInfo = sessionStorage.getItem('userInfo');
+
+    if (cachedUserInfo) {
+      const userInfo = JSON.parse(cachedUserInfo);
+      this.userInfo.next(userInfo);
+
+      if (this.router.url.includes('/home')) {
+        this.router.navigate([`/${userInfo.userType}/dashboard`]);
+      }
+    } else {
+      this.fetchUserInfo();
+    }
+  }
+
+  private fetchUserInfo() {
     this.http
       .get(environment.api_url + `/users`, { withCredentials: true })
       .subscribe({
         next: (res: any) => {
+          sessionStorage.setItem('userInfo', JSON.stringify(res));
           this.userInfo.next(res);
+
           if (this.router.url.includes('/home'))
             this.router.navigate([`/${res.userType}/dashboard`]);
         },
@@ -33,6 +50,11 @@ export class AccountService {
       });
   }
 
+  refreshUserInfo() {
+    sessionStorage.removeItem('userInfo');
+    this.fetchUserInfo();
+  }
+
   login(isDoctor: boolean = true) {
     this.dialog.closeAll();
     const modal = this.dialog.open(LoginComponent, {
@@ -40,8 +62,6 @@ export class AccountService {
       height: '80vh',
     });
     modal.componentInstance.isDoctor = isDoctor;
-
-    // if (this.loginRef) this.loginRef.close();
   }
 
   register(isDoctor: boolean = true) {
@@ -51,6 +71,5 @@ export class AccountService {
       height: '80vh',
     });
     modal.componentInstance.isDoctor = isDoctor;
-    // if (this.registerRef) this.registerRef.close();
   }
 }

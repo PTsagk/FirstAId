@@ -5,7 +5,7 @@
     <div
       style="display: flex; align-items: center; gap: 1rem; position: relative"
     >
-      <h3>Appointments</h3>
+      <h3>Appointments @if(today) { for today }</h3>
       <input
         class="filter-input"
         matInput
@@ -67,11 +67,21 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr
+      mat-row
+      class="table-row"
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="openPatientDetails(row)"
+    ></tr>
   </table>
 
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons
   ></mat-paginator>
+  @if(pending){
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+  }
 </div>

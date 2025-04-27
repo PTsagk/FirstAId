@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,14 +14,18 @@ import {
 } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import {
+  NgxMatTimepickerComponent,
+  NgxMatTimepickerModule,
+} from 'ngx-mat-timepicker';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AccountService } from '../../../services/account.service';
+import { AppointmentService } from '../../../services/appointment.service';
 
 @Component({
   selector: 'app-create-appointment',
@@ -40,6 +44,7 @@ import { AccountService } from '../../../services/account.service';
   ],
 })
 export class CreateAppointmentComponent implements OnInit {
+  @ViewChild('timePicker') timePicker!: NgxMatTimepickerComponent;
   appointmentInfo: FormGroup;
   pending: boolean = false;
 
@@ -48,7 +53,8 @@ export class CreateAppointmentComponent implements OnInit {
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<CreateAppointmentComponent>,
-    private ac: AccountService
+    private appointmentService: AppointmentService,
+    @Inject(MAT_DIALOG_DATA) private data: { appointmentDate: string }
   ) {
     this.appointmentInfo = this.fb.group({
       fullname: ['', Validators.required],
@@ -60,7 +66,13 @@ export class CreateAppointmentComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.data.appointmentDate) {
+      this.appointmentInfo.patchValue({
+        appointmentDate: this.data.appointmentDate,
+      });
+    }
+  }
 
   onSubmit(form: FormGroup) {
     if (form.valid) {
@@ -82,6 +94,7 @@ export class CreateAppointmentComponent implements OnInit {
             });
             this.dialogRef.close();
             this.pending = false;
+            this.appointmentService.refreshAppointments();
           },
           error: (err) => {
             this.snackBar.open('Something went wrong', '', {

@@ -13,14 +13,14 @@ import { AppointmentService } from '../../../services/appointment.service';
 export class DashboardComponent {
   counts = {
     low: 0,
+    medium: 0,
     high: 0,
-    critical: 0,
   };
 
   constructor(private appointmentService: AppointmentService) {
     this.appointmentService.appointments.subscribe((appointments: any) => {
       appointments.forEach(
-        (appointment: { severity: 'low' | 'high' | 'critical' }) => {
+        (appointment: { severity: 'low' | 'medium' | 'high' }) => {
           this.counts[appointment.severity]++;
         }
       );

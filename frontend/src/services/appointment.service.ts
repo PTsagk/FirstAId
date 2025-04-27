@@ -11,19 +11,36 @@ export class AppointmentService {
   constructor(private http: HttpClient, private ac: AccountService) {
     this.ac.userInfo.subscribe((userInfo) => {
       if (userInfo) {
-        this.http
-          .get(environment.api_url + `/appointments`, {
-            withCredentials: true,
-          })
-          .subscribe({
-            next: (res: any) => {
-              this.appointments.next(res);
-            },
-            error: (err) => {
-              console.log(err);
-            },
-          });
+        // const cachedAppointments = sessionStorage.getItem('appointments');
+
+        // if (cachedAppointments) {
+        //   this.appointments.next(JSON.parse(cachedAppointments));
+        // } else {
+        //   this.fetchAppointments();
+        // }
+        this.fetchAppointments();
       }
     });
+  }
+
+  private fetchAppointments() {
+    this.http
+      .get(environment.api_url + `/appointments`, {
+        withCredentials: true,
+      })
+      .subscribe({
+        next: (res: any) => {
+          sessionStorage.setItem('appointments', JSON.stringify(res));
+          this.appointments.next(res);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
+  refreshAppointments() {
+    sessionStorage.removeItem('appointments');
+    this.fetchAppointments();
   }
 }

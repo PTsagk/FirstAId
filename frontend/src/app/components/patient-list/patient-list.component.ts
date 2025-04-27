@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,7 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Appointment } from '../../../models/appointment.model';
 import { MatIconModule } from '@angular/material/icon';
-
+import { AppointmentDetailsDlgComponent } from '../../dialogs/patient-details-dlg/appointment-details-dlg.component';
+import { MatRippleModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import moment from 'moment';
 @Component({
   selector: 'app-patient-list',
   templateUrl: './patient-list.component.html',
@@ -28,9 +31,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatRippleModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class PatientListComponent implements AfterViewInit {
+  pending: boolean = true;
   displayedColumns: string[] = [
     'fullname',
     'email',
@@ -41,7 +47,7 @@ export class PatientListComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  @Input() today: boolean = false;
   constructor(
     private dialog: MatDialog,
     private appointmentService: AppointmentService
@@ -53,8 +59,20 @@ export class PatientListComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.appointmentService.appointments.subscribe((appointments: any) => {
-      this.patients = appointments;
-      this.dataSource.data = this.patients;
+      if (!appointments) {
+        this.pending = true;
+      } else {
+        if (this.today) {
+          const todayString = moment().format('YYYY-MM-DD');
+          appointments = appointments.filter(
+            (appointment: Appointment) =>
+              appointment.appointmentDate === todayString
+          );
+        }
+        this.patients = appointments;
+        this.dataSource.data = this.patients;
+        this.pending = false;
+      }
     });
 
     this.dataSource.sortingDataAccessor = (
@@ -68,7 +86,7 @@ export class PatientListComponent implements AfterViewInit {
           return item.email.toLowerCase();
         case 'severity':
           // Create a priority order for sorting
-          const priorityOrder = { low: 0, high: 2, critical: 3 };
+          const priorityOrder = { low: 0, medium: 2, high: 3 };
           return priorityOrder[item.severity] || 0;
         case 'appointmentDate':
           // Convert string date to Date object for proper sorting
@@ -99,5 +117,13 @@ export class PatientListComponent implements AfterViewInit {
         this.dataSource.paginator.firstPage();
       }
     }
+  }
+
+  openPatientDetails(appointment: Appointment) {
+    this.dialog.open(AppointmentDetailsDlgComponent, {
+      width: '500px',
+      height: '600px',
+      data: appointment,
+    });
   }
 }

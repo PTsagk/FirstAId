@@ -13,7 +13,7 @@
       [color]="'orange'"
       [icon]="'fa-solid fa-warning'"
       [title]="'Emergencies'"
-      [value]="counts.high"
+      [value]="counts.medium"
       [description]="'Emergencies'"
     >
     </app-dashboard-box>
@@ -22,13 +22,13 @@
       [color]="'red'"
       [icon]="'fa-solid fa-circle-exclamation'"
       [title]="'Critical'"
-      [value]="counts.critical"
+      [value]="counts.high"
       [description]="'Critical cases'"
     >
     </app-dashboard-box>
   </div>
   <div class="dashboard-content">
-    <app-patient-list></app-patient-list>
+    <app-patient-list [today]="true"></app-patient-list>
     <app-calendar></app-calendar>
   </div>
 </div>

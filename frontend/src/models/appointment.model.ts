@@ -1,7 +1,7 @@
 export interface Appointment {
   fullname: string;
   email: string;
-  severity: 'low' | 'high' | 'critical';
+  severity: 'low' | 'medium' | 'high';
   appointmentDate: string;
   appointmentTime: string;
 }
