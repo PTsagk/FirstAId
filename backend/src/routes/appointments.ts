@@ -36,17 +36,19 @@ router.post("/create", async (req: Request, res: Response) => {
 router.patch("/update", async (req: Request, res: Response) => {
   try {
     const appointmentInfo = req.body.appointmentInfo;
-    const appointmentId = req.body.appointmentId;
+    const appointmentId = appointmentInfo._id;
     if (!appointmentInfo || !appointmentId) {
       return res.status(400).send("Invalid appointment data");
     }
     appointmentInfo.appointmentDate = moment(
       appointmentInfo.appointmentDate
     ).format("YYYY-MM-DD");
+    delete appointmentInfo._id;
+
     const db = await connectDB();
     const collection = db.collection("appointments");
     await collection.updateOne(
-      { _id: new ObjectId(appointmentId), doctorId: req.user.id },
+      { _id: new ObjectId(appointmentId.toString()), doctorId: req.user.id },
       { $set: appointmentInfo }
     );
     await closeDB();

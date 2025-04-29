@@ -10,6 +10,11 @@ import moment from 'moment';
 import { start } from '@popperjs/core';
 import { CreateAppointmentComponent } from '../../components/create-appointment/create-appointment.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  formatDayString,
+  formatIsoTimeString,
+} from '@fullcalendar/core/internal';
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -20,7 +25,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class CalendarComponent implements OnInit {
   constructor(
     private appointmentService: AppointmentService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
   calendarOptions = {
     plugins: [
@@ -33,6 +39,7 @@ export class CalendarComponent implements OnInit {
     initialView: 'timelineDay',
     editable: true,
     selectable: true,
+
     selectMirror: true,
     selectAllow: (info: any) => {
       return moment(info.start).isSame(
@@ -89,7 +96,7 @@ export class CalendarComponent implements OnInit {
           borderColor: color,
           display: 'block',
           extendedProps: {
-            severity: appointment.severity,
+            ...appointment,
           },
         };
       });
@@ -147,20 +154,27 @@ export class CalendarComponent implements OnInit {
 
   handleEventDrop(info: any) {
     // Get the updated dates/times from the event
-    const eventId = info.event.id;
-    const eventTitle = info.event.title;
-    const newStart = moment(info.event.start).format('YYYY-MM-DDTHH:mm:ss');
-    const newEnd = info.event.end
-      ? moment(info.event.end).format('YYYY-MM-DDTHH:mm:ss')
-      : null;
+    // const eventTitle = info.event.title;
+    // const newStart = moment(info.event.start).format('YYYY-MM-DDHH:mm:ss');
+    // const newEnd = info.event.end
+    //   ? moment(info.event.end).format('YYYY-MM-DDTHH:mm:ss')
+    //   : null;
 
     // Extract just the date and time parts
     const newDate = moment(info.event.start).format('YYYY-MM-DD');
-    const newTime = moment(info.event.start).format('HH:mm:ss');
-
-    console.log(`Event "${eventTitle}" was moved to ${newStart}`);
-
-    // Find the appointment that corresponds to this event
-    const originalAppointment = info.event.extendedProps.originalAppointment;
+    const newTime = moment(info.event.start).format('hh:mm A');
+    const updatedAppointment = { ...info.event.extendedProps };
+    updatedAppointment.appointmentDate = newDate;
+    updatedAppointment.appointmentTime = newTime;
+    this.appointmentService.updateAppointment(updatedAppointment).subscribe({
+      next: (res: any) => {
+        this.snackBar.open('Appointment updated successfuly', '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success'],
+        });
+        this.appointmentService.refreshAppointments();
+      },
+    });
   }
 }

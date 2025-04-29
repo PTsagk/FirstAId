@@ -67,7 +67,7 @@ export class CreateAppointmentComponent implements OnInit {
       appointmentInfo: Appointment;
     }
   ) {
-    if(!this.data){
+    if (!this.data) {
       this.data = {
         appointmentDate: undefined,
         update: false,
@@ -106,15 +106,10 @@ export class CreateAppointmentComponent implements OnInit {
     if (form.valid) {
       this.pending = true;
       if (this.data?.update) {
-        this.http
-          .patch(
-            environment.api_url + '/appointments/update',
-            {
-              appointmentInfo: form.value,
-              appointmentId: this.data.appointmentInfo._id,
-            },
-            { withCredentials: true }
-          )
+        const updatedAppointment = form.value;
+        updatedAppointment._id = this.data.appointmentInfo._id;
+        this.appointmentService
+          .updateAppointment(updatedAppointment)
           .subscribe({
             next: (res: any) => {
               this.snackBar.open('Appointment updated successfuly', '', {

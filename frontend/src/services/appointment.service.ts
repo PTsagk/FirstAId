@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AccountService } from './account.service';
 import { environment } from '../environment/environment';
 import { BehaviorSubject } from 'rxjs';
+import { Appointment } from '../models/appointment.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -22,7 +23,15 @@ export class AppointmentService {
       }
     });
   }
-
+  updateAppointment(updatedAppointment: Appointment) {
+    return this.http.patch(
+      environment.api_url + '/appointments/update',
+      {
+        appointmentInfo: updatedAppointment,
+      },
+      { withCredentials: true }
+    );
+  }
   private fetchAppointments() {
     this.http
       .get(environment.api_url + `/appointments`, {
