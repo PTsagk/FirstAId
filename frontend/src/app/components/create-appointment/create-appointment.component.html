@@ -3,7 +3,9 @@
   [formGroup]="appointmentInfo"
   (ngSubmit)="onSubmit(appointmentInfo)"
 >
-  <span style="margin-bottom: 20px; font-size: 18px">Create appointment</span>
+  <span style="margin-bottom: 20px; font-size: 18px"
+    >{{ data.update ? "Update" : "Create" }} appointment</span
+  >
 
   <mat-form-field class="cell">
     <mat-label>Fullname</mat-label>
@@ -26,9 +28,9 @@
   <mat-form-field class="cell">
     <mat-label>Severity</mat-label>
     <mat-select formControlName="severity" required>
-      <mat-option value="low">Low</mat-option>
-      <mat-option value="medium">Emergencies</mat-option>
-      <mat-option value="high">Critical</mat-option>
+      <mat-option value="appointment">Appointment</mat-option>
+      <mat-option value="emergency">Emergency</mat-option>
+      <mat-option value="critical">Critical</mat-option>
     </mat-select>
   </mat-form-field>
 

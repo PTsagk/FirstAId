@@ -7,18 +7,6 @@
   box-sizing: border-box;
   height: 80vh;
 }
-.severity-high {
-  background-color: #f44336;
-  color: white;
-}
-.severity-medium {
-  background-color: #ff9800;
-  color: white;
-}
-.severity-low {
-  background-color: #4caf50;
-  color: white;
-}
 :host ::ng-deep {
   // Month button
   .fc-dayGridMonth-button,
@@ -42,5 +30,9 @@
     background-color: #2a7d88 !important;
     border-color: #2a7d88 !important;
     color: white !important;
+  }
+
+  .fc-license-message {
+    display: none !important;
   }
 }

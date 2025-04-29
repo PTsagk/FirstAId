@@ -86,7 +86,7 @@ export class PatientListComponent implements AfterViewInit {
           return item.email.toLowerCase();
         case 'severity':
           // Create a priority order for sorting
-          const priorityOrder = { low: 0, medium: 2, high: 3 };
+          const priorityOrder = { appointment: 0, emergency: 2, critical: 3 };
           return priorityOrder[item.severity] || 0;
         case 'appointmentDate':
           // Convert string date to Date object for proper sorting
@@ -119,11 +119,11 @@ export class PatientListComponent implements AfterViewInit {
     }
   }
 
-  openPatientDetails(appointment: Appointment) {
-    this.dialog.open(AppointmentDetailsDlgComponent, {
-      width: '500px',
+  openAppointmentDetails(appointment: Appointment) {
+    const dlg = this.dialog.open(AppointmentDetailsDlgComponent, {
+      width: '800px',
       height: '600px',
-      data: appointment,
     });
+    dlg.componentInstance.appointmentInfo = appointment;
   }
 }

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { JwtPayload } from "jsonwebtoken";
 import Express from "express";
 import { connectDB, closeDB } from "../connect";
 import bcrypt from "bcrypt";

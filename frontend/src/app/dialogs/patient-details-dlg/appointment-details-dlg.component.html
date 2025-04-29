@@ -1,1 +1,60 @@
-<p>patient-details-dlg works!</p>
+<div class="appointment-details">
+  <div style="display: flex; gap: 10px; position: absolute; left: 10px">
+    <div class="date" style="white-space: nowrap; color: rgb(104, 104, 104)">
+      <i class="fa-solid fa-calendar-days"></i>
+      {{ appointmentInfo.appointmentDate }}
+    </div>
+    <div class="time" style="white-space: nowrap; color: rgb(104, 104, 104)">
+      <i class="fa-solid fa-clock"></i>
+      {{ appointmentInfo.appointmentTime }}
+    </div>
+  </div>
+  <div style="display: flex; position: absolute; right: 10px; gap: 10px">
+    <i
+      (click)="editAppointment()"
+      style="padding: 5px"
+      class="fa-solid fa-pencil cursor-pointer"
+    ></i>
+    <i
+      (click)="deleteAppointment()"
+      style="padding: 5px"
+      class="fa-solid fa-trash-can cursor-pointer"
+    ></i>
+  </div>
+  <div class="user-info">
+    <i class="fa-solid fa-user"></i>
+    <h1>{{ appointmentInfo.fullname }}</h1>
+    <span style="color: gray">{{ appointmentInfo.email }}</span>
+    <span class="severity severity-{{ appointmentInfo.severity }}">{{
+      appointmentInfo.severity
+    }}</span>
+    <div style="display: flex; flex-direction: column; width: 100%">
+      <h3 style="text-align: center">Information</h3>
+      <div style="display: flex; gap: 10px; justify-content: center">
+        <div style="display: flex; flex-direction: column; text-align: end">
+          <span><b>Gender:</b></span>
+          <span><b>Blood Type:</b></span>
+          <span><b>Allergies:</b></span>
+          <span><b>Diseases:</b></span>
+          <span><b>Height:</b></span>
+          <span><b>Weight:</b></span>
+          <span><b>Last Appointment:</b></span>
+        </div>
+        <div style="display: flex; flex-direction: column; min-width: 100px">
+          <span>{{ appointmentInfo.gender || "-" }}</span>
+          <span>{{ appointmentInfo.bloodType || "-" }}</span>
+          <span>{{ appointmentInfo.allergies || "-" }}</span>
+          <span>{{ appointmentInfo.diseases || "-" }}</span>
+          <span>{{ appointmentInfo.height || "-" }}</span>
+          <span>{{ appointmentInfo.weight || "-" }}</span>
+          <span>{{ appointmentInfo.lastAppointment || "-" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="appointment-notes">
+    <h2 style="font-weight: bold">Appointment Notes</h2>
+    <p>{{ appointmentInfo.description }}</p>
+  </div>
+</div>

@@ -11,13 +11,13 @@ export class AppointmentService {
   constructor(private http: HttpClient, private ac: AccountService) {
     this.ac.userInfo.subscribe((userInfo) => {
       if (userInfo) {
-        // const cachedAppointments = sessionStorage.getItem('appointments');
+        const cachedAppointments = sessionStorage.getItem('appointments');
 
-        // if (cachedAppointments) {
-        //   this.appointments.next(JSON.parse(cachedAppointments));
-        // } else {
-        //   this.fetchAppointments();
-        // }
+        if (cachedAppointments) {
+          this.appointments.next(JSON.parse(cachedAppointments));
+        } else {
+          this.fetchAppointments();
+        }
         this.fetchAppointments();
       }
     });

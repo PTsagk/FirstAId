@@ -49,6 +49,9 @@ export class CalendarComponent implements OnInit {
         },
       });
     },
+    eventDrop: (info: any) => {
+      this.handleEventDrop(info);
+    },
     events: [],
     height: '100%',
     eventContent: this.renderEventContent,
@@ -67,8 +70,8 @@ export class CalendarComponent implements OnInit {
     this.appointmentService.appointments.subscribe((appointments: any) => {
       this.calendarOptions.events = appointments.map((appointment: any) => {
         let color = '#00c450';
-        if (appointment.severity === 'medium') color = 'orange';
-        else if (appointment.severity === 'high') color = '#ff0000';
+        if (appointment.severity === 'emergency') color = 'orange';
+        else if (appointment.severity === 'critical') color = '#ff0000';
         // Create a datetime by combining date and time
         const formattedTime = this.convertTo24HourFormat(
           appointment.appointmentTime
@@ -140,5 +143,24 @@ export class CalendarComponent implements OnInit {
     return `${hour.toString().padStart(2, '0')}:${minute
       .toString()
       .padStart(2, '0')}:00`;
+  }
+
+  handleEventDrop(info: any) {
+    // Get the updated dates/times from the event
+    const eventId = info.event.id;
+    const eventTitle = info.event.title;
+    const newStart = moment(info.event.start).format('YYYY-MM-DDTHH:mm:ss');
+    const newEnd = info.event.end
+      ? moment(info.event.end).format('YYYY-MM-DDTHH:mm:ss')
+      : null;
+
+    // Extract just the date and time parts
+    const newDate = moment(info.event.start).format('YYYY-MM-DD');
+    const newTime = moment(info.event.start).format('HH:mm:ss');
+
+    console.log(`Event "${eventTitle}" was moved to ${newStart}`);
+
+    // Find the appointment that corresponds to this event
+    const originalAppointment = info.event.extendedProps.originalAppointment;
   }
 }

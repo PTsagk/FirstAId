@@ -3,6 +3,7 @@ import { Request, Response, Router } from "express";
 import { connectDB, closeDB } from "../connect";
 import { sendEmail } from "../utils/email";
 import moment from "moment";
+import { ObjectId } from "mongodb";
 const router = Router();
 
 router.post("/create", async (req: Request, res: Response) => {
@@ -32,6 +33,49 @@ router.post("/create", async (req: Request, res: Response) => {
   }
 });
 
+router.patch("/update", async (req: Request, res: Response) => {
+  try {
+    const appointmentInfo = req.body.appointmentInfo;
+    const appointmentId = req.body.appointmentId;
+    if (!appointmentInfo || !appointmentId) {
+      return res.status(400).send("Invalid appointment data");
+    }
+    appointmentInfo.appointmentDate = moment(
+      appointmentInfo.appointmentDate
+    ).format("YYYY-MM-DD");
+    const db = await connectDB();
+    const collection = db.collection("appointments");
+    await collection.updateOne(
+      { _id: new ObjectId(appointmentId), doctorId: req.user.id },
+      { $set: appointmentInfo }
+    );
+    await closeDB();
+    res.json("OK");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.delete("/delete/:appointmentId", async (req: Request, res: Response) => {
+  try {
+    const appointmentId = req.params.appointmentId;
+    if (!appointmentId) {
+      return res.status(400).send("Invalid appointment data");
+    }
+    const db = await connectDB();
+    const collection = db.collection("appointments");
+    await collection.deleteOne({
+      _id: new ObjectId(appointmentId),
+      doctorId: req.user.id,
+    });
+    await closeDB();
+    res.json("OK");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 router.get("/", async (req: Request, res: Response) => {
   try {
     const db = await connectDB();
