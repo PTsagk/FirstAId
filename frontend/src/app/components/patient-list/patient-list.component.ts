@@ -65,8 +65,7 @@ export class PatientListComponent implements AfterViewInit {
         if (this.today) {
           const todayString = moment().format('YYYY-MM-DD');
           appointments = appointments.filter(
-            (appointment: Appointment) =>
-              appointment.appointmentDate === todayString
+            (appointment: Appointment) => appointment.date === todayString
           );
         }
         this.patients = appointments;
@@ -88,12 +87,12 @@ export class PatientListComponent implements AfterViewInit {
           // Create a priority order for sorting
           const priorityOrder = { appointment: 0, emergency: 2, critical: 3 };
           return priorityOrder[item.severity] || 0;
-        case 'appointmentDate':
+        case 'date':
           // Convert string date to Date object for proper sorting
-          return new Date(item.appointmentDate).getTime();
-        case 'appointmentTime':
+          return new Date(item.date).getTime();
+        case 'time':
           // For time, you might need to parse it properly
-          return item.appointmentTime;
+          return item.time;
         default:
           return (item as any)[property];
       }

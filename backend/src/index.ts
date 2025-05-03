@@ -5,6 +5,9 @@ import userRouter from "./routes/users";
 import appointmentRouter from "./routes/appointments";
 import cors from "cors";
 import { authenticateToken } from "./routes/auth";
+import cron from "node-cron";
+import { sendScheduledEmails } from "./utils/email";
+
 const app = express();
 dotenv.config({ path: "../.env", override: true });
 const port = process.env.PORT || 3000;
@@ -23,6 +26,11 @@ app.use("/users", userRouter);
 app.use("/appointments", authenticateToken, appointmentRouter);
 app.get("/", (req, res) => {
   res.send("Hello, TypeScript with Express!");
+});
+
+cron.schedule("* * * * *", () => {
+  console.log("Checking for scheduled emails...");
+  sendScheduledEmails();
 });
 
 app.listen(port, async () => {

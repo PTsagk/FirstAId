@@ -62,14 +62,14 @@ export class CreateAppointmentComponent implements OnInit {
     private appointmentService: AppointmentService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      appointmentDate?: string;
+      date?: string;
       update: boolean;
       appointmentInfo: Appointment;
     }
   ) {
     if (!this.data) {
       this.data = {
-        appointmentDate: undefined,
+        date: undefined,
         update: false,
         appointmentInfo: {} as Appointment,
       };
@@ -79,15 +79,15 @@ export class CreateAppointmentComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       description: ['', Validators.required],
       severity: ['', Validators.required],
-      appointmentDate: ['', Validators.required],
-      appointmentTime: ['', Validators.required],
+      date: ['', Validators.required],
+      time: ['', Validators.required],
     });
   }
 
   ngOnInit() {
-    if (this.data.appointmentDate) {
+    if (this.data.date) {
       this.appointmentInfo.patchValue({
-        appointmentDate: this.data.appointmentDate,
+        date: this.data.date,
       });
     }
     if (this.data.update) {
@@ -96,8 +96,8 @@ export class CreateAppointmentComponent implements OnInit {
         email: this.data.appointmentInfo.email,
         description: this.data.appointmentInfo.description,
         severity: this.data.appointmentInfo.severity,
-        appointmentDate: this.data.appointmentInfo.appointmentDate,
-        appointmentTime: this.data.appointmentInfo.appointmentTime,
+        date: this.data.appointmentInfo.date,
+        time: this.data.appointmentInfo.time,
       });
     }
   }

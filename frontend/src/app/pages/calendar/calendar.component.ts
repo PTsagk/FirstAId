@@ -53,7 +53,7 @@ export class CalendarComponent implements OnInit {
       this.dialog.open(CreateAppointmentComponent, {
         width: '500px',
         data: {
-          appointmentDate: selectedDate,
+          date: selectedDate,
         },
       });
     },
@@ -81,16 +81,14 @@ export class CalendarComponent implements OnInit {
         if (appointment.severity === 'emergency') color = 'orange';
         else if (appointment.severity === 'critical') color = '#ff0000';
         // Create a datetime by combining date and time
-        const formattedTime = this.convertTo24HourFormat(
-          appointment.appointmentTime
-        );
-        const startDateTimeStr = `${appointment.appointmentDate}T${formattedTime}`;
+        const formattedTime = this.convertTo24HourFormat(appointment.time);
+        const startDateTimeStr = `${appointment.date}T${formattedTime}`;
 
         const startMoment = moment(startDateTimeStr);
         const endMoment = moment(startDateTimeStr).add(30, 'minutes');
         return {
           title: appointment.fullname,
-          date: moment(appointment.appointmentDate).format('YYYY-MM-DD'),
+          date: moment(appointment.date).format('YYYY-MM-DD'),
           start: startMoment.format('YYYY-MM-DDTHH:mm:ss'),
           end: endMoment.format('YYYY-MM-DDTHH:mm:ss'),
           backgroundColor: color,
@@ -177,8 +175,8 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         const updatedAppointment = { ...info.event.extendedProps };
-        updatedAppointment.appointmentDate = newDate;
-        updatedAppointment.appointmentTime = newTime;
+        updatedAppointment.date = newDate;
+        updatedAppointment.time = newTime;
         this.appointmentService
           .updateAppointment(updatedAppointment)
           .subscribe({

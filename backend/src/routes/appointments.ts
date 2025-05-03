@@ -13,18 +13,14 @@ router.post("/create", async (req: Request, res: Response) => {
       return res.status(400).send("Invalid appointment data");
     }
     appointmentInfo.doctorId = req.user.id;
-    appointmentInfo.appointmentDate = moment(
-      appointmentInfo.appointmentDate
-    ).format("YYYY-MM-DD");
+    appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
     const db = await connectDB();
     const collection = db.collection("appointments");
     await collection.insertOne(appointmentInfo);
     await closeDB();
     await sendEmail(
       appointmentInfo.email,
-      appointmentInfo.fullname,
-      appointmentInfo.appointmentDate,
-      appointmentInfo.appointmentTime
+      `Hello ${appointmentInfo.fullname}, Your appointment has been scheduled for ${appointmentInfo.date} at ${appointmentInfo.time}.`
     );
     res.json("OK");
   } catch (error) {
@@ -40,9 +36,7 @@ router.patch("/update", async (req: Request, res: Response) => {
     if (!appointmentInfo || !appointmentId) {
       return res.status(400).send("Invalid appointment data");
     }
-    appointmentInfo.appointmentDate = moment(
-      appointmentInfo.appointmentDate
-    ).format("YYYY-MM-DD");
+    appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
     delete appointmentInfo._id;
 
     const db = await connectDB();

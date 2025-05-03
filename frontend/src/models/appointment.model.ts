@@ -3,8 +3,8 @@ export interface Appointment {
   fullname: string;
   email: string;
   severity: 'appointment' | 'emergency' | 'critical';
-  appointmentDate: string;
-  appointmentTime: string;
+  date: string;
+  time: string;
   description: string;
   gender?: string;
   bloodType?: string;
