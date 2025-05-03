@@ -33,6 +33,7 @@
       Create appointment +
     </button>
   </div>
+  @if(!pending){
   <table mat-table [dataSource]="dataSource" matSort>
     <!-- Name Column -->
     <ng-container matColumnDef="fullname">
@@ -74,7 +75,7 @@
       (click)="openAppointmentDetails(row)"
     ></tr>
   </table>
-
+  }
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons

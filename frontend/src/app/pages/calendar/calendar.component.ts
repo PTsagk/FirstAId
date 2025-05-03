@@ -9,12 +9,13 @@ import { AppointmentService } from '../../../services/appointment.service';
 import moment from 'moment';
 import { start } from '@popperjs/core';
 import { CreateAppointmentComponent } from '../../components/create-appointment/create-appointment.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   formatDayString,
   formatIsoTimeString,
 } from '@fullcalendar/core/internal';
+import { ConfirmationDlgComponent } from '../../dialogs/confirmation-dlg/confirmation-dlg.component';
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -163,18 +164,36 @@ export class CalendarComponent implements OnInit {
     // Extract just the date and time parts
     const newDate = moment(info.event.start).format('YYYY-MM-DD');
     const newTime = moment(info.event.start).format('hh:mm A');
-    const updatedAppointment = { ...info.event.extendedProps };
-    updatedAppointment.appointmentDate = newDate;
-    updatedAppointment.appointmentTime = newTime;
-    this.appointmentService.updateAppointment(updatedAppointment).subscribe({
-      next: (res: any) => {
-        this.snackBar.open('Appointment updated successfuly', '', {
-          duration: 2000,
-          verticalPosition: 'top',
-          panelClass: ['snackbar-success'],
-        });
-        this.appointmentService.refreshAppointments();
+
+    // Create confirmation dialog
+    const dialogRef = this.dialog.open(ConfirmationDlgComponent, {
+      width: '400px',
+      data: {
+        message: `Are you sure you want to move the appointment for ${newDate} at ${newTime}?`,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
       },
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        const updatedAppointment = { ...info.event.extendedProps };
+        updatedAppointment.appointmentDate = newDate;
+        updatedAppointment.appointmentTime = newTime;
+        this.appointmentService
+          .updateAppointment(updatedAppointment)
+          .subscribe({
+            next: (res: any) => {
+              this.snackBar.open('Appointment updated successfuly', '', {
+                duration: 2000,
+                verticalPosition: 'top',
+                panelClass: ['snackbar-success'],
+              });
+              this.appointmentService.refreshAppointments();
+            },
+          });
+      } else {
+        info.revert();
+      }
     });
   }
 }
