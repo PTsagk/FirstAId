@@ -28,7 +28,8 @@ app.get("/", (req, res) => {
   res.send("Hello, TypeScript with Express!");
 });
 
-cron.schedule("* * * * *", () => {
+// cron.schedule("* * * * *", () => {
+cron.schedule("0 * * * *", () => {
   console.log("Checking for scheduled emails...");
   sendScheduledEmails();
 });
