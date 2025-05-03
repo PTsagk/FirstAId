@@ -18,10 +18,11 @@ router.post("/create", async (req: Request, res: Response) => {
     const collection = db.collection("appointments");
     await collection.insertOne(appointmentInfo);
     await closeDB();
-    await sendEmail(
-      appointmentInfo.email,
-      `Hello ${appointmentInfo.fullname}, Your appointment has been scheduled for ${appointmentInfo.date} at ${appointmentInfo.time}.`
-    );
+    await sendEmail("template_asoqqkh", appointmentInfo.email, {
+      fullname: appointmentInfo.fullname,
+      date: appointmentInfo.date,
+      time: appointmentInfo.time,
+    });
     res.json("OK");
   } catch (error) {
     console.error(error);
