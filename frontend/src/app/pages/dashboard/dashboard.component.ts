@@ -19,6 +19,7 @@ export class DashboardComponent {
 
   constructor(private appointmentService: AppointmentService) {
     this.appointmentService.appointments.subscribe((appointments: any) => {
+      this.refresh();
       appointments.forEach(
         (appointment: {
           severity: 'appointment' | 'emergency' | 'critical';
@@ -26,6 +27,12 @@ export class DashboardComponent {
           this.counts[appointment.severity]++;
         }
       );
+    });
+  }
+
+  refresh(): void {
+    Object.keys(this.counts).forEach((key) => {
+      this.counts[key as keyof typeof this.counts] = 0;
     });
   }
 }
