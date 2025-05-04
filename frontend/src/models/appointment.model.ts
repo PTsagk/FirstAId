@@ -13,4 +13,5 @@ export interface Appointment {
   height?: string;
   weight?: string;
   lastAppointment?: string;
+  doctorNotes?: string;
 }

@@ -43,16 +43,16 @@ async function sendScheduledEmails() {
 
     for (const emailData of emailsToSend) {
       if (
-        !moment(emailData.data + emailData.time)
+        !moment(emailData.date + emailData.time)
           .add(1, "hours")
           .isBefore(moment())
       ) {
         emailData.sent = true;
-        await sendEmail(
-          "template_4ow7iii",
-          emailData.to,
-          "Appointment Reminder: " + emailData.date + " " + emailData.time
-        );
+        await sendEmail("template_4ow7iii", emailData.to, {
+          fullname: emailData.fullname,
+          date: emailData.date,
+          time: emailData.time,
+        });
       } else {
         emailData.sent = false;
       }

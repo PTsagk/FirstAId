@@ -53,8 +53,36 @@
     </div>
   </div>
   <div class="divider"></div>
-  <div class="appointment-notes">
-    <h2 style="font-weight: bold">Appointment Notes</h2>
-    <p>{{ appointmentInfo.description }}</p>
+  <div class="notes">
+    <div class="patient-description">
+      <h2 style="font-weight: bold">Patient Description</h2>
+      <p>{{ appointmentInfo.description }}</p>
+    </div>
+    <div class="doctor-notes">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+        "
+      >
+        <h2 style="font-weight: bold; margin: 0">Doctor Notes</h2>
+        <button (click)="saveDoctorNotes()" mat-flat-button color="primary">
+          Save
+        </button>
+      </div>
+      <mat-form-field class="note-container">
+        <mat-label>Add your notes here</mat-label>
+        <textarea
+          #doctorNotes
+          formControlName="description"
+          type="text"
+          required
+          matInput
+          [value]="appointmentInfo.doctorNotes || ''"
+        ></textarea>
+      </mat-form-field>
+    </div>
   </div>
 </div>

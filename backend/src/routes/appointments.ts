@@ -15,8 +15,14 @@ router.post("/create", async (req: Request, res: Response) => {
     appointmentInfo.doctorId = req.user.id;
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
     const db = await connectDB();
-    const collection = db.collection("appointments");
-    await collection.insertOne(appointmentInfo);
+    const appointmentCollection = db.collection("appointments");
+    await appointmentCollection.insertOne(appointmentInfo);
+    const scheduledCollection = db.collection("scheduledEmails");
+    await scheduledCollection.insertOne({
+      date: appointmentInfo.date,
+      time: appointmentInfo.time,
+      to: appointmentInfo.email,
+    });
     await closeDB();
     await sendEmail("template_asoqqkh", appointmentInfo.email, {
       fullname: appointmentInfo.fullname,
