@@ -11,6 +11,11 @@
   </div>
   <div style="display: flex; position: absolute; right: 10px; gap: 10px">
     <i
+      (click)="scheduleNotification()"
+      style="padding: 5px"
+      class="fa-solid fa-bell cursor-pointer"
+    ></i>
+    <i
       (click)="editAppointment()"
       style="padding: 5px"
       class="fa-solid fa-pencil cursor-pointer"
@@ -76,7 +81,6 @@
         <mat-label>Add your notes here</mat-label>
         <textarea
           #doctorNotes
-          formControlName="description"
           type="text"
           required
           matInput

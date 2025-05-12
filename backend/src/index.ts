@@ -7,7 +7,7 @@ import cors from "cors";
 import { authenticateToken } from "./routes/auth";
 import cron from "node-cron";
 import { sendScheduledEmails } from "./utils/email";
-
+import notificationsRouter from "./routes/notifications";
 const app = express();
 dotenv.config({ path: "../.env", override: true });
 const port = process.env.PORT || 3000;
@@ -24,6 +24,7 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use("/users", userRouter);
 app.use("/appointments", authenticateToken, appointmentRouter);
+app.use("/notifications", authenticateToken, notificationsRouter);
 app.get("/", (req, res) => {
   res.send("Hello, TypeScript with Express!");
 });

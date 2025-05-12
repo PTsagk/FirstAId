@@ -102,4 +102,24 @@ export class AppointmentDetailsDlgComponent {
         },
       });
   }
+
+  scheduleNotification(): void {
+    const notification = {
+      date: this.appointmentInfo.date,
+      time: this.appointmentInfo.time,
+      to: this.appointmentInfo.email,
+      message: this.appointmentInfo.doctorNotes,
+    };
+    this.http
+      .post(environment.api_url + '/notifications/create', notification, {
+        withCredentials: true,
+      })
+      .subscribe((res) => {
+        this.snackBar.open('Notification scheduled', '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success'],
+        });
+      });
+  }
 }
