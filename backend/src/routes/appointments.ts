@@ -1,6 +1,6 @@
 // create appointment
 import { Request, Response, Router } from "express";
-import { connectDB, closeDB } from "../connect";
+import { getDB } from "../utils/connect";
 import { sendEmail } from "../utils/email";
 import moment from "moment";
 import { ObjectId } from "mongodb";
@@ -14,16 +14,16 @@ router.post("/create", async (req: Request, res: Response) => {
     }
     appointmentInfo.doctorId = req.user.id;
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
-    const db = await connectDB();
+    const db = await getDB();
     const appointmentCollection = db.collection("appointments");
     await appointmentCollection.insertOne(appointmentInfo);
-    const scheduledCollection = db.collection("scheduledEmails");
-    await scheduledCollection.insertOne({
+    const reminderEmailsCollection = db.collection("reminder_emails");
+    await reminderEmailsCollection.insertOne({
       date: appointmentInfo.date,
       time: appointmentInfo.time,
       to: appointmentInfo.email,
     });
-    await closeDB();
+
     await sendEmail("template_asoqqkh", appointmentInfo.email, {
       fullname: appointmentInfo.fullname,
       date: appointmentInfo.date,
@@ -46,13 +46,13 @@ router.patch("/update", async (req: Request, res: Response) => {
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
     delete appointmentInfo._id;
 
-    const db = await connectDB();
+    const db = await getDB();
     const collection = db.collection("appointments");
     await collection.updateOne(
       { _id: new ObjectId(appointmentId.toString()), doctorId: req.user.id },
       { $set: appointmentInfo }
     );
-    await closeDB();
+
     res.json("OK");
   } catch (error) {
     console.error(error);
@@ -66,13 +66,13 @@ router.delete("/delete/:appointmentId", async (req: Request, res: Response) => {
     if (!appointmentId) {
       return res.status(400).send("Invalid appointment data");
     }
-    const db = await connectDB();
+    const db = await getDB();
     const collection = db.collection("appointments");
     await collection.deleteOne({
       _id: new ObjectId(appointmentId),
       doctorId: req.user.id,
     });
-    await closeDB();
+
     res.json("OK");
   } catch (error) {
     console.error(error);
@@ -81,12 +81,12 @@ router.delete("/delete/:appointmentId", async (req: Request, res: Response) => {
 });
 router.get("/", async (req: Request, res: Response) => {
   try {
-    const db = await connectDB();
+    const db = await getDB();
     const collection = db.collection("appointments");
     const appointments = await collection
       .find({ doctorId: req.user.id })
       .toArray();
-    await closeDB();
+
     res.json(appointments);
   } catch (error) {
     console.error(error);

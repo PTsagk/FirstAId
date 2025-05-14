@@ -1,6 +1,7 @@
 import emailjs from "@emailjs/nodejs";
-import { closeDB, connectDB } from "../connect";
+import { getDB } from "./connect";
 import { ObjectId } from "mongodb";
+import { runCompletion } from "./openai";
 const moment = require("moment");
 
 const sendEmail = async (
@@ -15,14 +16,18 @@ const sendEmail = async (
       patient_email: to,
     };
 
-    if (
-      templateID === "template_asoqqkh" ||
-      templateID === "template_4ow7iii"
-    ) {
-      templateParams.fullname = messageInfo.fullname;
-      templateParams.date = messageInfo.date;
-      templateParams.time = messageInfo.time;
-    }
+    // if (
+    //   templateID === "template_asoqqkh" ||
+    //   templateID === "template_4ow7iii"
+    // ) {
+    //   templateParams.fullname = messageInfo.fullname;
+    //   templateParams.date = messageInfo.date;
+    //   templateParams.time = messageInfo.time;
+    // }
+
+    Object.keys(messageInfo).forEach((key) => {
+      templateParams[key] = messageInfo[key];
+    });
 
     return await emailjs.send("service_3puhk9w", templateID, templateParams, {
       publicKey: "_bc0qPeLQZLJ3DeuM",
@@ -32,10 +37,10 @@ const sendEmail = async (
     console.error(error);
   }
 };
-async function sendScheduledEmails() {
+async function sendReminderEmails() {
   try {
-    const db = await connectDB();
-    const collection = db.collection("scheduledEmails");
+    const db = await getDB();
+    const collection = db.collection("reminder_emails");
     const emailsToSend = await collection
       .find({
         date: moment().format("YYYY-MM-DD"),
@@ -62,17 +67,56 @@ async function sendScheduledEmails() {
       (emailData) => emailData.sent === true
     );
     if (sendedEmails.length > 0) {
-      const collection = db.collection("scheduledEmails");
       await collection.deleteMany({
         _id: {
           $in: sendedEmails.map((emailData) => new ObjectId(emailData._id)),
         },
       });
     }
-    await closeDB();
   } catch (error) {
     console.error("Error sending scheduled emails:", error);
   }
 }
 
-export { sendEmail, sendScheduledEmails };
+async function sendNotificationEmails() {
+  try {
+    const db = await getDB();
+    const collection = db.collection("notification_emails");
+    const emailsToSend = await collection
+      .find({
+        date: moment().format("YYYY-MM-DD"),
+      })
+      .toArray();
+
+    for (const emailData of emailsToSend) {
+      if (!moment(emailData.date + emailData.time).isBefore(moment())) {
+        emailData.sent = true;
+        const gptResponse = await runCompletion(
+          `You are given the doctor notes and the patients notes for an upcoming appointment.
+          Give some  helpfull information to the patient.
+          Doctor notes: ${emailData.doctorNotes} \nPatient notes: ${emailData.patientNotes}`
+        );
+        await sendEmail("template_4ow7iii", emailData.to, {
+          fullname: emailData.fullname,
+          date: emailData.date,
+          time: emailData.time,
+          assistant: gptResponse.choices[0].message.content,
+        });
+      } else emailData.sent = false;
+    }
+    const sendedEmails = emailsToSend.filter(
+      (emailData) => emailData.sent === true
+    );
+    if (sendedEmails.length > 0) {
+      await collection.deleteMany({
+        _id: {
+          $in: sendedEmails.map((emailData) => new ObjectId(emailData._id)),
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Error sending scheduled emails:", error);
+  }
+}
+
+export { sendEmail, sendReminderEmails, sendNotificationEmails };

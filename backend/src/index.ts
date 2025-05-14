@@ -6,7 +6,7 @@ import appointmentRouter from "./routes/appointments";
 import cors from "cors";
 import { authenticateToken } from "./routes/auth";
 import cron from "node-cron";
-import { sendScheduledEmails } from "./utils/email";
+import { sendReminderEmails, sendNotificationEmails } from "./utils/email";
 import notificationsRouter from "./routes/notifications";
 const app = express();
 dotenv.config({ path: "../.env", override: true });
@@ -30,9 +30,10 @@ app.get("/", (req, res) => {
 });
 
 // cron.schedule("* * * * *", () => {
-cron.schedule("0 * * * *", () => {
+cron.schedule("* * * * *", () => {
   console.log("Checking for scheduled emails...");
-  sendScheduledEmails();
+  sendReminderEmails();
+  sendNotificationEmails();
 });
 
 app.listen(port, async () => {

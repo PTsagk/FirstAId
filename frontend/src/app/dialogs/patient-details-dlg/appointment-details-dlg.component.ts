@@ -108,7 +108,9 @@ export class AppointmentDetailsDlgComponent {
       date: this.appointmentInfo.date,
       time: this.appointmentInfo.time,
       to: this.appointmentInfo.email,
-      message: this.appointmentInfo.doctorNotes,
+      doctorNotes: this.appointmentInfo.doctorNotes,
+      patientNotes: this.appointmentInfo.description,
+      fullname: this.appointmentInfo.fullname,
     };
     this.http
       .post(environment.api_url + '/notifications/create', notification, {

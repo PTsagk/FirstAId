@@ -1,6 +1,5 @@
-import { Request, Response } from "express";
 import Express from "express";
-import { connectDB, closeDB } from "../connect";
+import { getDB } from "../utils/connect";
 const router = Express.Router();
 
 router.post("/create", async (req, res) => {
@@ -9,15 +8,16 @@ router.post("/create", async (req, res) => {
     if (!notification) {
       return res.status(400).send("Invalid notification data");
     }
-    const db = await connectDB();
-    const collection = db.collection("scheduledEmails");
+    const db = await getDB();
+    const collection = db.collection("notification_emails");
     await collection.insertOne({
       date: notification.date,
       time: notification.time,
       to: notification.to,
       doctorNotes: notification.doctorNotes,
+      patientNotes: notification.patientNotes,
+      fullname: notification.fullname,
     });
-    await closeDB();
     res.json("OK");
   } catch (error) {
     console.error(error);

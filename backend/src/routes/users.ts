@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Express from "express";
-import { connectDB, closeDB } from "../connect";
+import { getDB } from "../utils/connect";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const router = Express.Router();
@@ -14,7 +14,7 @@ router.post("/:user/register", async (req, res) => {
       return res.status(400).send("Invalid user type");
     if (req.body.password !== req.body.confirmPassword)
       return res.status(400).send("Passwords do not match");
-    const db = await connectDB();
+    const db = await getDB();
     const collection = db.collection(userType);
     const existingUser = await collection.findOne({ email: req.body.email });
     if (existingUser)
@@ -23,7 +23,6 @@ router.post("/:user/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = { ...req.body, password: hashedPassword, userType };
     await collection.insertOne(user);
-    await closeDB();
     res.json("Account created successfully");
   } catch (error) {
     console.error(error);
@@ -36,10 +35,9 @@ router.post("/:user/login", async (req: Request, res: Response) => {
     const userType = req.params.user;
     if (userType !== "doctors" && userType !== "patients")
       return res.status(400).send("Invalid user type");
-    const db = await connectDB();
+    const db = await getDB();
     const collection = db.collection(userType);
     const user = await collection.findOne({ email: req.body.email });
-    await closeDB();
     if (!user) return res.status(401).send("Invalid email or password");
     const isPasswordValid = await bcrypt.compare(
       req.body.password,
@@ -69,10 +67,9 @@ router.get("/", authenticateToken, async (req: Request, res: Response) => {
     const userType = req.user.userType;
     if (userType !== "doctors" && userType !== "patients")
       return res.status(400).send("Invalid user type");
-    const db = await connectDB();
+    const db = await getDB();
     const collection = db.collection(userType);
     const user = await collection.findOne({ _id: new ObjectId(req.user.id) });
-    await closeDB();
     if (!user) return res.status(404).send("User not found");
     res.json(user);
   } catch (error) {
