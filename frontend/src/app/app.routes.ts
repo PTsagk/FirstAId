@@ -21,6 +21,11 @@ export const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'calendar', component: CalendarComponent },
       { path: 'patient-list', component: PatientListsComponent },
+      {
+        path: 'patient-history-list',
+        component: PatientListsComponent,
+        data: { isHistory: true },
+      },
       { path: 'chat-bot', component: ChatBotComponent },
     ],
   },

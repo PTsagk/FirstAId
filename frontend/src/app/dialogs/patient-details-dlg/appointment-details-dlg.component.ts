@@ -124,4 +124,29 @@ export class AppointmentDetailsDlgComponent {
         });
       });
   }
+
+  completeAppointment(complete: boolean = true): void {
+    if (complete) this.appointmentInfo.status = 'completed';
+    else this.appointmentInfo.status = 'pending';
+    this.http
+      .patch(
+        environment.api_url + '/appointments/update',
+        { appointmentInfo: this.appointmentInfo },
+        { withCredentials: true }
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.appointmentService.refreshAppointments();
+          this.snackBar.open('Appointment completed', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          });
+          this.dialog.closeAll();
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
 }

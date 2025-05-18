@@ -17,6 +17,7 @@ import { AppointmentDetailsDlgComponent } from '../../dialogs/patient-details-dl
 import { MatRippleModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-patient-list',
   templateUrl: './patient-list.component.html',
@@ -48,9 +49,11 @@ export class PatientListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Input() today: boolean = false;
+  isHistory: boolean = false;
   constructor(
     private dialog: MatDialog,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private route: ActivatedRoute
   ) {}
 
   patients = [];
@@ -58,6 +61,9 @@ export class PatientListComponent implements AfterViewInit {
   dataSource = new MatTableDataSource(this.patients);
 
   ngAfterViewInit() {
+    this.route.data.subscribe((data) => {
+      this.isHistory = data['isHistory'] || false;
+    });
     this.appointmentService.appointments.subscribe((appointments: any) => {
       if (!appointments) {
         this.pending = true;
@@ -65,40 +71,47 @@ export class PatientListComponent implements AfterViewInit {
         if (this.today) {
           const todayString = moment().format('YYYY-MM-DD');
           appointments = appointments.filter(
-            (appointment: Appointment) => appointment.date === todayString
+            (appointment: Appointment) =>
+              appointment.date === todayString &&
+              appointment.status === 'pending'
+          );
+        }
+        if (this.isHistory) {
+          appointments = appointments.filter(
+            (appointment: Appointment) => appointment.status === 'completed'
           );
         }
         this.patients = appointments;
         this.dataSource.data = this.patients;
         this.pending = false;
       }
-    });
 
-    this.dataSource.sortingDataAccessor = (
-      item: Appointment,
-      property: string
-    ) => {
-      switch (property) {
-        case 'fullname':
-          return item.fullname.toLowerCase();
-        case 'email':
-          return item.email.toLowerCase();
-        case 'severity':
-          // Create a priority order for sorting
-          const priorityOrder = { appointment: 0, emergency: 2, critical: 3 };
-          return priorityOrder[item.severity] || 0;
-        case 'date':
-          // Convert string date to Date object for proper sorting
-          return new Date(item.date).getTime();
-        case 'time':
-          // For time, you might need to parse it properly
-          return item.time;
-        default:
-          return (item as any)[property];
-      }
-    };
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+      this.dataSource.sortingDataAccessor = (
+        item: Appointment,
+        property: string
+      ) => {
+        switch (property) {
+          case 'fullname':
+            return item.fullname.toLowerCase();
+          case 'email':
+            return item.email.toLowerCase();
+          case 'severity':
+            // Create a priority order for sorting
+            const priorityOrder = { appointment: 0, emergency: 2, critical: 3 };
+            return priorityOrder[item.severity] || 0;
+          case 'date':
+            // Convert string date to Date object for proper sorting
+            return new Date(item.date).getTime();
+          case 'time':
+            // For time, you might need to parse it properly
+            return item.time;
+          default:
+            return (item as any)[property];
+        }
+      };
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   createAppointment() {

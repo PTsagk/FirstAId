@@ -16,6 +16,7 @@ import {
   formatIsoTimeString,
 } from '@fullcalendar/core/internal';
 import { ConfirmationDlgComponent } from '../../dialogs/confirmation-dlg/confirmation-dlg.component';
+import { AppointmentDetailsDlgComponent } from '../../dialogs/patient-details-dlg/appointment-details-dlg.component';
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -37,7 +38,7 @@ export class CalendarComponent implements OnInit {
       timelinePlugin,
       resourceTimelinePlugin,
     ],
-    initialView: 'timelineDay',
+    initialView: 'dayGridMonth',
     editable: true,
     selectable: true,
 
@@ -59,6 +60,13 @@ export class CalendarComponent implements OnInit {
     },
     eventDrop: (info: any) => {
       this.handleEventDrop(info);
+    },
+    eventClick: (info: any) => {
+      const dlg = this.dialog.open(AppointmentDetailsDlgComponent, {
+        width: '800px',
+        height: '600px',
+      });
+      dlg.componentInstance.appointmentInfo = { ...info.event.extendedProps };
     },
     events: [],
     height: '100%',

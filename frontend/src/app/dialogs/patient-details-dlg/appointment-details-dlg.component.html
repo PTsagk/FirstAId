@@ -55,6 +55,25 @@
           <span>{{ appointmentInfo.lastAppointment || "-" }}</span>
         </div>
       </div>
+      @if(appointmentInfo.status !== 'completed') {
+      <button
+        style="margin-top: 40px"
+        (click)="completeAppointment(true)"
+        mat-flat-button
+        color="primary"
+      >
+        Complete Appointment
+      </button>
+      } @if(appointmentInfo.status === 'completed') {
+      <button
+        style="margin-top: 40px"
+        (click)="completeAppointment(false)"
+        mat-flat-button
+        color="primary"
+      >
+        Undo Completion
+      </button>
+      }
     </div>
   </div>
   <div class="divider"></div>
