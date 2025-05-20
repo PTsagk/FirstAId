@@ -1,5 +1,6 @@
 <div class="form-container">
-  <div class="right-side bg-primary text-secondary" *ngIf="isDoctor">
+  @if(isDoctor){
+  <div class="right-side bg-primary text-secondary">
     <i style="font-size: 100px" class="fa-duotone fa-solid fa-user-nurse"></i>
     <h2 style="margin: 0; margin-top: 10px">I am a doctor</h2>
     <span style="margin: 20px 0">Not a doctor?</span>
@@ -11,7 +12,8 @@
       Switch to patient
     </button>
   </div>
-  <div class="right-side bg-primary text-secondary" *ngIf="!isDoctor">
+  } @if(!isDoctor){
+  <div class="right-side bg-primary text-secondary">
     <i style="font-size: 100px" class="fa-duotone fa-solid fa-user-tie"></i>
     <h2 style="margin: 0; margin-top: 10px">I am a patient</h2>
     <span style="margin: 20px 0">Not a patient?</span>
@@ -23,75 +25,182 @@
       Switch to doctor
     </button>
   </div>
-  <form
-    [formGroup]="userInfo"
-    class="register-form"
-    (ngSubmit)="onSubmit(userInfo)"
-  >
-    <h1 class="text-primary">Register</h1>
-    <mat-form-field class="cell">
-      <mat-label>Full Name</mat-label>
-      <input formControlName="name" type="text" required matInput />
-    </mat-form-field>
-    <mat-form-field class="cell">
-      <mat-label>Email</mat-label>
-      <input formControlName="email" type="email" required matInput />
-    </mat-form-field>
-    <div style="display: flex; align-items: center; gap: 10px" class="cell">
-      <mat-form-field class="cell">
-        <mat-label>Password</mat-label>
-        <input
-          formControlName="password"
-          name="password"
-          type="password"
-          required
-          matInput
-        />
-      </mat-form-field>
-      <mat-form-field class="cell">
-        <mat-label>Confirm Password</mat-label>
-        <input
-          formControlName="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          required
-          matInput
-        />
-      </mat-form-field>
-    </div>
-    <div style="display: flex; align-items: center; gap: 10px" class="cell">
-      <mat-form-field class="cell">
-        <mat-label>City</mat-label>
-        <input formControlName="city" name="city" required matInput />
-      </mat-form-field>
-      <mat-form-field class="cell">
-        <mat-label>Address</mat-label>
-        <input formControlName="address" name="address" required matInput />
-      </mat-form-field>
-    </div>
-    <mat-form-field class="cell" *ngIf="isDoctor">
-      <mat-label>Profession</mat-label>
-      <input formControlName="profession" name="profession" required matInput />
-    </mat-form-field>
-    <!-- <mat-form-field>
-        <mat-label>Select</mat-label>
-        <mat-select>
-          <mat-option value="one">First option</mat-option>
-          <mat-option value="two">Second option</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Textarea</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field> -->
-    <button
-      type="submit"
-      [disabled]="pending"
-      mat-flat-button
-      class="bg-primary text-secondary"
-    >
-      Register
-    </button>
+  }
+  <div class="register-wizard">
+    <mat-stepper #stepper>
+      <mat-step [stepControl]="userInfo" label="Fill your information">
+        <form [formGroup]="userInfo" class="register-form">
+          <!-- <h1 class="text-primary">Register</h1> -->
+          <mat-form-field class="cell">
+            <mat-label>Full Name</mat-label>
+            <input formControlName="name" type="text" required matInput />
+          </mat-form-field>
+          <mat-form-field class="cell">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" type="email" required matInput />
+          </mat-form-field>
+          <div
+            style="display: flex; align-items: center; gap: 10px"
+            class="cell"
+          >
+            <mat-form-field class="cell">
+              <mat-label>Password</mat-label>
+              <input
+                formControlName="password"
+                name="password"
+                type="password"
+                required
+                matInput
+              />
+            </mat-form-field>
+            <mat-form-field class="cell">
+              <mat-label>Confirm Password</mat-label>
+              <input
+                formControlName="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                matInput
+              />
+            </mat-form-field>
+          </div>
+          <div
+            style="display: flex; align-items: center; gap: 10px"
+            class="cell"
+          >
+            <mat-form-field class="cell">
+              <mat-label>City</mat-label>
+              <input formControlName="city" name="city" required matInput />
+            </mat-form-field>
+            <mat-form-field class="cell">
+              <mat-label>Address</mat-label>
+              <input
+                formControlName="address"
+                name="address"
+                required
+                matInput
+              />
+            </mat-form-field>
+          </div>
+          @if(isDoctor){
+          <mat-form-field class="cell">
+            <mat-label>Profession</mat-label>
+            <input
+              formControlName="profession"
+              name="profession"
+              required
+              matInput
+            />
+          </mat-form-field>
+          }
+          <button
+            [disabled]="pending"
+            mat-flat-button
+            class="bg-primary text-secondary"
+            matStepperNext
+          >
+            Next
+          </button>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="userInfo" label="Fill your appointment info">
+        <form [formGroup]="userInfo" class="register-form">
+          <mat-form-field class="cell">
+            <mat-label>Working Days</mat-label>
+            <mat-select formControlName="workingDays" multiple>
+              @for (day of daysArray; track day) {
+              <mat-option [value]="day">{{ day }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="cell">
+            <mat-label>Starting time for your appointments</mat-label>
+            <input
+              [ngxMatTimepicker]="startTimePicker"
+              matInput
+              required
+              formControlName="workingStartTime"
+            />
+            <ngx-mat-timepicker-toggle
+              matIconSuffix
+              [for]="startTimePicker"
+            ></ngx-mat-timepicker-toggle>
+            <ngx-mat-timepicker #startTimePicker></ngx-mat-timepicker>
+          </mat-form-field>
+          <mat-form-field class="cell">
+            <mat-label>Ending time for your appointments</mat-label>
+            <input
+              [ngxMatTimepicker]="endTimePicker"
+              matInput
+              required
+              formControlName="workingEndTime"
+            />
+            <ngx-mat-timepicker-toggle
+              matIconSuffix
+              [for]="endTimePicker"
+            ></ngx-mat-timepicker-toggle>
+            <ngx-mat-timepicker #endTimePicker></ngx-mat-timepicker>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button
+              [disabled]="pending"
+              mat-flat-button
+              class="bg-primary text-secondary"
+              matStepperNext
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="userInfo" label="Add special occasions">
+        <form
+          [formGroup]="userInfo"
+          class="register-form"
+          (ngSubmit)="onSubmit(userInfo)"
+          style="justify-content: center"
+        >
+          <mat-form-field class="cell">
+            <mat-label>Choose a date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datePicker"
+              formControlName="specialDates"
+              (dateInput)="addEvent($event)"
+              required
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="datePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datePicker></mat-datepicker>
+          </mat-form-field>
+          <div class="selected-dates cell">
+            @for(date of specialDates; track date) {
+            <div class="selected-date">
+              <span>{{ date | date : "dd/MM" }}</span>
+              <button mat-icon-button (click)="removeDate(date)" color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            }
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button
+              [disabled]="pending"
+              mat-flat-button
+              class="bg-primary text-secondary"
+              matStepperNext
+              type="submit"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
     <p style="margin-top: 20px">
       Already have an account?
       <span
@@ -101,8 +210,10 @@
         >Login</span
       >
     </p>
-    <div class="loading" *ngIf="pending">
+    @if(pending){
+    <div class="loading">
       <mat-spinner></mat-spinner>
     </div>
-  </form>
+    }
+  </div>
 </div>

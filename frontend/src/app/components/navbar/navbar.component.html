@@ -1,6 +1,7 @@
 <nav [ngClass]="{ 'bg-secondary b-1': hideButtons, 'bg-muted': !hideButtons }">
   <h1>First <span class="text-primary">AI</span>d</h1>
-  <div *ngIf="!hideButtons" class="login-components">
+  @if(!hideButtons){
+  <div class="login-components">
     <button
       mat-stroked-button
       class="bg-secondary text-primary"
@@ -16,14 +17,23 @@
       Login
     </button>
   </div>
-  <div *ngIf="hideButtons" class="user-info">
+  } @if(hideButtons){
+  <div class="user-info">
     <div class="info-icon">
       <i class="fa-solid fa-sliders"></i>
     </div>
     <div class="info-icon">
       <i class="fa-regular fa-bell"></i>
     </div>
+    <div
+      class="info-icon"
+      style="color: rgb(167, 0, 0)"
+      (click)="accountService.logout()"
+    >
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </div>
     <span>{{ userInfo.name }}</span>
     <img [src]="userInfo.img || '../../../assets/user-26.png'" alt="" />
   </div>
+  }
 </nav>

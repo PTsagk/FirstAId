@@ -1,5 +1,6 @@
 <div class="form-container">
-  <div class="right-side bg-primary text-secondary" *ngIf="isDoctor">
+  @if(isDoctor){
+  <div class="right-side bg-primary text-secondary">
     <i style="font-size: 100px" class="fa-duotone fa-solid fa-user-nurse"></i>
     <h2 style="margin: 0; margin-top: 10px">I am a doctor</h2>
     <span style="margin: 20px 0">Not a doctor?</span>
@@ -11,7 +12,9 @@
       Switch to patient
     </button>
   </div>
-  <div class="right-side bg-primary text-secondary" *ngIf="!isDoctor">
+  } @if(!isDoctor){
+
+  <div class="right-side bg-primary text-secondary">
     <i style="font-size: 100px" class="fa-duotone fa-solid fa-user-tie"></i>
     <h2 style="margin: 0; margin-top: 10px">I am a patient</h2>
     <span style="margin: 20px 0">Not a patient?</span>
@@ -23,6 +26,7 @@
       Switch to doctor
     </button>
   </div>
+  }
   <form
     class="login-form"
     [formGroup]="userInfo"
@@ -50,8 +54,10 @@
         >Register</span
       >
     </p>
-    <div class="loading" *ngIf="pending">
+    @if(pending){
+    <div class="loading">
       <mat-spinner></mat-spinner>
     </div>
+    }
   </form>
 </div>

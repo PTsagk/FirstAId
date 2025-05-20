@@ -2,14 +2,14 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AccountService } from '../../../services/account.service';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatDialogModule, NgIf, NgClass],
+  imports: [MatButtonModule, MatDialogModule, NgClass],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })

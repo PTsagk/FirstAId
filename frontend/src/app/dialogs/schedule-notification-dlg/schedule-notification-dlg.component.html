@@ -1,0 +1,51 @@
+<form
+  class="schedule-notification-form"
+  [formGroup]="scheduleDateTime"
+  (ngSubmit)="scheduleNotification(scheduleDateTime)"
+>
+  <span style="margin-bottom: 20px; font-size: 18px"
+    >Schedule Notification</span
+  >
+  <p style="color: gray; margin-bottom: 10px">
+    Shedule a notification for the patient based on your notes and their
+    appointment reason.
+  </p>
+  <div style="display: flex; justify-content: space-between; gap: 10px">
+    <!-- Date Picker -->
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="datePicker"
+        formControlName="date"
+        required
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="datePicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Time Picker -->
+    <mat-form-field>
+      <mat-label>Choose a time</mat-label>
+      <input
+        [ngxMatTimepicker]="timePicker"
+        matInput
+        required
+        formControlName="time"
+      />
+      <ngx-mat-timepicker-toggle
+        matIconSuffix
+        [for]="timePicker"
+      ></ngx-mat-timepicker-toggle>
+      <ngx-mat-timepicker [minutesGap]="15" #timePicker></ngx-mat-timepicker>
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+  @if(pending){
+  <div class="loading"><mat-spinner></mat-spinner></div>
+  }
+</form>

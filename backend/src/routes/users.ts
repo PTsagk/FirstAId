@@ -22,6 +22,7 @@ router.post("/:user/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = { ...req.body, password: hashedPassword, userType };
+    delete user.confirmPassword;
     await collection.insertOne(user);
     res.json("Account created successfully");
   } catch (error) {
@@ -56,6 +57,20 @@ router.post("/:user/login", async (req: Request, res: Response) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
     res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.get("/logout", (req: Request, res: Response) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+    res.json("OK");
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AccountService } from '../../../services/account.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
+import moment from 'moment';
 import {
   FormBuilder,
   FormControl,
@@ -19,7 +20,14 @@ import {
 } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import {
+  MatDatepickerInputEvent,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -33,6 +41,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     HttpClientModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    MatStepperModule,
+    NgxMatTimepickerModule,
+    MatDatepickerModule,
+    MatIconModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -42,6 +54,16 @@ export class RegisterComponent {
 
   userInfo: FormGroup;
   pending: boolean = false;
+  specialDates: string[] = [];
+  daysArray: string[] = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
   constructor(
     private dialogRef: MatDialogRef<RegisterComponent>,
     public accountService: AccountService,
@@ -56,6 +78,10 @@ export class RegisterComponent {
       city: new FormControl('', [Validators.required]),
       address: new FormControl('', [Validators.required]),
       profession: new FormControl('', [Validators.required]),
+      workingDays: new FormControl('', [Validators.required]),
+      workingStartTime: new FormControl('', [Validators.required]),
+      workingEndTime: new FormControl('', [Validators.required]),
+      specialDates: new FormControl('', [Validators.required]),
     });
   }
   onSubmit(userInfo: FormGroup) {
@@ -63,6 +89,9 @@ export class RegisterComponent {
 
     if (userInfo.status != 'VALID') return;
     this.pending = true;
+    this.userInfo.patchValue({
+      specialDates: this.specialDates,
+    });
     this.http
       .post(
         environment.api_url +
@@ -92,5 +121,18 @@ export class RegisterComponent {
     this.isDoctor = !this.isDoctor;
     if (!this.isDoctor) this.userInfo.get('profession')?.setValue('None');
     else this.userInfo.get('profession')?.setValue('');
+  }
+
+  addEvent(event: any) {
+    if (event.value) {
+      this.specialDates.push(moment(event.value).format('MM/DD'));
+    }
+  }
+
+  removeDate(event: any) {
+    const index = this.specialDates.indexOf(moment(event).format('MM/DD'));
+    if (index > -1) {
+      this.specialDates.splice(index, 1);
+    }
   }
 }

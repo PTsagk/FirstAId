@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDlgComponent } from '../confirmation-dlg/confirmation-dlg.component';
+import { ScheduleNotificationDlgComponent } from '../schedule-notification-dlg/schedule-notification-dlg.component';
 
 @Component({
   selector: 'app-appointment-details-dlg',
@@ -104,25 +105,13 @@ export class AppointmentDetailsDlgComponent {
   }
 
   scheduleNotification(): void {
-    const notification = {
-      date: this.appointmentInfo.date,
-      time: this.appointmentInfo.time,
-      to: this.appointmentInfo.email,
-      doctorNotes: this.appointmentInfo.doctorNotes,
-      patientNotes: this.appointmentInfo.description,
-      fullname: this.appointmentInfo.fullname,
-    };
-    this.http
-      .post(environment.api_url + '/notifications/create', notification, {
-        withCredentials: true,
-      })
-      .subscribe((res) => {
-        this.snackBar.open('Notification scheduled', '', {
-          duration: 2000,
-          verticalPosition: 'top',
-          panelClass: ['snackbar-success'],
-        });
-      });
+    const dlg = this.dialog.open(ScheduleNotificationDlgComponent, {
+      width: '500px',
+      data: {
+        appointmentInfo: this.appointmentInfo,
+      },
+    });
+    dlg.componentInstance.appointmentInfo = this.appointmentInfo;
   }
 
   completeAppointment(complete: boolean = true): void {

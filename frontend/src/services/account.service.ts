@@ -72,4 +72,19 @@ export class AccountService {
     });
     modal.componentInstance.isDoctor = isDoctor;
   }
+
+  logout() {
+    this.http
+      .get(environment.api_url + '/users/logout', { withCredentials: true })
+      .subscribe({
+        next: (res) => {
+          sessionStorage.removeItem('userInfo');
+          this.userInfo.next(null);
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
 }

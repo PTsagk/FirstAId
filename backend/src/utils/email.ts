@@ -85,6 +85,9 @@ async function sendNotificationEmails() {
     const emailsToSend = await collection
       .find({
         date: moment().format("YYYY-MM-DD"),
+        time: {
+          $lte: moment().format("HH:mm"),
+        },
       })
       .toArray();
 
@@ -104,16 +107,11 @@ async function sendNotificationEmails() {
         });
       } else emailData.sent = false;
     }
-    const sendedEmails = emailsToSend.filter(
-      (emailData) => emailData.sent === true
-    );
-    if (sendedEmails.length > 0) {
-      await collection.deleteMany({
-        _id: {
-          $in: sendedEmails.map((emailData) => new ObjectId(emailData._id)),
-        },
-      });
-    }
+    await collection.deleteMany({
+      _id: {
+        $in: emailsToSend.map((emailData) => new ObjectId(emailData._id)),
+      },
+    });
   } catch (error) {
     console.error("Error sending scheduled emails:", error);
   }
