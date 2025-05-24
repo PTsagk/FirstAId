@@ -64,7 +64,10 @@
         matIconSuffix
         [for]="timePicker"
       ></ngx-mat-timepicker-toggle>
-      <ngx-mat-timepicker [minutesGap]="15" #timePicker></ngx-mat-timepicker>
+      <ngx-mat-timepicker
+        [minutesGap]="appointmentDuration"
+        #timePicker
+      ></ngx-mat-timepicker>
     </mat-form-field>
   </div>
 

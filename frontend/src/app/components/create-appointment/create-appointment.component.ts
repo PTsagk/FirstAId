@@ -31,6 +31,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AccountService } from '../../../services/account.service';
 import { AppointmentService } from '../../../services/appointment.service';
 import { Appointment } from '../../../models/appointment.model';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-create-appointment',
@@ -46,14 +47,16 @@ import { Appointment } from '../../../models/appointment.model';
     MatButtonModule,
     NgxMatTimepickerModule,
     MatProgressSpinnerModule,
+    AsyncPipe,
   ],
 })
 export class CreateAppointmentComponent implements OnInit {
   @ViewChild('timePicker') timePicker!: NgxMatTimepickerComponent;
   appointmentInfo: FormGroup;
   pending: boolean = false;
-
+  appointmentDuration: number = 0;
   constructor(
+    public account: AccountService,
     private fb: FormBuilder,
     private http: HttpClient,
     private snackBar: MatSnackBar,
@@ -74,6 +77,14 @@ export class CreateAppointmentComponent implements OnInit {
         appointmentInfo: {} as Appointment,
       };
     }
+
+    this.account.userInfo.subscribe((user) => {
+      if (user) {
+        this.appointmentDuration = user.appointmentDuration || 15;
+        this.timePicker.minutesGap = this.appointmentDuration;
+      }
+    });
+
     this.appointmentInfo = this.fb.group({
       fullname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

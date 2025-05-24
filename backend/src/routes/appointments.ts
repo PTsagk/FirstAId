@@ -14,6 +14,7 @@ router.post("/create", async (req: Request, res: Response) => {
     }
     appointmentInfo.doctorId = req.user.id;
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
+    appointmentInfo.status = "pending";
     const db = await getDB();
     const appointmentCollection = db.collection("appointments");
     await appointmentCollection.insertOne(appointmentInfo);

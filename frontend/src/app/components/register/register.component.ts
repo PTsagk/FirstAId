@@ -81,12 +81,17 @@ export class RegisterComponent {
       workingDays: new FormControl('', [Validators.required]),
       workingStartTime: new FormControl('', [Validators.required]),
       workingEndTime: new FormControl('', [Validators.required]),
-      specialDates: new FormControl('', [Validators.required]),
+      specialDates: new FormControl([], [Validators.required]),
+      appointmentDuration: new FormControl(0, [Validators.required]),
     });
   }
   onSubmit(userInfo: FormGroup) {
     // set proffesion to None
-
+    if (!this.isDoctor) {
+      this.userInfo.patchValue({ workingStartTime: 'None' });
+      this.userInfo.patchValue({ workingEndTime: 'None' });
+      this.userInfo.patchValue({ specialDates: 'None' });
+    }
     if (userInfo.status != 'VALID') return;
     this.pending = true;
     this.userInfo.patchValue({
@@ -119,8 +124,14 @@ export class RegisterComponent {
 
   switchUser() {
     this.isDoctor = !this.isDoctor;
-    if (!this.isDoctor) this.userInfo.get('profession')?.setValue('None');
-    else this.userInfo.get('profession')?.setValue('');
+    if (!this.isDoctor) {
+      this.userInfo.patchValue({ profession: 'None' });
+      this.userInfo.patchValue({ workingDays: 'None' });
+      this.userInfo.patchValue({ workingStartTime: 'None' });
+      this.userInfo.patchValue({ workingEndTime: 'None' });
+      this.userInfo.patchValue({ specialDates: 'None' });
+      this.userInfo.patchValue({ appointmentDuration: 0 });
+    } else this.userInfo.get('profession')?.setValue('None');
   }
 
   addEvent(event: any) {

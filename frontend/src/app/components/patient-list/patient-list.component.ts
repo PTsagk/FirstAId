@@ -73,7 +73,7 @@ export class PatientListComponent implements AfterViewInit {
           appointments = appointments.filter(
             (appointment: Appointment) =>
               appointment.date === todayString &&
-              appointment.status === 'pending'
+              appointment.status !== 'completed'
           );
         }
         if (this.isHistory) {

@@ -25,7 +25,7 @@
       Switch to doctor
     </button>
   </div>
-  }
+  } @if(isDoctor){
   <div class="register-wizard">
     <mat-stepper #stepper>
       <mat-step [stepControl]="userInfo" label="Fill your information">
@@ -82,7 +82,6 @@
               />
             </mat-form-field>
           </div>
-          @if(isDoctor){
           <mat-form-field class="cell">
             <mat-label>Profession</mat-label>
             <input
@@ -92,7 +91,7 @@
               matInput
             />
           </mat-form-field>
-          }
+
           <button
             [disabled]="pending"
             mat-flat-button
@@ -140,6 +139,15 @@
               [for]="endTimePicker"
             ></ngx-mat-timepicker-toggle>
             <ngx-mat-timepicker #endTimePicker></ngx-mat-timepicker>
+          </mat-form-field>
+          <mat-form-field class="cell">
+            <mat-label>Duration of your appointments in minutes</mat-label>
+            <input
+              type="number"
+              matInput
+              required
+              formControlName="appointmentDuration"
+            />
           </mat-form-field>
           <div>
             <button mat-button matStepperPrevious>Back</button>
@@ -216,4 +224,61 @@
     </div>
     }
   </div>
+  } @if(!isDoctor){
+  <form
+    [formGroup]="userInfo"
+    class="register-form"
+    (ngSubmit)="onSubmit(userInfo)"
+  >
+    <!-- <h1 class="text-primary">Register</h1> -->
+    <mat-form-field class="cell">
+      <mat-label>Full Name</mat-label>
+      <input formControlName="name" type="text" required matInput />
+    </mat-form-field>
+    <mat-form-field class="cell">
+      <mat-label>Email</mat-label>
+      <input formControlName="email" type="email" required matInput />
+    </mat-form-field>
+    <div style="display: flex; align-items: center; gap: 10px" class="cell">
+      <mat-form-field class="cell">
+        <mat-label>Password</mat-label>
+        <input
+          formControlName="password"
+          name="password"
+          type="password"
+          required
+          matInput
+        />
+      </mat-form-field>
+      <mat-form-field class="cell">
+        <mat-label>Confirm Password</mat-label>
+        <input
+          formControlName="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          required
+          matInput
+        />
+      </mat-form-field>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px" class="cell">
+      <mat-form-field class="cell">
+        <mat-label>City</mat-label>
+        <input formControlName="city" name="city" required matInput />
+      </mat-form-field>
+      <mat-form-field class="cell">
+        <mat-label>Address</mat-label>
+        <input formControlName="address" name="address" required matInput />
+      </mat-form-field>
+    </div>
+    <button
+      [disabled]="pending"
+      mat-flat-button
+      class="bg-primary text-secondary"
+      type="submit"
+    >
+      Register
+    </button>
+  </form>
+  }
 </div>
