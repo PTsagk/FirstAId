@@ -17,6 +17,19 @@ router.post("/create", async (req: Request, res: Response) => {
     appointmentInfo.status = "pending";
     const db = await getDB();
     const appointmentCollection = db.collection("appointments");
+    const existingAppointment = await appointmentCollection.findOne({
+      doctorId: appointmentInfo.doctorId,
+      date: appointmentInfo.date,
+      time: {
+        $lte: moment(appointmentInfo.time)
+          .add(10, appointmentInfo.duration)
+          .format("hh:mm A"),
+        $gte: appointmentInfo.time,
+      },
+    });
+    if (existingAppointment) {
+      return res.status(400).send("Appointment already exists for this time");
+    }
     await appointmentCollection.insertOne(appointmentInfo);
     const reminderEmailsCollection = db.collection("reminder_emails");
     await reminderEmailsCollection.insertOne({

@@ -146,6 +146,7 @@ export class CreateAppointmentComponent implements OnInit {
         appointmentInfo.time = moment(appointmentInfo.time, 'hh:mm A').format(
           'hh:mm A'
         );
+        appointmentInfo.duration = this.appointmentDuration;
         this.http
           .post(
             environment.api_url + '/appointments/create',
@@ -166,7 +167,7 @@ export class CreateAppointmentComponent implements OnInit {
               this.appointmentService.refreshAppointments();
             },
             error: (err) => {
-              this.snackBar.open('Something went wrong', '', {
+              this.snackBar.open(err.error, '', {
                 duration: 2000,
                 verticalPosition: 'top',
                 panelClass: ['snackbar-error'],
