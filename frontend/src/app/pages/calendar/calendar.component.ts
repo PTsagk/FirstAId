@@ -7,16 +7,16 @@ import timelinePlugin from '@fullcalendar/timeline';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import { AppointmentService } from '../../../services/appointment.service';
 import moment from 'moment';
-import { start } from '@popperjs/core';
 import { CreateAppointmentComponent } from '../../components/create-appointment/create-appointment.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  formatDayString,
-  formatIsoTimeString,
-} from '@fullcalendar/core/internal';
+
 import { ConfirmationDlgComponent } from '../../dialogs/confirmation-dlg/confirmation-dlg.component';
 import { AppointmentDetailsDlgComponent } from '../../dialogs/patient-details-dlg/appointment-details-dlg.component';
+import { AccountService } from '../../../services/account.service';
+import { CalendarOptions } from '@fullcalendar/core';
+import rrulePlugin from '@fullcalendar/rrule';
+
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -25,66 +25,102 @@ import { AppointmentDetailsDlgComponent } from '../../dialogs/patient-details-dl
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
+  appointmentDuration: number = 30;
+  workingStartTime: string = '';
+  workingEndTime: string = '';
+  calendarOptions!: CalendarOptions;
   constructor(
     private appointmentService: AppointmentService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {}
-  calendarOptions = {
-    plugins: [
-      dayGridPlugin,
-      interactionPlugin,
-      timeGridPlugin,
-      timelinePlugin,
-      resourceTimelinePlugin,
-    ],
-    initialView: 'dayGridMonth',
-    editable: true,
-    selectable: true,
+    private snackBar: MatSnackBar,
+    private account: AccountService
+  ) {
+    const userInfo = this.account.userInfo.getValue();
+    this.workingStartTime = userInfo.workingStartTime;
+    this.workingEndTime = userInfo.workingEndTime;
+    this.appointmentDuration = userInfo.appointmentDuration;
+    this.calendarOptions = {
+      plugins: [
+        dayGridPlugin,
+        interactionPlugin,
+        timeGridPlugin,
+        timelinePlugin,
+        resourceTimelinePlugin,
+        rrulePlugin,
+      ],
+      initialView: 'dayGridMonth',
+      editable: true,
+      selectable: true,
 
-    selectMirror: true,
-    selectAllow: (info: any) => {
-      return moment(info.start).isSame(
-        moment(info.end).subtract(1, 'day'),
-        'day'
-      );
-    },
-    select: (info: any) => {
-      const selectedDate = moment(info.start).format('YYYY-MM-DD');
-      this.dialog.open(CreateAppointmentComponent, {
-        width: '500px',
-        data: {
-          date: selectedDate,
-        },
-      });
-    },
-    eventDrop: (info: any) => {
-      this.handleEventDrop(info);
-    },
-    eventClick: (info: any) => {
-      const dlg = this.dialog.open(AppointmentDetailsDlgComponent, {
-        width: '800px',
-        height: '600px',
-      });
-      dlg.componentInstance.appointmentInfo = { ...info.event.extendedProps };
-    },
-    events: [],
-    height: '100%',
-    eventContent: this.renderEventContent,
-    headerToolbar: {
-      left: 'dayGridMonth,timeGridWeek,timelineDay',
-      center: 'title',
-      right: 'prev,next today',
-    },
-    slotMinTime: '08:00:00', // Start time for the day
-    slotMaxTime: '18:00:00', // End time for the day
-    slotDuration: '00:30:00', // 30-minute slots
-    nowIndicator: true,
-  };
+      selectMirror: true,
+
+      selectAllow: (selectInfo: any) => {
+        const start = moment(selectInfo.start);
+        const end = moment(selectInfo.end);
+
+        const sameDay =
+          start.isSame(end.clone().subtract(1, 'day'), 'day') ||
+          start.isSame(end, 'day');
+        const workingDays = this.account.userInfo
+          .getValue()
+          .workingDays.map((day: string) => {
+            return moment().day(day).day();
+          });
+        const isWorkingDay = workingDays.includes(start.day());
+
+        const isSpecialDate = this.account.userInfo
+          .getValue()
+          .specialDates.includes(start.format('MM/DD'));
+
+        return sameDay && isWorkingDay && !isSpecialDate;
+      },
+      select: (info: any) => {
+        const selectedDate = moment(info.start).format('YYYY-MM-DD');
+        this.dialog.open(CreateAppointmentComponent, {
+          width: '500px',
+          data: {
+            date: selectedDate,
+            time: moment(info.start).format('hh:mm A'),
+          },
+        });
+      },
+      eventDrop: (info: any) => {
+        this.handleEventDrop(info);
+      },
+      eventClick: (info: any) => {
+        if (Object.keys(info.event.extendedProps).length == 0) return;
+        const dlg = this.dialog.open(AppointmentDetailsDlgComponent, {
+          width: '800px',
+          height: '600px',
+        });
+        dlg.componentInstance.appointmentInfo = { ...info.event.extendedProps };
+      },
+      events: [],
+      height: '100%',
+      eventContent: this.renderEventContent,
+      headerToolbar: {
+        left: 'dayGridMonth,timeGridWeek,timelineDay',
+        center: 'title',
+        right: 'prev,next today',
+      },
+
+      slotMinTime: this.convertTo24HourFormat(this.workingStartTime),
+      slotMaxTime: this.convertTo24HourFormat(this.workingEndTime),
+      slotDuration: `00:${this.appointmentDuration}:00`,
+      businessHours: {
+        daysOfWeek: this.account.userInfo
+          .getValue()
+          .workingDays.map((day: string) => {
+            return moment().day(day).day();
+          }),
+      },
+      nowIndicator: true,
+    };
+  }
 
   ngOnInit(): void {
     this.appointmentService.appointments.subscribe((appointments: any) => {
-      this.calendarOptions.events = appointments.map((appointment: any) => {
+      const appointmentEvents = appointments.map((appointment: any) => {
         let color = '#00c450';
         if (appointment.severity === 'emergency') color = 'orange';
         else if (appointment.severity === 'critical') color = '#ff0000';
@@ -93,7 +129,10 @@ export class CalendarComponent implements OnInit {
         const startDateTimeStr = `${appointment.date}T${formattedTime}`;
 
         const startMoment = moment(startDateTimeStr);
-        const endMoment = moment(startDateTimeStr).add(30, 'minutes');
+        const endMoment = moment(startDateTimeStr).add(
+          this.appointmentDuration,
+          'minutes'
+        );
         return {
           title: appointment.fullname,
           date: moment(appointment.date).format('YYYY-MM-DD'),
@@ -107,11 +146,36 @@ export class CalendarComponent implements OnInit {
           },
         };
       });
+      const specialEvents = this.account.userInfo
+        .getValue()
+        .specialDates.map((date: any) => {
+          return {
+            title: 'Non working day',
+            rrule: {
+              freq: 'yearly',
+              dtstart: moment(date).format('YYYY-MM-DD'),
+            },
+            allDay: true,
+            backgroundColor: 'gray',
+            borderColor: 'gray',
+            display: 'block',
+            editable: false,
+          };
+        });
+      this.calendarOptions.events = [...appointmentEvents, ...specialEvents];
     });
   }
   renderEventContent(eventInfo: any) {
     const severity = eventInfo.event.extendedProps.severity || '';
-
+    if (!severity) {
+      return {
+        html: `
+          <div class="fc-event-main-container">
+            <div class="fc-event-title">${eventInfo.event.title}</div>
+          </div>
+        `,
+      };
+    }
     return {
       html: `
         <div class="fc-event-main-container">
@@ -121,22 +185,8 @@ export class CalendarComponent implements OnInit {
       `,
     };
   }
-  // handleDateSelect(selectInfo: any) {
-  //   const title = prompt('Enter event title:');
-  //   const calendarApi = selectInfo.view.calendar;
 
-  //   calendarApi.unselect();
-
-  //   if (title) {
-  //     calendarApi.addEvent({
-  //       title,
-  //       start: selectInfo.startStr,
-  //       end: selectInfo.endStr,
-  //       allDay: selectInfo.allDay,
-  //     });
-  //   }
-  // }
-  convertTo24HourFormat(time: string) {
+  parseTimeString(time: string): { hour: number; minute: number } {
     let hour = 0;
     let minute = 0;
     const matches = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
@@ -154,24 +204,20 @@ export class CalendarComponent implements OnInit {
         hour = 0;
       }
     }
+    return { hour, minute };
+  }
+
+  convertTo24HourFormat(time: string) {
+    const { hour, minute } = this.parseTimeString(time);
     return `${hour.toString().padStart(2, '0')}:${minute
       .toString()
       .padStart(2, '0')}:00`;
   }
 
   handleEventDrop(info: any) {
-    // Get the updated dates/times from the event
-    // const eventTitle = info.event.title;
-    // const newStart = moment(info.event.start).format('YYYY-MM-DDHH:mm:ss');
-    // const newEnd = info.event.end
-    //   ? moment(info.event.end).format('YYYY-MM-DDTHH:mm:ss')
-    //   : null;
-
-    // Extract just the date and time parts
     const newDate = moment(info.event.start).format('YYYY-MM-DD');
     const newTime = moment(info.event.start).format('hh:mm A');
 
-    // Create confirmation dialog
     const dialogRef = this.dialog.open(ConfirmationDlgComponent, {
       width: '400px',
       data: {

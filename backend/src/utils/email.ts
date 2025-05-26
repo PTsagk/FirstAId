@@ -86,7 +86,7 @@ async function sendNotificationEmails() {
       .find({
         date: moment().format("YYYY-MM-DD"),
         time: {
-          $lte: moment().format("HH:mm"),
+          $lte: moment().format("hh:mm A"),
         },
       })
       .toArray();
