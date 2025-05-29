@@ -3,10 +3,16 @@ import { DashboardBoxComponent } from '../../components/dashboard-box/dashboard-
 import { PatientListComponent } from '../../components/patient-list/patient-list.component';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { AppointmentService } from '../../../services/appointment.service';
+import { MatButton } from '@angular/material/button';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DashboardBoxComponent, PatientListComponent, CalendarComponent],
+  imports: [
+    DashboardBoxComponent,
+    PatientListComponent,
+    CalendarComponent,
+    MatButton,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
