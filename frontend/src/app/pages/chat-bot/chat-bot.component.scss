@@ -131,12 +131,13 @@
 }
 
 .chat-messages {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  background-color: #f9f9f9;
+  background-color: #f1f1f1;
 }
 
 .message {
@@ -147,7 +148,7 @@
 }
 
 .bot-message {
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(255, 255, 255);
   align-self: flex-start;
 }
 
@@ -157,6 +158,10 @@
   align-self: flex-end;
 }
 
+.user-message p,
+.bot-message p {
+  margin: 0;
+}
 .user-message img {
   margin-top: 10px;
   max-width: 100%;
@@ -189,4 +194,16 @@
 
 .chat-input button:hover {
   background-color: #35a1b0;
+}
+
+.loading-container {
+  position: absolute;
+  font-size: 40px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-self: center;
+  align-items: center;
 }

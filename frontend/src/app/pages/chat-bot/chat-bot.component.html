@@ -24,29 +24,55 @@
  -->
   <!-- Main Chat Area -->
   <div class="chat-main">
-    <div class="chat-header">
-      <i
-        class="fa-solid fa-robot text-primary"
-        style="font-size: 20px; margin-right: 10px"
-      ></i>
-      <div class="chat-header-details">
-        <h4>Assistant</h4>
+    <div
+      class="chat-header"
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
+      <div style="display: flex">
+        <i
+          class="fa-solid fa-robot text-primary"
+          style="font-size: 20px; margin-right: 10px"
+        ></i>
+        <div class="chat-header-details">
+          <h4>Assistant</h4>
+        </div>
       </div>
+      <button
+        mat-flat-button
+        style="color: rgb(209, 51, 51); font-size: 18px"
+        (click)="clearChat()"
+      >
+        <i class="fa-solid fa-trash"></i>
+      </button>
     </div>
     <div class="chat-messages">
-      @for(message of messages; track message.text ){
+      @if(!pending){ @for(message of messages; track message.text ){
       <div class="message {{ message.sender }}-message">
-        <p>
-          {{ message.text }}
-        </p>
+        @if(message.text == 'loading' && message.sender == 'bot'){
+        <div class="loading-spinner">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+        </div>
+        } @if(message.text != 'loading'){
+        <p [innerHTML]="message.text"></p>
+        }
+      </div>
+      } } @if(pending){
+      <div class="loading-container">
+        <i class="fa-solid fa-spinner fa-spin text-primary"></i>
       </div>
       }
     </div>
-    <div class="chat-input">
-      <input type="text" placeholder="Your message" [(ngModel)]="userMessage" />
+    <form class="chat-input" (onSubmit)="sendMessage()">
+      <input
+        style="outline: none"
+        type="text"
+        placeholder="Your message"
+        [(ngModel)]="userMessage"
+        [ngModelOptions]="{ standalone: true }"
+      />
       <button (click)="sendMessage()">
         <i class="fa-solid fa-paper-plane"></i>
       </button>
-    </div>
+    </form>
   </div>
 </div>
