@@ -54,27 +54,26 @@ const createAppointment = async (doctorId: string, appointmentInfo) => {
 };
 
 // Update appointment
-const updateAppointment = async (req: Request, res: Response) => {
+const updateAppointment = async (doctorId, appointmentInfo) => {
   try {
-    const appointmentInfo = req.body.appointmentInfo;
-    const appointmentId = appointmentInfo._id;
-    if (!appointmentInfo || !appointmentId) {
-      return res.status(400).send("Invalid appointment data");
+    if (!appointmentInfo || !appointmentInfo._id) {
+      throw new Error("Invalid appointment data");
     }
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
+    const appointmentId = appointmentInfo._id;
     delete appointmentInfo._id;
 
     const db = await getDB();
     const collection = db.collection("appointments");
     await collection.updateOne(
-      { _id: new ObjectId(appointmentId.toString()), doctorId: req.user.id },
+      { _id: new ObjectId(appointmentId), doctorId: doctorId },
       { $set: appointmentInfo }
     );
 
-    res.json("OK");
+    return "OK";
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    throw new Error("Error updating appointment: " + error.message);
   }
 };
 
@@ -126,7 +125,18 @@ router.post("/create", async (req: Request, res: Response) => {
     res.status(500).send("Internal Server Error");
   }
 });
-router.patch("/update", updateAppointment);
+router.patch("/update", async (req: Request, res: Response) => {
+  try {
+    const doctorId = req.user.id;
+    const appointmentInfo = req.body.appointmentInfo;
+    const result = await updateAppointment(doctorId, appointmentInfo);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 router.delete("/delete/:appointmentId", async (req: Request, res: Response) => {
   try {
     const appointmentId = req.params.appointmentId;
@@ -142,6 +152,15 @@ router.get("/", async (req: Request, res: Response) => {
   try {
     const doctorId = req.user.id;
     const appointments = await getAppointments(doctorId);
+    appointments.forEach((appointment) => {
+      // check if appointment date is before today
+      if (
+        moment(appointment.date).isBefore(moment(), "day") &&
+        appointment.status !== "completed"
+      ) {
+        appointment.status = "past";
+      }
+    });
     res.json(appointments);
   } catch (error) {
     console.error(error);

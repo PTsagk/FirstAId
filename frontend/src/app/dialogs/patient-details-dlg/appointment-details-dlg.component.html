@@ -55,12 +55,13 @@
           <span>{{ appointmentInfo.lastAppointment || "-" }}</span>
         </div>
       </div>
-      @if(appointmentInfo.status !== 'completed') {
+      @if(appointmentInfo.status !== 'completed' && appointmentInfo.status) {
       <button
         style="margin-top: 40px"
         (click)="completeAppointment(true)"
         mat-flat-button
         color="primary"
+        [disabled]="appointmentInfo.status === 'canceled' || appointmentInfo.status === 'past'"
       >
         Complete Appointment
       </button>

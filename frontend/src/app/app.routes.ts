@@ -4,6 +4,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { PatientListsComponent } from './pages/patient-lists/patient-lists.component';
 import { ChatBotComponent } from './pages/chat-bot/chat-bot.component';
+import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -28,6 +29,10 @@ export const routes: Routes = [
       },
       { path: 'chat-bot', component: ChatBotComponent },
     ],
+  },
+  {
+    path: 'user/dashboard',
+    component: UserDashboardComponent,
   },
   { path: '**', redirectTo: 'home' },
 ];

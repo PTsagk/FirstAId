@@ -14,5 +14,5 @@ export interface Appointment {
   weight?: string;
   lastAppointment?: string;
   doctorNotes?: string;
-  status?: 'pending' | 'completed' | 'canceled';
+  status?: 'pending' | 'completed' | 'canceled' | 'past';
 }

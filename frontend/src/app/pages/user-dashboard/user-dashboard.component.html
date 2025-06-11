@@ -1,0 +1,80 @@
+<div class="user-dashboard">
+  <div class="sidebar bg-primary">
+    <div
+      class="text-secondary"
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+        padding: 10px;
+        border-bottom: 1px solid #dee2e6;
+      "
+    >
+      <h2 style="margin: 0">Filters</h2>
+      <i class="fa-solid fa-filter"></i>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel class="bg-primary" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="text-secondary"> Location </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+          <mat-label>Search for location</mat-label>
+          <input matInput />
+        </mat-form-field>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="bg-primary" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="text-secondary"> Specialty </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field class="cell">
+          <mat-label>Select speciality</mat-label>
+          <mat-select>
+            @for(specialty of specialties; track specialty) {
+            <mat-option [value]="specialty">{{ specialty }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="bg-primary" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="text-secondary">
+            Availability
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field class="cell">
+          <mat-label>Select availability</mat-label>
+          <mat-select>
+            @for(availability of availabilities; track availability) {
+            <mat-option [value]="availability">{{ availability }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="bg-primary" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="text-secondary"> Visited </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p style="cursor: pointer" class="text-secondary">
+          Show already visited
+        </p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div class="dasbhoard-content">
+    <input
+      class="search-input"
+      matInput
+      placeholder="Search for doctors"
+      #input
+    />
+
+    @for(doctor of doctors; track doctor) {
+    <app-doctor-card [doctor]="doctor"></app-doctor-card>
+    }
+  </div>
+
+  <div class="chat-bot"></div>
+</div>

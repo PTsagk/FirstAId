@@ -6,7 +6,9 @@ import {
   createAppointment,
   deleteAppointment,
   getAppointments,
+  updateAppointment,
 } from "../routes/appointments";
+import { createNotification } from "../routes/notifications";
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI,
 });
@@ -18,7 +20,8 @@ async function runAssistant(
 ) {
   let run = null;
   try {
-    const todayMessage = " Todays date is " + moment().format("YYYY-MM-DD");
+    const todayMessage =
+      " Todays date and time is " + moment().format("YYYY-MM-DD hh:mm A");
     await openai.beta.threads.messages.create(threadId, {
       role: "user",
       content: question + todayMessage,
@@ -31,7 +34,8 @@ async function runAssistant(
     const doctorInfo = await doctors.findOne({ _id: new ObjectId(doctorId) });
     run = await openai.beta.threads.runs.create(threadId, {
       assistant_id: "asst_OXKvz1P7b3RhmadMUbBiz75V",
-      additional_instructions: "The doctors info is: " + doctorInfo,
+      additional_instructions:
+        "The doctors info is: " + JSON.stringify(doctorInfo),
     });
 
     let runStatus;
@@ -52,17 +56,25 @@ async function runAssistant(
             if (name === "getAppointments") {
               // result = await getAppointments(JSON.parse(args));
               const params = JSON.parse(args);
-              result = await getAppointments(params.doctorId, params.date);
+              result = await getAppointments(params?.doctorId, params?.date);
             } else if (name === "createAppointment") {
               const params = JSON.parse(args);
               params.duration = doctorInfo.appointmentDuration;
-              result = await createAppointment(params.doctorId, params);
+              params.doctorId = doctorInfo._id.toString();
+              result = await createAppointment(params?.doctorId, params);
+            } else if (name === "updateAppointment") {
+              const params = JSON.parse(args);
+              params.duration = doctorInfo.appointmentDuration;
+              result = await updateAppointment(params?.doctorId, params);
             } else if (name === "deleteAppointment") {
               const params = JSON.parse(args);
               result = await deleteAppointment(
                 params.doctorId,
                 params.appointmentId
               );
+            } else if (name === "createNotification") {
+              const params = JSON.parse(args);
+              result = await createNotification(params);
             } else {
               result = `No handler for function: ${name}`;
             }

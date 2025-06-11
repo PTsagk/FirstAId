@@ -47,7 +47,7 @@ router.get("/messages", async (req, res) => {
     }
     const threadId = doctorData.assistantThread;
     if (!threadId) {
-      return res.status(404).send("Assistant not found");
+      return res.json([]);
     }
     const messages = await getAssistantMessages(threadId);
     res.json(messages);

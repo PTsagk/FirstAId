@@ -8,6 +8,24 @@ router.post("/create", async (req, res) => {
     if (!notification) {
       return res.status(400).send("Invalid notification data");
     }
+    if (
+      !notification.date ||
+      !notification.time ||
+      !notification.to ||
+      !notification.fullname
+    ) {
+      return res.status(400).send("Missing required fields");
+    }
+    await createNotification(notification);
+    res.json("OK");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+const createNotification = async (notification) => {
+  try {
     const db = await getDB();
     const collection = db.collection("notification_emails");
     await collection.insertOne({
@@ -18,11 +36,11 @@ router.post("/create", async (req, res) => {
       patientNotes: notification.patientNotes,
       fullname: notification.fullname,
     });
-    res.json("OK");
+    return "Notification created successfully";
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    console.error("Error creating notification:", error);
+    throw new Error("Failed to create notification");
   }
-});
+};
 
-export default router;
+export { createNotification, router as default };
