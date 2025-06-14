@@ -56,7 +56,7 @@ const createAppointment = async (doctorId: string, appointmentInfo) => {
 // Update appointment
 const updateAppointment = async (doctorId, appointmentInfo) => {
   try {
-    if (!appointmentInfo || !appointmentInfo._id) {
+    if (!appointmentInfo && !appointmentInfo._id) {
       throw new Error("Invalid appointment data");
     }
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");

@@ -1,1 +1,64 @@
-<div class="doctor-card"></div>
+<!-- <div class="doctor-card">
+  <div style="display: flex">
+    <img src="../../../assets/user.png" alt="" class="doctor-image" />
+    <div class="doctor-info">
+      <h3>{{ doctor.name }}</h3>
+      <p>{{ doctor.specialty }}</p>
+    </div>
+  </div>
+  <div class="location">
+    <p>{{ doctor.location }}</p>
+  </div>
+
+  <div class="buttons">
+    <button mat-stroked-button class="bg-secondary text-primary">
+      Contact Info
+    </button>
+    <button mat-flat-button class="bg-primary text-secondary">
+      Chat <i class="fa-solid fa-robot"></i>
+    </button>
+  </div>
+</div> -->
+
+<mat-expansion-panel class="doctor-card-container" #panel disabled>
+  <mat-expansion-panel-header class="doctor-card">
+    <mat-panel-title>
+      <div style="display: flex">
+        <img src="../../../assets/user.png" alt="" class="doctor-image" />
+        <div class="doctor-info">
+          <h3>{{ doctor.name }}</h3>
+          <p>{{ doctor.profession }}</p>
+        </div>
+      </div>
+      <div class="location">
+        <p>{{ doctor.city }} {{ doctor.address }}</p>
+      </div>
+
+      <div class="buttons">
+        <button
+          mat-stroked-button
+          class="bg-secondary text-primary"
+          (click)="panel.toggle()"
+        >
+          Contact Info
+        </button>
+        <button
+          mat-flat-button
+          class="bg-primary text-secondary"
+          (click)="sidebarRef.toggle()"
+        >
+          Chat <i class="fa-solid fa-robot"></i>
+        </button>
+      </div>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="card-content">
+    <div class="info">
+      <div>
+        <span style="font-weight: bold">Email:</span> {{ doctor.email }}
+      </div>
+      <div><span style="font-weight: bold">Phone:</span> +30 6947689348</div>
+    </div>
+    <div class="map-placeholder"></div>
+  </div>
+</mat-expansion-panel>

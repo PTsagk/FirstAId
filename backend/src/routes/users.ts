@@ -77,6 +77,22 @@ router.get("/logout", (req: Request, res: Response) => {
   }
 });
 
+router.get(
+  "/doctors",
+  authenticateToken,
+  async (req: Request, res: Response) => {
+    try {
+      const db = await getDB();
+      const collection = db.collection("doctors");
+      const doctors = await collection.find({}).toArray();
+      res.json(doctors);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
+
 router.get("/", authenticateToken, async (req: Request, res: Response) => {
   try {
     const userType = req.user.userType;
