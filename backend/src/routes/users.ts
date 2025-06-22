@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const router = Express.Router();
 import { ObjectId } from "mongodb";
 import { authenticateToken } from "./auth";
-
+import { createThreadId, getAssistantMessages } from "../utils/openai";
 router.post("/:user/register", async (req, res) => {
   try {
     const userType = req.params.user;

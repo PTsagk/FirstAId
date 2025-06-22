@@ -8,7 +8,11 @@ import { ObjectId } from "mongodb";
 const router = Router();
 
 // Create appointment
-const createAppointment = async (doctorId: string, appointmentInfo) => {
+const createAppointment = async (
+  doctorId: string,
+  appointmentInfo,
+  assistant = false
+) => {
   try {
     if (!appointmentInfo) {
       throw new Error("Invalid appointment data");
@@ -29,7 +33,11 @@ const createAppointment = async (doctorId: string, appointmentInfo) => {
       },
     });
     if (existingAppointment) {
-      throw new Error("Appointment already exists for this time");
+      if (assistant) {
+        return "Appointment already exists for this time";
+      } else {
+        throw new Error("Appointment already exists for this time");
+      }
     }
     await appointmentCollection.insertOne(appointmentInfo);
     const reminderEmailsCollection = db.collection("reminder_emails");
@@ -54,7 +62,11 @@ const createAppointment = async (doctorId: string, appointmentInfo) => {
 };
 
 // Update appointment
-const updateAppointment = async (doctorId, appointmentInfo) => {
+const updateAppointment = async (
+  doctorId,
+  appointmentInfo,
+  assistant = false
+) => {
   try {
     if (!appointmentInfo && !appointmentInfo._id) {
       throw new Error("Invalid appointment data");
@@ -65,6 +77,26 @@ const updateAppointment = async (doctorId, appointmentInfo) => {
 
     const db = await getDB();
     const collection = db.collection("appointments");
+
+    // check if appointment exists at the same time
+    const existingAppointment = await collection.findOne({
+      doctorId: doctorId,
+      date: appointmentInfo.date,
+      time: {
+        $lte: moment(appointmentInfo.time)
+          .add(appointmentInfo.duration, "minutes")
+          .format("hh:mm A"),
+        $gte: appointmentInfo.time,
+      },
+      _id: { $ne: new ObjectId(appointmentId) }, // exclude the current appointment
+    });
+    if (existingAppointment) {
+      if (assistant) {
+        return "Appointment already exists for this time";
+      } else {
+        throw new Error("Appointment already exists for this time");
+      }
+    }
     await collection.updateOne(
       { _id: new ObjectId(appointmentId), doctorId: doctorId },
       { $set: appointmentInfo }
@@ -133,7 +165,7 @@ router.patch("/update", async (req: Request, res: Response) => {
     res.json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send(error?.message || "Internal Server Error");
   }
 });
 

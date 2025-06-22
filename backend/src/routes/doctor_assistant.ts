@@ -3,7 +3,7 @@ import { getDB } from "../utils/connect";
 const router = Express.Router();
 import { ObjectId } from "mongodb";
 import {
-  runAssistant,
+  runDoctorAssistant,
   getAssistantMessages,
   createThreadId,
   deleteThread,
@@ -24,9 +24,13 @@ router.post("/chat", async (req, res) => {
     let threadId = doctorData.assistantThread;
     if (!threadId) {
       // create a new thread for the doctor
-      threadId = await createThreadId(req.user.id);
+      threadId = await createThreadId();
+      await doctors.updateOne(
+        { _id: new ObjectId(req.user.id) },
+        { $set: { assistantThread: threadId } }
+      );
     }
-    const messages = await runAssistant(threadId, question, req.user.id);
+    const messages = await runDoctorAssistant(threadId, question, req.user.id);
     const message = messages.length > 0 ? messages.shift() : null;
     res.json(message);
   } catch (error) {
@@ -72,6 +76,10 @@ router.delete("/thread", async (req, res) => {
       return res.status(404).send("Assistant not found");
     }
     await deleteThread(threadId);
+    await doctors.updateOne(
+      { assistantThread: threadId },
+      { $unset: { assistantThread: "" } }
+    );
     res.json("OK");
   } catch (error) {
     console.error(error);

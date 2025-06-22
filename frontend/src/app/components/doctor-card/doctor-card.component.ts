@@ -19,5 +19,4 @@ export class DoctorCardComponent {
     available: boolean;
     email: string;
   };
-  @Input() sidebarRef: any;
 }

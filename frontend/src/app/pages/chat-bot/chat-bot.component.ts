@@ -31,7 +31,7 @@ export class ChatBotComponent implements OnInit {
       const params = { question: this.userMessage };
       this.userMessage = '';
       this.http
-        .post(`${environment.api_url + '/assistant/chat'}`, params, {
+        .post(`${environment.api_url + '/doctor-assistant/chat'}`, params, {
           withCredentials: true,
         })
         .subscribe(
@@ -57,7 +57,7 @@ export class ChatBotComponent implements OnInit {
     this.messages = [];
     this.pending = true;
     this.http
-      .get(`${environment.api_url + '/assistant/messages'}`, {
+      .get(`${environment.api_url + '/doctor-assistant/messages'}`, {
         withCredentials: true,
       })
       .subscribe((res: any) => {
@@ -83,7 +83,7 @@ export class ChatBotComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.http
-          .delete(`${environment.api_url + '/assistant/thread'}`, {
+          .delete(`${environment.api_url + '/doctor-assistant/thread'}`, {
             withCredentials: true,
           })
           .subscribe(() => {

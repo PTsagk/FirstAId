@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -7,6 +7,7 @@ import { DoctorCardComponent } from '../../components/doctor-card/doctor-card.co
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
 import { NgClass } from '@angular/common';
+import { marked } from 'marked';
 import {
   MatDrawer,
   MatDrawerContainer,
@@ -43,6 +44,7 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class UserDashboardComponent {
+  @ViewChild('sidebar', { static: true }) sidebar!: MatDrawer;
   specialties: string[] = [
     'Cardiology',
     'Dermatology',
@@ -62,84 +64,9 @@ export class UserDashboardComponent {
   allDoctors: any[] = [];
   doctors: any[] = [];
   availabilities: string[] = ['All', 'Open Now'];
-  messages = [
-    {
-      text: 'Search for doctors by name or specialty',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Select a doctor to view more details and book an appointment',
-      type: 'info',
-      role: 'bot',
-    },
-    {
-      text: 'Use the filters to narrow down your search results',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Search for doctors by name or specialty',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Select a doctor to view more details and book an appointment',
-      type: 'info',
-      role: 'bot',
-    },
-    {
-      text: 'Use the filters to narrow down your search results',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Search for doctors by name or specialty',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Select a doctor to view more details and book an appointment',
-      type: 'info',
-      role: 'bot',
-    },
-    {
-      text: 'Use the filters to narrow down your search results',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Search for doctors by name or specialty',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Select a doctor to view more details and book an appointment',
-      type: 'info',
-      role: 'bot',
-    },
-    {
-      text: 'Use the filters to narrow down your search results',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Search for doctors by name or specialty',
-      type: 'info',
-      role: 'user',
-    },
-    {
-      text: 'Select a doctor to view more details and book an appointment',
-      type: 'info',
-      role: 'bot',
-    },
-    {
-      text: 'Use the filters to narrow down your search results',
-      type: 'info',
-      role: 'user',
-    },
-  ];
-
+  messages: { text: string; role: string }[] = [];
+  selectedDoctor: any = {};
+  pending: boolean = false;
   messageForm!: FormGroup;
   constructor(private http: HttpClient, private fb: FormBuilder) {
     this.getDoctors();
@@ -170,6 +97,31 @@ export class UserDashboardComponent {
       });
   }
 
+  getMessages(doctorId?: string) {
+    this.messages = [];
+    this.pending = true;
+    this.http
+      .get(environment.api_url + `/patient-assistant/messages/` + doctorId, {
+        withCredentials: true,
+      })
+      .subscribe({
+        next: (res: any) => {
+          this.messages = res
+            .map((msg: any) => ({
+              text: marked(msg.content) as string,
+              role: msg.role,
+            }))
+            .reverse();
+          this.scrollToBottom();
+          this.pending = false;
+        },
+        error: (err) => {
+          console.error('Error fetching messages:', err);
+          this.pending = false;
+        },
+      });
+  }
+
   searchDoctors(input: string) {
     this.doctors = this.allDoctors
       .filter((doctor: any) => {
@@ -186,15 +138,49 @@ export class UserDashboardComponent {
   sendMessage(message: string) {
     this.messages.push({
       text: message,
-      type: 'user',
       role: 'user',
     });
+
     this.messages.push({
-      text: 'Searching for doctors...',
-      type: 'info',
-      role: 'bot',
+      text: 'loading',
+      role: 'assistant',
     });
+    this.http
+      .post(
+        environment.api_url +
+          '/patient-assistant/chat/' +
+          this.selectedDoctor._id,
+        { question: message },
+        { withCredentials: true }
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.messages.pop(); // Remove the loading message
+          this.messages.push({
+            text: marked(res.content) as string,
+            role: 'assistant',
+          });
+        },
+        error: (err) => {
+          this.messages.pop(); // Remove the loading message
+          this.messages.push({
+            text: 'Error: Unable to get response from the server.',
+            role: 'assistant',
+          });
+        },
+      });
     this.scrollToBottom();
+  }
+
+  openChat(doctor: any) {
+    if (this.selectedDoctor._id === doctor._id) {
+      this.sidebar.toggle();
+      return;
+    }
+    this.messages = [];
+    this.sidebar.open();
+    this.getMessages(doctor._id);
+    this.selectedDoctor = { ...doctor };
   }
 
   scrollToBottom() {
@@ -203,6 +189,6 @@ export class UserDashboardComponent {
       if (chatContainer) {
         chatContainer.scrollTop = chatContainer.scrollHeight;
       }
-    }, 100);
+    }, 1000);
   }
 }

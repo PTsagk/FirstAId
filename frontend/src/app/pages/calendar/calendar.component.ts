@@ -242,6 +242,18 @@ export class CalendarComponent implements OnInit {
               });
               this.appointmentService.refreshAppointments();
             },
+            error: (err: any) => {
+              this.snackBar.open(
+                'Error updating appointment: ' + err.error,
+                '',
+                {
+                  duration: 3000,
+                  verticalPosition: 'top',
+                  panelClass: ['snackbar-error'],
+                }
+              );
+              info.revert();
+            },
           });
       } else {
         info.revert();

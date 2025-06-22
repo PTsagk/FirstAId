@@ -79,29 +79,45 @@
           class="doctor-avatar"
         />
         <div class="doctor-details">
-          <h2>Dr. John Doe</h2>
-          <p>Cardiologist</p>
+          <h2>{{ selectedDoctor.name }}</h2>
+          <p>{{ selectedDoctor.profession }}</p>
         </div>
       </div>
       <div style="margin-top: 20px" class="messages-container">
-        @for(message of messages; track message.type) {
+        @if(pending){
+        <div class="loading">
+          <i
+            class="fa-solid fa-spinner fa-spin text-primary"
+            style="font-size: 30px"
+          ></i>
+        </div>
+        } @for(message of messages; track message.role) { @if(message.text ==
+        'loading' && message.role == 'assistant'){
+        <div class="loading-spinner">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+        </div>
+        } @if(message.text != 'loading'){
         <div class="message {{ message.role }}-message">
           <div class="message-content">
-            <span class="message-text">{{ message.text }}</span>
+            <span class="message-text" [innerHTML]="message.text"></span>
           </div>
         </div>
-        }
+        } }
       </div>
       <form
         [formGroup]="messageForm"
         class="input-container"
         (ngSubmit)="sendMessage(messageInput.value); messageInput.value = ''"
       >
-        <input
+        <textarea
+          name="message"
           #messageInput
           class="message-input"
           placeholder="Chat with Dr. John Doe AI Bot..."
-        />
+          (keyup.enter)="
+            sendMessage(messageInput.value); messageInput.value = ''
+          "
+        ></textarea>
         <button type="submit" class="send-button text-primary">
           <i class="fa-solid fa-paper-plane"></i>
         </button>
@@ -119,7 +135,7 @@
 
         @for(doctor of doctors; track doctor) {
         <app-doctor-card
-          [sidebarRef]="sidebar"
+          (click)="openChat(doctor)"
           [doctor]="doctor"
         ></app-doctor-card>
         }
