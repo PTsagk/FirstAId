@@ -183,6 +183,26 @@ export class UserDashboardComponent {
     this.selectedDoctor = { ...doctor };
   }
 
+  deleteThread() {
+    this.http
+      .delete(
+        environment.api_url +
+          '/patient-assistant/thread/' +
+          this.selectedDoctor._id,
+        { withCredentials: true }
+      )
+      .subscribe({
+        next: () => {
+          this.messages = [];
+          this.selectedDoctor = {};
+          this.sidebar.close();
+        },
+        error: (err) => {
+          console.error('Error deleting thread:', err);
+        },
+      });
+  }
+
   scrollToBottom() {
     setTimeout(() => {
       const chatContainer = document.querySelector('.messages-container');

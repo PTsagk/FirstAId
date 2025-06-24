@@ -56,7 +56,11 @@ async function runDoctorAssistant(
             // Handle specific function call
             if (name === "getAppointments") {
               // result = await getAppointments(JSON.parse(args));
-              result = await getAppointments(params?.doctorId, params?.date);
+              result = await getAppointments(
+                params?.doctorId,
+                params?.date,
+                true
+              );
             } else if (name === "createAppointment") {
               params.duration = doctorInfo.appointmentDuration;
               result = await createAppointment(params?.doctorId, params, true);
@@ -140,7 +144,7 @@ async function runPatientAssistant(
     });
     const db = await getDB();
     const doctors = db.collection("doctors");
-    const patients = db.collection("users");
+    const patients = db.collection("patients");
     const doctorInfo = await doctors.findOne({ _id: new ObjectId(doctorId) });
     const patientInfo = await patients.findOne({ _id: new ObjectId(userId) });
     run = await openai.beta.threads.runs.create(threadId, {
@@ -171,17 +175,23 @@ async function runPatientAssistant(
               // result = await getAppointments(JSON.parse(args));
               const params = JSON.parse(args);
               result = await getAppointments(doctorId, params?.date);
+              result =
+                `These appointments already exist for the date ${params?.date}: ` +
+                JSON.stringify(result);
             } else if (name === "createAppointment") {
               const params = JSON.parse(args);
               params.duration = doctorInfo.appointmentDuration;
-              result = await createAppointment(doctorId, params);
+              result = await createAppointment(doctorId, params, true);
+              result = JSON.stringify(result);
             } else if (name === "updateAppointment") {
               const params = JSON.parse(args);
               params.duration = doctorInfo.appointmentDuration;
-              result = await updateAppointment(doctorId, params);
+              result = await updateAppointment(doctorId, params, true);
+              result = JSON.stringify(result);
             } else if (name === "deleteAppointment") {
               const params = JSON.parse(args);
               result = await deleteAppointment(doctorId, params.appointmentId);
+              result = JSON.stringify(result);
             } else if (name === "createNotification") {
               const params = JSON.parse(args);
               result = await createNotification(params);

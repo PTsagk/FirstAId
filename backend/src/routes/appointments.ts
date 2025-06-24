@@ -130,12 +130,16 @@ const deleteAppointment = async (doctorId, appointmentId) => {
 };
 
 // Get appointments
-const getAppointments = async (doctorId: string, date?: string) => {
+const getAppointments = async (
+  doctorId: string,
+  date?: string,
+  assistant: boolean = false
+) => {
   try {
     const db = await getDB();
     const collection = db.collection("appointments");
     const searchQuery: any = { doctorId: doctorId };
-    if (date) searchQuery.date = date;
+    if (date && !assistant) searchQuery.date = date;
 
     const appointments = await collection.find(searchQuery).toArray();
     return appointments;

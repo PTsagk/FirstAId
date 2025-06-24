@@ -81,6 +81,11 @@
         <div class="doctor-details">
           <h2>{{ selectedDoctor.name }}</h2>
           <p>{{ selectedDoctor.profession }}</p>
+          <i
+            (click)="deleteThread()"
+            style="padding: 5px; color: rgb(180, 35, 35)"
+            class="fa-solid fa-trash-can cursor-pointer"
+          ></i>
         </div>
       </div>
       <div style="margin-top: 20px" class="messages-container">
