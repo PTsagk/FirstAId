@@ -26,10 +26,10 @@ const createAppointment = async (
       doctorId: appointmentInfo.doctorId,
       date: appointmentInfo.date,
       time: {
-        $lte: moment(appointmentInfo.time)
+        $lt: moment(appointmentInfo.time)
           .add(appointmentInfo.duration, "minutes")
-          .format("hh:mm A"),
-        $gte: appointmentInfo.time,
+          .format("HH:mm"),
+        $gte: moment(appointmentInfo.time).format("HH:mm"),
       },
     });
     if (existingAppointment) {
@@ -79,16 +79,15 @@ const updateAppointment = async (
     const collection = db.collection("appointments");
 
     // check if appointment exists at the same time
+    // Check if there is any appointment within 50 minutes before or after the new time (excluding the current appointment)
+    const startTime = moment(appointmentInfo.time, 'hh:mm A').subtract(50, "minutes").format("HH:mm");
+    const endTime = moment(appointmentInfo.time, 'hh:mm A').add(50, "minutes").format("HH:mm");
+
     const existingAppointment = await collection.findOne({
       doctorId: doctorId,
       date: appointmentInfo.date,
-      time: {
-        $lte: moment(appointmentInfo.time)
-          .add(appointmentInfo.duration, "minutes")
-          .format("hh:mm A"),
-        $gte: appointmentInfo.time,
-      },
-      _id: { $ne: new ObjectId(appointmentId) }, // exclude the current appointment
+      time: { $gte: startTime, $lte: endTime },
+      _id: { $ne: new ObjectId(appointmentId) },
     });
     if (existingAppointment) {
       if (assistant) {
