@@ -23,18 +23,22 @@ const createAppointment = async (
     const db = await getDB();
     // get doctor info
     const doctorCollection = db.collection("doctors");
-    const doctor = await doctorCollection.findOne({ _id: new ObjectId(doctorId) });
+    const doctor = await doctorCollection.findOne({
+      _id: new ObjectId(doctorId),
+    });
     const workingStart = moment(doctor.workingStartTime, "hh:mm A");
     const workingEnd = moment(doctor.workingEndTime, "hh:mm A");
     const appointmentTime = moment(appointmentInfo.time, "hh:mm A");
     if (
-      appointmentTime.isBefore(workingStart) ||
-      appointmentTime.isAfter(workingEnd)
+     ( appointmentTime.isBefore(workingStart) ||
+      appointmentTime.isAfter(workingEnd) && appointmentInfo.severity == 'appointment')
     ) {
       if (assistant) {
         return "Appointment time is outside of doctor's working hours";
       } else {
-        throw new Error("Appointment time is outside of doctor's working hours");
+        throw new Error(
+          "Appointment time is outside of doctor's working hours"
+        );
       }
     }
     const appointmentCollection = db.collection("appointments");
@@ -94,25 +98,32 @@ const updateAppointment = async (
     const db = await getDB();
 
     const doctorCollection = db.collection("doctors");
-    const doctor = await doctorCollection.findOne({ _id: new ObjectId(doctorId) });
+    const doctor = await doctorCollection.findOne({
+      _id: new ObjectId(doctorId),
+    });
     const workingStart = moment(doctor.workingStartTime, "hh:mm A");
     const workingEnd = moment(doctor.workingEndTime, "hh:mm A");
     const appointmentTime = moment(appointmentInfo.time, "hh:mm A");
     if (
-      appointmentTime.isBefore(workingStart) ||
-      appointmentTime.isAfter(workingEnd)
+      (appointmentTime.isBefore(workingStart) ||
+      appointmentTime.isAfter(workingEnd)) && appointmentInfo.severity == 'appointment'
     ) {
       if (assistant) {
         return "Appointment time is outside of doctor's working hours";
       } else {
-        throw new Error("Appointment time is outside of doctor's working hours");
+        throw new Error(
+          "Appointment time is outside of doctor's working hours"
+        );
       }
     }
     const collection = db.collection("appointments");
 
-    
-    const startTime = moment(appointmentInfo.time, 'hh:mm A').subtract(50, "minutes").format("HH:mm");
-    const endTime = moment(appointmentInfo.time, 'hh:mm A').add(50, "minutes").format("HH:mm");
+    const startTime = moment(appointmentInfo.time, "hh:mm A")
+      .subtract(50, "minutes")
+      .format("HH:mm");
+    const endTime = moment(appointmentInfo.time, "hh:mm A")
+      .add(50, "minutes")
+      .format("HH:mm");
 
     const existingAppointment = await collection.findOne({
       doctorId: doctorId,
@@ -179,6 +190,48 @@ const getAppointments = async (
   }
 };
 
+const getAvailableHours = async (doctorId: string, date: string, severity: string = 'appointment') => {
+  try {
+    const db = await getDB();
+    const doctorCollection = db.collection("doctors");
+    const doctor = await doctorCollection.findOne({
+      _id: new ObjectId(doctorId),
+    });
+    if (!doctor) {
+      return "Doctor not found";
+    }
+    const workingStart = moment(doctor.workingStartTime, "hh:mm A");
+    let workingEnd = moment(doctor.workingEndTime, "hh:mm A");
+    if(severity === 'emergency' || severity === 'critical') {
+      workingEnd = moment(workingEnd).add(2, "hours");
+    }
+    const appointmentCollection = db.collection("appointments");
+    const appointments = await appointmentCollection
+      .find({
+        doctorId: doctorId,
+        date: moment(date).format("YYYY-MM-DD"),
+      })
+      .toArray();
+    const availableHours = [];
+    let currentTime = workingStart.clone();
+    while (currentTime.isBefore(workingEnd)) {
+      const timeString = currentTime.format("hh:mm A");
+      const isBooked = appointments.some((appointment) => {
+        const appointmentTime = moment(appointment.time, "hh:mm A");
+        return appointmentTime.isSame(currentTime, "minute");
+      });
+      if (!isBooked) {
+        availableHours.push(timeString);
+      }
+      currentTime.add(doctor.appointmentDuration, "minutes");
+    }
+    return availableHours;
+  } catch (error) {
+    console.error("Error fetching available hours:", error);
+    throw error;
+  }
+};
+
 // Route handlers
 router.post("/create", async (req: Request, res: Response) => {
   try {
@@ -234,11 +287,26 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/available-hours", async (req: Request, res: Response) => {
+  try {
+    const doctorId = req.user.id;
+    const date = req.query.date as string;
+    if (!date) {
+      return res.status(400).send("Date is required");
+    }
+    const availableHours = await getAvailableHours(doctorId, date);
+    res.json(availableHours);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 // Export all functions and the router
 export {
   createAppointment,
   updateAppointment,
   deleteAppointment,
   getAppointments,
+  getAvailableHours,
   router as default,
 };

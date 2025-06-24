@@ -6,6 +6,7 @@ import {
   createAppointment,
   deleteAppointment,
   getAppointments,
+  getAvailableHours,
   updateAppointment,
 } from "../routes/appointments";
 import { createNotification } from "../routes/notifications";
@@ -147,20 +148,13 @@ async function runPatientAssistant(
     const patients = db.collection("patients");
     const doctorInfo = await doctors.findOne({ _id: new ObjectId(doctorId) });
     const patientInfo = await patients.findOne({ _id: new ObjectId(userId) });
-    const appointmentInfo = await getAppointments(
-      doctorId,
-      null,
-      true
-    );
     run = await openai.beta.threads.runs.create(threadId, {
-      assistant_id: "asst_OXKvz1P7b3RhmadMUbBiz75V",
+      assistant_id: "asst_YhszAb0grob0xcPbgF56r3Xm",
       additional_instructions:
         "The doctors info is: " +
         JSON.stringify(doctorInfo) +
         ". The patients info are: " +
         JSON.stringify({ patientInfo })+
-        ". The doctor's appointment info are: " +
-        JSON.stringify(appointmentInfo)+
         todayMessage,
     });
 
@@ -182,9 +176,9 @@ async function runPatientAssistant(
             if (name === "getAppointments") {
               // result = await getAppointments(JSON.parse(args));
               const params = JSON.parse(args);
-              result = await getAppointments(doctorId, params?.date);
+              result = await getAvailableHours(doctorId, params?.date, params?.severity);
               result =
-                `These appointments already exist for the date ${params?.date}: ` +
+                `The available hours for appointments for the date ${params?.date} are: ` +
                 JSON.stringify(result);
             } else if (name === "createAppointment") {
               const params = JSON.parse(args);
