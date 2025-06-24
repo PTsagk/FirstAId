@@ -137,7 +137,7 @@ async function runPatientAssistant(
       " Todays date and time is " + moment().format("YYYY-MM-DD hh:mm A");
     await openai.beta.threads.messages.create(threadId, {
       role: "user",
-      content: question + todayMessage,
+      content: question,
       metadata: {
         today: todayMessage,
       },
@@ -147,13 +147,21 @@ async function runPatientAssistant(
     const patients = db.collection("patients");
     const doctorInfo = await doctors.findOne({ _id: new ObjectId(doctorId) });
     const patientInfo = await patients.findOne({ _id: new ObjectId(userId) });
+    const appointmentInfo = await getAppointments(
+      doctorId,
+      null,
+      true
+    );
     run = await openai.beta.threads.runs.create(threadId, {
       assistant_id: "asst_OXKvz1P7b3RhmadMUbBiz75V",
       additional_instructions:
         "The doctors info is: " +
         JSON.stringify(doctorInfo) +
         ". The patients info are: " +
-        JSON.stringify({ patientInfo }),
+        JSON.stringify({ patientInfo })+
+        ". The doctor's appointment info are: " +
+        JSON.stringify(appointmentInfo)+
+        todayMessage,
     });
 
     let runStatus;

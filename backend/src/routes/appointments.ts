@@ -21,6 +21,22 @@ const createAppointment = async (
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
     appointmentInfo.status = "pending";
     const db = await getDB();
+    // get doctor info
+    const doctorCollection = db.collection("doctors");
+    const doctor = await doctorCollection.findOne({ _id: new ObjectId(doctorId) });
+    const workingStart = moment(doctor.workingStartTime, "hh:mm A");
+    const workingEnd = moment(doctor.workingEndTime, "hh:mm A");
+    const appointmentTime = moment(appointmentInfo.time, "hh:mm A");
+    if (
+      appointmentTime.isBefore(workingStart) ||
+      appointmentTime.isAfter(workingEnd)
+    ) {
+      if (assistant) {
+        return "Appointment time is outside of doctor's working hours";
+      } else {
+        throw new Error("Appointment time is outside of doctor's working hours");
+      }
+    }
     const appointmentCollection = db.collection("appointments");
     const existingAppointment = await appointmentCollection.findOne({
       doctorId: appointmentInfo.doctorId,
@@ -76,10 +92,25 @@ const updateAppointment = async (
     delete appointmentInfo._id;
 
     const db = await getDB();
+
+    const doctorCollection = db.collection("doctors");
+    const doctor = await doctorCollection.findOne({ _id: new ObjectId(doctorId) });
+    const workingStart = moment(doctor.workingStartTime, "hh:mm A");
+    const workingEnd = moment(doctor.workingEndTime, "hh:mm A");
+    const appointmentTime = moment(appointmentInfo.time, "hh:mm A");
+    if (
+      appointmentTime.isBefore(workingStart) ||
+      appointmentTime.isAfter(workingEnd)
+    ) {
+      if (assistant) {
+        return "Appointment time is outside of doctor's working hours";
+      } else {
+        throw new Error("Appointment time is outside of doctor's working hours");
+      }
+    }
     const collection = db.collection("appointments");
 
-    // check if appointment exists at the same time
-    // Check if there is any appointment within 50 minutes before or after the new time (excluding the current appointment)
+    
     const startTime = moment(appointmentInfo.time, 'hh:mm A').subtract(50, "minutes").format("HH:mm");
     const endTime = moment(appointmentInfo.time, 'hh:mm A').add(50, "minutes").format("HH:mm");
 
