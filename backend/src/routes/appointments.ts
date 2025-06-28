@@ -49,7 +49,7 @@ const createAppointment = async (
         $lt: moment(appointmentInfo.time)
           .add(appointmentInfo.duration, "minutes")
           .format("HH:mm"),
-        $gte: moment(appointmentInfo.time).format("HH:mm"),
+        $gt: moment(appointmentInfo.time).format("HH:mm"),
       },
     });
     if (existingAppointment) {
@@ -128,7 +128,7 @@ const updateAppointment = async (
     const existingAppointment = await collection.findOne({
       doctorId: doctorId,
       date: appointmentInfo.date,
-      time: { $gte: startTime, $lte: endTime },
+      time: { $gt: startTime, $lt: endTime },
       _id: { $ne: new ObjectId(appointmentId) },
     });
     if (existingAppointment) {
@@ -200,6 +200,14 @@ const getAvailableHours = async (doctorId: string, date: string, severity: strin
     if (!doctor) {
       return "Doctor not found";
     }
+    // check if day is in working days
+    const appointmentDate = moment(date);
+    const appointmentDay = appointmentDate.format("dddd"); // e.g. "Monday"
+    if (!doctor.workingDays.includes(appointmentDay)) {
+      return "Doctor is not working on this day";
+    }
+
+    // check working hours
     const workingStart = moment(doctor.workingStartTime, "hh:mm A");
     let workingEnd = moment(doctor.workingEndTime, "hh:mm A");
     if(severity === 'emergency' || severity === 'critical') {
