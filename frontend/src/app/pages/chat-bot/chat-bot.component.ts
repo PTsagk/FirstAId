@@ -38,7 +38,9 @@ export class ChatBotComponent implements OnInit {
           (res: any) => {
             this.messages.pop(); // Remove the loading message
             this.messages.push({
-              text: marked(res.content) as string,
+              text: marked(
+                res.role == 'assistant' ? res.content.message_text : res.content
+              ) as string,
               sender: 'bot',
             });
           },
@@ -63,7 +65,9 @@ export class ChatBotComponent implements OnInit {
       .subscribe((res: any) => {
         this.pending = false;
         this.messages = res.map((msg: any) => ({
-          text: marked(msg.content) as string,
+          text: marked(
+            msg.role == 'assistant' ? msg.content?.message_text : msg.content
+          ) as string,
           sender: msg.role === 'user' ? 'user' : 'bot',
         }));
         this.messages.reverse();

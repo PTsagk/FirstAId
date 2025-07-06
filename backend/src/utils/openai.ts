@@ -105,8 +105,16 @@ async function runDoctorAssistant(
     const messages = await openai.beta.threads.messages.list(threadId);
     const response = messages.data.map((msg: any) => {
       let content = msg.content[0]?.text.value;
+      if (msg.role === "assistant") content = JSON.parse(content);
       if (msg.metadata && msg.metadata.today) {
-        content = content.replace(msg.metadata.today, "");
+        if (msg.role === "assistant") {
+          content.message_text = content.message_text.replace(
+            msg.metadata.today,
+            ""
+          );
+        } else if (msg.role === "user") {
+          content = content.replace(msg.metadata.today, "");
+        }
       }
       return {
         role: msg.role,
@@ -154,7 +162,7 @@ async function runPatientAssistant(
         "The doctors info is: " +
         JSON.stringify(doctorInfo) +
         ". The patients info are: " +
-        JSON.stringify({ patientInfo })+
+        JSON.stringify({ patientInfo }) +
         todayMessage,
     });
 
@@ -176,7 +184,11 @@ async function runPatientAssistant(
             if (name === "getAppointments") {
               // result = await getAppointments(JSON.parse(args));
               const params = JSON.parse(args);
-              result = await getAvailableHours(doctorId, params?.date, params?.severity);
+              result = await getAvailableHours(
+                doctorId,
+                params?.date,
+                params?.severity
+              );
               result =
                 `The available hours for appointments for the date ${params?.date} are: ` +
                 JSON.stringify(result);
@@ -227,8 +239,17 @@ async function runPatientAssistant(
     const messages = await openai.beta.threads.messages.list(threadId);
     const response = messages.data.map((msg: any) => {
       let content = msg.content[0]?.text.value;
+      if (msg.role === "assistant") content = JSON.parse(content);
+
       if (msg.metadata && msg.metadata.today) {
-        content = content.replace(msg.metadata.today, "");
+        if (msg.role === "assistant") {
+          content.message_text = content.message_text.replace(
+            msg.metadata.today,
+            ""
+          );
+        } else if (msg.role === "user") {
+          content = content.replace(msg.metadata.today, "");
+        }
       }
       return {
         role: msg.role,
@@ -253,8 +274,17 @@ async function getAssistantMessages(threadId: string) {
     const messages = await openai.beta.threads.messages.list(threadId);
     const response = messages.data.map((msg: any) => {
       let content = msg.content[0]?.text.value;
+      if (msg.role === "assistant") content = JSON.parse(content);
+
       if (msg.metadata && msg.metadata.today) {
-        content = content.replace(msg.metadata.today, "");
+        if (msg.role === "assistant") {
+          content.message_text = content.message_text.replace(
+            msg.metadata.today,
+            ""
+          );
+        } else if (msg.role === "user") {
+          content = content.replace(msg.metadata.today, "");
+        }
       }
       return {
         role: msg.role,

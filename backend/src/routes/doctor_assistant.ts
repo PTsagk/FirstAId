@@ -31,7 +31,7 @@ router.post("/chat", async (req, res) => {
       );
     }
     const messages = await runDoctorAssistant(threadId, question, req.user.id);
-    const message = messages.length > 0 ? messages.shift() : null;
+    let message = messages.length > 0 ? messages.shift() : null;
     res.json(message);
   } catch (error) {
     console.error(error);

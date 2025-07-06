@@ -108,7 +108,11 @@ export class UserDashboardComponent {
         next: (res: any) => {
           this.messages = res
             .map((msg: any) => ({
-              text: marked(msg.content) as string,
+              text: marked(
+                msg.role == 'assistant'
+                  ? msg.content?.message_text
+                  : msg.content
+              ) as string,
               role: msg.role,
             }))
             .reverse();
@@ -157,7 +161,9 @@ export class UserDashboardComponent {
         next: (res: any) => {
           this.messages.pop(); // Remove the loading message
           this.messages.push({
-            text: marked(res.content) as string,
+            text: marked(
+              res.role == 'assistant' ? res.content?.message_text : res.content
+            ) as string,
             role: 'assistant',
           });
         },
