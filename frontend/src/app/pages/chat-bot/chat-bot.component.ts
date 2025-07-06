@@ -1,5 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NgModel, FormsModule } from '@angular/forms';
 import { environment } from '../../../environment/environment';
 import { MatIcon } from '@angular/material/icon';
@@ -7,6 +14,8 @@ import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDlgComponent } from '../../dialogs/confirmation-dlg/confirmation-dlg.component';
 import { marked } from 'marked';
+import { Chart, registerables } from 'chart.js';
+
 @Component({
   selector: 'app-chat-bot',
   standalone: true,
@@ -14,15 +23,30 @@ import { marked } from 'marked';
   styleUrls: ['./chat-bot.component.scss'],
   imports: [FormsModule, MatIcon, MatButton],
 })
-export class ChatBotComponent implements OnInit {
-  messages: { text: string; sender: string }[] = [];
+export class ChatBotComponent implements OnInit, AfterViewInit {
+  @ViewChild('myChart', { static: true }) chartRef!: ElementRef;
+
+  messages: { id?: string; text: string; sender: string; chartData?: any }[] =
+    [];
   userMessage = '';
   pending: boolean = false;
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(
+    private http: HttpClient,
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef
+  ) {}
+
+  get ChartId(): string {
+    return Math.random().toString(36).substr(2, 9); // Return a unique ID for the chart
+  }
 
   ngOnInit() {
+    Chart.register(...registerables); // Register all required chart components
+
     this.getMessages();
   }
+
+  ngAfterViewInit(): void {}
   sendMessage() {
     if (this.userMessage.trim()) {
       this.messages.push({ text: this.userMessage, sender: 'user' });
@@ -42,7 +66,12 @@ export class ChatBotComponent implements OnInit {
                 res.role == 'assistant' ? res.content.message_text : res.content
               ) as string,
               sender: 'bot',
+              chartData: res.content?.chart_data,
+              id: Math.random().toString(36).substr(2, 9), // Generate a unique ID for the chart
             });
+            this.cd.detectChanges(); // Ensure the view is updated
+            this.initializeCharts([this.messages[this.messages.length - 1]]); // Initialize charts after new message is added
+            this.scrollToBottom(); // Scroll to the bottom after adding the new message
           },
           (err) => {
             this.messages.pop(); // Remove the loading message
@@ -69,9 +98,12 @@ export class ChatBotComponent implements OnInit {
             msg.role == 'assistant' ? msg.content?.message_text : msg.content
           ) as string,
           sender: msg.role === 'user' ? 'user' : 'bot',
+          chartData: msg.content?.chart_data || null,
+          id: msg.id,
         }));
         this.messages.reverse();
         this.scrollToBottom();
+        this.initializeCharts(this.messages);
       });
   }
 
@@ -105,5 +137,19 @@ export class ChatBotComponent implements OnInit {
         chatContainer.scrollTop = chatContainer.scrollHeight;
       }
     }, 100);
+  }
+  initializeCharts(messages: any): void {
+    this.cd.detectChanges(); // Ensure the view is updated before accessing DOM elements
+    messages.forEach((message: any) => {
+      if (message?.chartData) {
+        const chartId = message.id as string;
+        const chartElement = document.getElementById(
+          chartId
+        ) as HTMLCanvasElement | null;
+        if (chartElement && chartElement instanceof HTMLCanvasElement) {
+          new Chart(chartElement, message.chartData);
+        }
+      }
+    });
   }
 }

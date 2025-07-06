@@ -54,6 +54,11 @@
         </div>
         } @if(message.text != 'loading'){
         <p [innerHTML]="message.text"></p>
+        } @if(message?.chartData){
+        <canvas
+          id="{{ message.id }}"
+          style="position: relative; height: 200px; width: 100%; margin: auto"
+        ></canvas>
         }
       </div>
       } } @if(pending){
