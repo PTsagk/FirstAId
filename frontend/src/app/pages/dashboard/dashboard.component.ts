@@ -4,6 +4,7 @@ import { PatientListComponent } from '../../components/patient-list/patient-list
 import { CalendarComponent } from '../calendar/calendar.component';
 import { AppointmentService } from '../../../services/appointment.service';
 import { MatButton } from '@angular/material/button';
+import moment from 'moment';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -29,8 +30,11 @@ export class DashboardComponent {
       appointments.forEach(
         (appointment: {
           severity: 'appointment' | 'emergency' | 'critical';
+          date: string;
         }) => {
-          this.counts[appointment.severity]++;
+          if (moment(appointment.date).isSame(moment(), 'day')) {
+            this.counts[appointment.severity]++;
+          }
         }
       );
     });
