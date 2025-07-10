@@ -1,7 +1,13 @@
 import { NgClass } from '@angular/common';
-import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  Input,
+  Inject,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CreateAppointmentComponent } from '../create-appointment/create-appointment.component';
@@ -49,6 +55,7 @@ export class PatientListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Input() today: boolean = false;
+  @Input() labelSearch: string = '';
   isHistory: boolean = false;
   constructor(
     private dialog: MatDialog,
@@ -79,6 +86,17 @@ export class PatientListComponent implements AfterViewInit {
         if (this.isHistory) {
           appointments = appointments.filter(
             (appointment: Appointment) => appointment.status === 'completed'
+          );
+        }
+
+        if (this.labelSearch) {
+          appointments = appointments.filter((appointment: Appointment) =>
+            Object.keys(appointment).some(
+              (key) =>
+                appointment[key as keyof Appointment]
+                  ?.toString()
+                  .toLowerCase() === this.labelSearch?.toLowerCase()
+            )
           );
         }
         this.patients = appointments;

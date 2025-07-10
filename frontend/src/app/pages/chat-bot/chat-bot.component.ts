@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDlgComponent } from '../../dialogs/confirmation-dlg/confirmation-dlg.component';
 import { marked } from 'marked';
 import { Chart, registerables } from 'chart.js';
+import { PatientListComponent } from '../../components/patient-list/patient-list.component';
 
 @Component({
   selector: 'app-chat-bot',
@@ -142,12 +143,39 @@ export class ChatBotComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges(); // Ensure the view is updated before accessing DOM elements
     messages.forEach((message: any) => {
       if (message?.chartData) {
+        const configuration = message.chartData;
+        // add begin at zero true
+        configuration.options = {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+          onClick: (event: any, elements: any, chart: Chart) => {
+            if (elements.length > 0) {
+              const firstPoint = elements[0];
+              const label = chart.data.labels?.[firstPoint.index];
+              const value =
+                chart.data.datasets[firstPoint.datasetIndex].data[
+                  firstPoint.index
+                ];
+              console.log(`Clicked on ${label}: ${value}`);
+              const dialogRef = this.dialog.open(PatientListComponent, {
+                width: '1000px',
+                data: {
+                  title: `Data for ${label}`,
+                },
+              });
+              dialogRef.componentInstance.labelSearch = label as string; // Pass the label to the component
+            }
+          },
+        };
         const chartId = message.id as string;
         const chartElement = document.getElementById(
           chartId
         ) as HTMLCanvasElement | null;
         if (chartElement && chartElement instanceof HTMLCanvasElement) {
-          new Chart(chartElement, message.chartData);
+          new Chart(chartElement, configuration);
         }
       }
     });
