@@ -30,8 +30,9 @@ const createAppointment = async (
     const workingEnd = moment(doctor.workingEndTime, "hh:mm A");
     const appointmentTime = moment(appointmentInfo.time, "hh:mm A");
     if (
-     ( appointmentTime.isBefore(workingStart) ||
-      appointmentTime.isAfter(workingEnd) && appointmentInfo.severity == 'appointment')
+      appointmentTime.isBefore(workingStart) ||
+      (appointmentTime.isAfter(workingEnd) &&
+        appointmentInfo.severity == "appointment")
     ) {
       if (assistant) {
         return "Appointment time is outside of doctor's working hours";
@@ -42,21 +43,50 @@ const createAppointment = async (
       }
     }
     const appointmentCollection = db.collection("appointments");
+    const appointmentStart = moment(appointmentInfo.time, "hh:mm A");
+    const appointmentEnd = appointmentStart
+      .clone()
+      .add(appointmentInfo.duration, "minutes");
+
     const existingAppointment = await appointmentCollection.findOne({
       doctorId: appointmentInfo.doctorId,
       date: appointmentInfo.date,
       time: {
-        $lt: moment(appointmentInfo.time)
-          .add(appointmentInfo.duration, "minutes")
-          .format("HH:mm"),
-        $gt: moment(appointmentInfo.time).format("HH:mm"),
+        $gte: appointmentStart.format("hh:mm A"),
+        $lt: appointmentEnd.format("hh:mm A"),
       },
     });
-    if (existingAppointment) {
+    if (existingAppointment && appointmentInfo.severity != "critical") {
       if (assistant) {
         return "Appointment already exists for this time";
       } else {
         throw new Error("Appointment already exists for this time");
+      }
+    }
+    if (existingAppointment && appointmentInfo.severity == "critical") {
+      // move all appointments after this time by 50 minutes
+      const nextAppointments = await appointmentCollection
+        .find({
+          doctorId: appointmentInfo.doctorId,
+          date: appointmentInfo.date,
+          time: {
+            $gte: appointmentInfo.time,
+          },
+        })
+        .toArray();
+      for (const nextAppointment of nextAppointments) {
+        const newTime = moment(nextAppointment.time, "hh:mm A")
+          .add(nextAppointment.duration, "minutes")
+          .format("hh:mm A");
+        await appointmentCollection.updateOne(
+          { _id: nextAppointment._id },
+          { $set: { time: newTime } }
+        );
+        await sendEmail("template_asoqqkh", nextAppointment.email, {
+          fullname: nextAppointment.fullname,
+          date: nextAppointment.date,
+          time: newTime,
+        });
       }
     }
     await appointmentCollection.insertOne(appointmentInfo);
@@ -92,7 +122,7 @@ const updateAppointment = async (
       throw new Error("Invalid appointment data");
     }
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
-    const appointmentId = appointmentInfo._id;
+    const appointmentId = appointmentInfo._id || appointmentInfo.appointmentId;
     delete appointmentInfo._id;
 
     const db = await getDB();
@@ -106,7 +136,8 @@ const updateAppointment = async (
     const appointmentTime = moment(appointmentInfo.time, "hh:mm A");
     if (
       (appointmentTime.isBefore(workingStart) ||
-      appointmentTime.isAfter(workingEnd)) && appointmentInfo.severity == 'appointment'
+        appointmentTime.isAfter(workingEnd)) &&
+      appointmentInfo.severity == "appointment"
     ) {
       if (assistant) {
         return "Appointment time is outside of doctor's working hours";
@@ -118,18 +149,18 @@ const updateAppointment = async (
     }
     const collection = db.collection("appointments");
 
-    const startTime = moment(appointmentInfo.time, "hh:mm A")
-      .subtract(50, "minutes")
-      .format("HH:mm");
+    const startTime = moment(appointmentInfo.time, "hh:mm A").format("hh:mm A");
     const endTime = moment(appointmentInfo.time, "hh:mm A")
       .add(50, "minutes")
-      .format("HH:mm");
+      .format("hh:mm A");
 
     const existingAppointment = await collection.findOne({
-      doctorId: doctorId,
+      doctorId: appointmentInfo.doctorId,
       date: appointmentInfo.date,
-      time: { $gt: startTime, $lt: endTime },
-      _id: { $ne: new ObjectId(appointmentId) },
+      time: {
+        $gte: startTime,
+        $lt: endTime,
+      },
     });
     if (existingAppointment) {
       if (assistant) {
@@ -190,7 +221,11 @@ const getAppointments = async (
   }
 };
 
-const getAvailableHours = async (doctorId: string, date: string, severity: string = 'appointment') => {
+const getAvailableHours = async (
+  doctorId: string,
+  date: string,
+  severity: string = "appointment"
+) => {
   try {
     const db = await getDB();
     const doctorCollection = db.collection("doctors");
@@ -210,7 +245,7 @@ const getAvailableHours = async (doctorId: string, date: string, severity: strin
     // check working hours
     const workingStart = moment(doctor.workingStartTime, "hh:mm A");
     let workingEnd = moment(doctor.workingEndTime, "hh:mm A");
-    if(severity === 'emergency' || severity === 'critical') {
+    if (severity === "emergency" || severity === "critical") {
       workingEnd = moment(workingEnd).add(2, "hours");
     }
     const appointmentCollection = db.collection("appointments");
@@ -228,7 +263,15 @@ const getAvailableHours = async (doctorId: string, date: string, severity: strin
         const appointmentTime = moment(appointment.time, "hh:mm A");
         return appointmentTime.isSame(currentTime, "minute");
       });
-      if (!isBooked) {
+      if (
+        !isBooked ||
+        (severity === "critical" &&
+          !appointments.some(
+            (appointment) =>
+              appointment.severity === "critical" &&
+              moment(appointment.time, "hh:mm A").isSame(currentTime, "minute")
+          ))
+      ) {
         availableHours.push(timeString);
       }
       currentTime.add(doctor.appointmentDuration, "minutes");

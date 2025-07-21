@@ -27,8 +27,13 @@ import { PatientListComponent } from '../../components/patient-list/patient-list
 export class ChatBotComponent implements OnInit, AfterViewInit {
   @ViewChild('myChart', { static: true }) chartRef!: ElementRef;
 
-  messages: { id?: string; text: string; sender: string; chartData?: any }[] =
-    [];
+  messages: {
+    id?: string;
+    text: string;
+    sender: string;
+    chartData?: any;
+    specifiedDate?: string;
+  }[] = [];
   userMessage = '';
   pending: boolean = false;
   constructor(
@@ -67,7 +72,12 @@ export class ChatBotComponent implements OnInit, AfterViewInit {
                 res.role == 'assistant' ? res.content.message_text : res.content
               ) as string,
               sender: 'bot',
-              chartData: res.content?.chart_data,
+              chartData:
+                res.content?.chart_data &&
+                Object.keys(res.content?.chart_data).length > 0
+                  ? res.content.chart_data
+                  : null,
+              specifiedDate: res.content?.specified_date,
               id: Math.random().toString(36).substr(2, 9), // Generate a unique ID for the chart
             });
             this.cd.detectChanges(); // Ensure the view is updated
@@ -99,7 +109,12 @@ export class ChatBotComponent implements OnInit, AfterViewInit {
             msg.role == 'assistant' ? msg.content?.message_text : msg.content
           ) as string,
           sender: msg.role === 'user' ? 'user' : 'bot',
-          chartData: msg.content?.chart_data || null,
+          chartData:
+            msg.content?.chart_data &&
+            Object.keys(msg.content?.chart_data).length > 0
+              ? msg.content.chart_data
+              : null,
+          specifiedDate: msg.content?.specified_date || null,
           id: msg.id,
         }));
         this.messages.reverse();
@@ -167,6 +182,7 @@ export class ChatBotComponent implements OnInit, AfterViewInit {
                 },
               });
               dialogRef.componentInstance.labelSearch = label as string; // Pass the label to the component
+              dialogRef.componentInstance.dateSearch = message.specifiedDate; // Pass the specified date to the component
             }
           },
         };

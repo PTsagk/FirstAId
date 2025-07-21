@@ -239,8 +239,12 @@ async function runPatientAssistant(
     const messages = await openai.beta.threads.messages.list(threadId);
     const response = messages.data.map((msg: any) => {
       let content = msg.content[0]?.text.value;
-      if (msg.role === "assistant") content = JSON.parse(content);
-
+      try {
+        if (msg.role === "assistant") content = JSON.parse(content);
+      } catch (e) {
+        // If content is not JSON, keep it as is
+        console.error("Failed to parse content as JSON:", e);
+      }
       if (msg.metadata && msg.metadata.today) {
         if (msg.role === "assistant") {
           content.message_text = content.message_text.replace(

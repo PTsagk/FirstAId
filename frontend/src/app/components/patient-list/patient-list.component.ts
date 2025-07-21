@@ -56,6 +56,7 @@ export class PatientListComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @Input() today: boolean = false;
   @Input() labelSearch: string = '';
+  @Input() dateSearch: string = '';
   isHistory: boolean = false;
   constructor(
     private dialog: MatDialog,
@@ -96,6 +97,21 @@ export class PatientListComponent implements AfterViewInit {
                 appointment[key as keyof Appointment]
                   ?.toString()
                   .toLowerCase() === this.labelSearch?.toLowerCase()
+            )
+          );
+        }
+
+        // if date search and label search stirng is not a date
+        if (
+          this.dateSearch &&
+          !moment(this.labelSearch, 'YYYY-MM-DD', true).isValid()
+        ) {
+          appointments = appointments.filter((appointment: Appointment) =>
+            Object.keys(appointment).some(
+              (key) =>
+                appointment[key as keyof Appointment]
+                  ?.toString()
+                  .toLowerCase() === this.dateSearch?.toLowerCase()
             )
           );
         }
