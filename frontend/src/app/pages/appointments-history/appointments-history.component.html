@@ -1,0 +1,77 @@
+<div class="appointments-history">
+  @for(user of users; track user.email){
+  <mat-expansion-panel class="user-card-container">
+    <mat-expansion-panel-header class="doctor-card">
+      <mat-panel-title
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <img src="../../../assets/user.png" alt="" class="user-image" />
+          <div class="user-info">
+            <h3>{{ user.appointments[0].fullname }}</h3>
+            <h4 style="color: gray; font-size: 12px">
+              {{ user.email }}
+            </h4>
+          </div>
+        </div>
+        <button mat-stroked-button class="bg-secondary text-primary">
+          Show patient card
+        </button>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="card-content">
+      <div class="general-info">
+        <h2 style="font-weight: bold">General Info</h2>
+        <div>
+          <span style="font-weight: bold">Total appointments:</span>
+          {{ user.appointments.length }}
+        </div>
+        <div>
+          <span style="font-weight: bold">Email:</span>
+          {{ user.email }}
+        </div>
+      </div>
+      <div class="doctor-notes">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+          "
+        >
+          <h2 style="margin: 0; font-weight: bold">Your notes</h2>
+          <button
+            style="margin-top: 10px"
+            mat-flat-button
+            color="primary"
+            class="bg-primary text-secondary"
+          >
+            Save
+          </button>
+        </div>
+        <mat-form-field
+          class="note-container"
+          style="width: 100%; height: 200px"
+        >
+          <mat-label>Add your notes here</mat-label>
+          <textarea
+            style="resize: none"
+            type="text"
+            required
+            matInput
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="appointments">
+      <app-patient-list [labelSearch]="user.email"></app-patient-list>
+    </div>
+  </mat-expansion-panel>
+  }
+</div>

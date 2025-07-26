@@ -57,7 +57,6 @@ export class PatientListComponent implements AfterViewInit {
   @Input() today: boolean = false;
   @Input() labelSearch: string = '';
   @Input() dateSearch: string = '';
-  isHistory: boolean = false;
   constructor(
     private dialog: MatDialog,
     private appointmentService: AppointmentService,
@@ -69,9 +68,6 @@ export class PatientListComponent implements AfterViewInit {
   dataSource = new MatTableDataSource(this.patients);
 
   ngAfterViewInit() {
-    this.route.data.subscribe((data) => {
-      this.isHistory = data['isHistory'] || false;
-    });
     this.appointmentService.appointments.subscribe((appointments: any) => {
       if (!appointments) {
         this.pending = true;
@@ -82,11 +78,6 @@ export class PatientListComponent implements AfterViewInit {
             (appointment: Appointment) =>
               appointment.date === todayString &&
               appointment.status !== 'completed'
-          );
-        }
-        if (this.isHistory) {
-          appointments = appointments.filter(
-            (appointment: Appointment) => appointment.status === 'completed'
           );
         }
 

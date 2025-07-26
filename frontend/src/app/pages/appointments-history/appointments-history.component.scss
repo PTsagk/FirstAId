@@ -1,0 +1,47 @@
+.appointments-history {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 5px;
+}
+.user-card-container {
+  width: 100%;
+  box-shadow: none !important;
+  padding: 20px;
+}
+.user-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-info {
+  h3,
+  h4 {
+    margin: 0;
+  }
+}
+
+.general-info {
+  width: 50%;
+}
+
+.doctor-notes {
+  width: 50%;
+  border-left: 1px solid #ccc;
+  padding-left: 50px;
+}
+
+.user-image {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+.card-content {
+  padding: 20px;
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 30px;
+  box-sizing: border-box;
+}
