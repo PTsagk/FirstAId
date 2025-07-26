@@ -338,6 +338,29 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/history", async (req: Request, res: Response) => {
+  try {
+    const doctorId = req.user.id;
+
+    const db = await getDB();
+    const collection = db.collection("appointments");
+    let appointments = await collection.find({ doctorId: doctorId }).toArray();
+    // group by email
+
+    if (appointments.length > 0) {
+      const emails = new Set(appointments.map((appt) => appt.email));
+      appointments = Array.from(emails).map((email: string) => ({
+        email,
+        appointments: appointments.filter((appt) => appt.email === email),
+      }));
+    }
+
+    res.json(appointments);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 router.get("/available-hours", async (req: Request, res: Response) => {
   try {
     const doctorId = req.user.id;
