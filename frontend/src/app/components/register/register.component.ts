@@ -52,7 +52,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class RegisterComponent {
   @Input() isDoctor: boolean = true;
 
-  userInfo: FormGroup;
+  patientInfo: FormGroup;
+  doctorInfo: FormGroup;
   pending: boolean = false;
   specialDates: string[] = [];
   daysArray: string[] = [
@@ -70,9 +71,31 @@ export class RegisterComponent {
     private http: HttpClient,
     private snackBar: MatSnackBar
   ) {
-    this.userInfo = new FormGroup({
+    this.patientInfo = new FormGroup({
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
+      telephone: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
+      confirmPassword: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required]),
+      gender: new FormControl([], [Validators.required]),
+      dateOfBirth: new FormControl('', [Validators.required]),
+      bloodType: new FormControl([], [Validators.required]),
+      weight: new FormControl('', [Validators.required]),
+      height: new FormControl('', [Validators.required]),
+      allergies: new FormControl('', []),
+      chronicConditions: new FormControl('', []),
+      prescriptions: new FormControl('', []),
+      mentalHealthHistory: new FormControl('', []),
+      pastSurgeries: new FormControl('', []),
+      dietPreferences: new FormControl('', []),
+    });
+
+    this.doctorInfo = new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      telephone: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
@@ -81,20 +104,21 @@ export class RegisterComponent {
       workingDays: new FormControl('', [Validators.required]),
       workingStartTime: new FormControl('', [Validators.required]),
       workingEndTime: new FormControl('', [Validators.required]),
-      specialDates: new FormControl([], [Validators.required]),
+      specialDates: new FormControl([], []),
       appointmentDuration: new FormControl(0, [Validators.required]),
     });
   }
+
   onSubmit(userInfo: FormGroup) {
     // set proffesion to None
-    if (!this.isDoctor) {
-      this.userInfo.patchValue({ workingStartTime: 'None' });
-      this.userInfo.patchValue({ workingEndTime: 'None' });
-      this.userInfo.patchValue({ specialDates: 'None' });
-    }
+    // if (!this.isDoctor) {
+    //   this.doctorInfo.patchValue({ workingStartTime: 'None' });
+    //   this.doctorInfo.patchValue({ workingEndTime: 'None' });
+    //   this.doctorInfo.patchValue({ specialDates: 'None' });
+    // }
     if (userInfo.status != 'VALID') return;
     this.pending = true;
-    this.userInfo.patchValue({
+    this.doctorInfo.patchValue({
       specialDates: this.specialDates,
     });
     this.http
@@ -124,14 +148,14 @@ export class RegisterComponent {
 
   switchUser() {
     this.isDoctor = !this.isDoctor;
-    if (!this.isDoctor) {
-      this.userInfo.patchValue({ profession: 'None' });
-      this.userInfo.patchValue({ workingDays: 'None' });
-      this.userInfo.patchValue({ workingStartTime: 'None' });
-      this.userInfo.patchValue({ workingEndTime: 'None' });
-      this.userInfo.patchValue({ specialDates: 'None' });
-      this.userInfo.patchValue({ appointmentDuration: 0 });
-    } else this.userInfo.get('profession')?.setValue('None');
+    // if (!this.isDoctor) {
+    //   this.userInfo.patchValue({ profession: 'None' });
+    //   this.userInfo.patchValue({ workingDays: 'None' });
+    //   this.userInfo.patchValue({ workingStartTime: 'None' });
+    //   this.userInfo.patchValue({ workingEndTime: 'None' });
+    //   this.userInfo.patchValue({ specialDates: 'None' });
+    //   this.userInfo.patchValue({ appointmentDuration: 0 });
+    // } else this.userInfo.get('profession')?.setValue('None');
   }
 
   addEvent(event: any) {

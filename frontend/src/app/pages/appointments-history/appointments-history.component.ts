@@ -7,6 +7,7 @@ import { PatientListComponent } from '../../components/patient-list/patient-list
 import { MatInputModule } from '@angular/material/input';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-appointments-history',
@@ -22,7 +23,7 @@ import { environment } from '../../../environment/environment';
 })
 export class AppointmentsHistoryComponent {
   users: any = null;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.http
       .get(environment.api_url + '/appointments/history', {
         withCredentials: true,
@@ -33,6 +34,36 @@ export class AppointmentsHistoryComponent {
         },
         error: (err) => {
           console.error('Error fetching appointment history:', err);
+        },
+      });
+  }
+
+  saveNotes(notes: string, email: string) {
+    this.http
+      .post(
+        environment.api_url + '/users/notes',
+        {
+          notes: notes,
+          email: email,
+        },
+        { withCredentials: true }
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('Notes saved successfully:', res);
+          this.snackBar.open('Notes saved successfully', '', {
+            duration: 3000,
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          });
+        },
+        error: (err) => {
+          console.error('Error saving notes:', err);
+          this.snackBar.open('Error saving notes', '', {
+            duration: 3000,
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
+          });
         },
       });
   }

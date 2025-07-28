@@ -27,9 +27,9 @@
   </div>
   } @if(isDoctor){
   <div class="register-wizard">
-    <mat-stepper #stepper>
-      <mat-step [stepControl]="userInfo" label="Fill your information">
-        <form [formGroup]="userInfo" class="register-form">
+    <mat-stepper #doctor_stepper>
+      <mat-step [stepControl]="doctorInfo" label="Fill your information">
+        <form [formGroup]="doctorInfo" class="register-form">
           <!-- <h1 class="text-primary">Register</h1> -->
           <mat-form-field class="cell">
             <mat-label>Full Name</mat-label>
@@ -83,6 +83,16 @@
             </mat-form-field>
           </div>
           <mat-form-field class="cell">
+            <mat-label>Telephone</mat-label>
+            <input
+              formControlName="telephone"
+              name="telephone"
+              type="number"
+              required
+              matInput
+            />
+          </mat-form-field>
+          <mat-form-field class="cell">
             <mat-label>Profession</mat-label>
             <input
               formControlName="profession"
@@ -102,8 +112,8 @@
           </button>
         </form>
       </mat-step>
-      <mat-step [stepControl]="userInfo" label="Fill your appointment info">
-        <form [formGroup]="userInfo" class="register-form">
+      <mat-step [stepControl]="doctorInfo" label="Fill your appointment info">
+        <form [formGroup]="doctorInfo" class="register-form">
           <mat-form-field class="cell">
             <mat-label>Working Days</mat-label>
             <mat-select formControlName="workingDays" multiple>
@@ -163,11 +173,11 @@
           </div>
         </form>
       </mat-step>
-      <mat-step [stepControl]="userInfo" label="Add special occasions">
+      <mat-step [stepControl]="doctorInfo" label="Add special occasions">
         <form
-          [formGroup]="userInfo"
+          [formGroup]="doctorInfo"
           class="register-form"
-          (ngSubmit)="onSubmit(userInfo)"
+          (ngSubmit)="onSubmit(doctorInfo)"
           style="justify-content: center"
         >
           <mat-form-field class="cell">
@@ -177,7 +187,6 @@
               [matDatepicker]="datePicker"
               formControlName="specialDates"
               (dateInput)="addEvent($event)"
-              required
             />
             <mat-datepicker-toggle
               matIconSuffix
@@ -201,7 +210,6 @@
               [disabled]="pending"
               mat-flat-button
               class="bg-primary text-secondary"
-              matStepperNext
               type="submit"
             >
               Register
@@ -226,60 +234,225 @@
     }
   </div>
   } @if(!isDoctor){
-  <form
-    [formGroup]="userInfo"
-    class="register-form"
-    (ngSubmit)="onSubmit(userInfo)"
-  >
-    <!-- <h1 class="text-primary">Register</h1> -->
-    <mat-form-field class="cell">
-      <mat-label>Full Name</mat-label>
-      <input formControlName="name" type="text" required matInput />
-    </mat-form-field>
-    <mat-form-field class="cell">
-      <mat-label>Email</mat-label>
-      <input formControlName="email" type="email" required matInput />
-    </mat-form-field>
-    <div style="display: flex; align-items: center; gap: 10px" class="cell">
-      <mat-form-field class="cell">
-        <mat-label>Password</mat-label>
-        <input
-          formControlName="password"
-          name="password"
-          type="password"
-          required
-          matInput
-        />
-      </mat-form-field>
-      <mat-form-field class="cell">
-        <mat-label>Confirm Password</mat-label>
-        <input
-          formControlName="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          required
-          matInput
-        />
-      </mat-form-field>
-    </div>
-    <div style="display: flex; align-items: center; gap: 10px" class="cell">
-      <mat-form-field class="cell">
-        <mat-label>City</mat-label>
-        <input formControlName="city" name="city" required matInput />
-      </mat-form-field>
-      <mat-form-field class="cell">
-        <mat-label>Address</mat-label>
-        <input formControlName="address" name="address" required matInput />
-      </mat-form-field>
-    </div>
-    <button
-      [disabled]="pending"
-      mat-flat-button
-      class="bg-primary text-secondary"
-      type="submit"
-    >
-      Register
-    </button>
-  </form>
+
+  <div class="register-wizard">
+    <mat-stepper #doctor_stepper>
+      <mat-step
+        [stepControl]="patientInfo"
+        label="Fill your account information"
+      >
+        <form
+          [formGroup]="patientInfo"
+          class="register-form"
+          (ngSubmit)="onSubmit(patientInfo)"
+        >
+          <!-- <h1 class="text-primary">Register</h1> -->
+          <mat-form-field class="cell">
+            <mat-label>Full Name</mat-label>
+            <input formControlName="name" type="text" required matInput />
+          </mat-form-field>
+          <mat-form-field class="cell">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" type="email" required matInput />
+          </mat-form-field>
+          <div
+            style="display: flex; align-items: center; gap: 10px"
+            class="cell"
+          >
+            <mat-form-field class="cell">
+              <mat-label>Password</mat-label>
+              <input
+                formControlName="password"
+                name="password"
+                type="password"
+                required
+                matInput
+              />
+            </mat-form-field>
+            <mat-form-field class="cell">
+              <mat-label>Confirm Password</mat-label>
+              <input
+                formControlName="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                matInput
+              />
+            </mat-form-field>
+          </div>
+          <div
+            style="display: flex; align-items: center; gap: 10px"
+            class="cell"
+          >
+            <mat-form-field class="cell">
+              <mat-label>City</mat-label>
+              <input formControlName="city" name="city" required matInput />
+            </mat-form-field>
+            <mat-form-field class="cell">
+              <mat-label>Address</mat-label>
+              <input
+                formControlName="address"
+                name="address"
+                required
+                matInput
+              />
+            </mat-form-field>
+          </div>
+          <mat-form-field class="cell">
+            <mat-label>Telephone</mat-label>
+            <input
+              formControlName="telephone"
+              name="telephone"
+              type="number"
+              required
+              matInput
+            />
+          </mat-form-field>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button
+              [disabled]="pending"
+              mat-flat-button
+              class="bg-primary text-secondary"
+              matStepperNext
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step
+        [stepControl]="patientInfo"
+        label="Fill your personal information"
+      >
+        <form [formGroup]="patientInfo" class="register-form">
+          <div
+            style="display: flex; align-items: center; gap: 10px"
+            class="cell"
+          >
+            <mat-form-field class="cell">
+              <mat-label>Date of birth</mat-label>
+              <input
+                matInput
+                [matDatepicker]="datePicker"
+                formControlName="dateOfBirth"
+                required
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="datePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #datePicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="cell">
+              <mat-label>Gender</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option value="male">Male</mat-option>
+                <mat-option value="female">Female</mat-option>
+                <mat-option value="other">Other</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <mat-form-field class="cell">
+            <mat-label>Blood type</mat-label>
+            <mat-select formControlName="bloodType">
+              <mat-option value="AB+">AB+</mat-option>
+              <mat-option value="AB-">AB-</mat-option>
+              <mat-option value="A+">A+</mat-option>
+              <mat-option value="A-">A-</mat-option>
+              <mat-option value="B+">B+</mat-option>
+              <mat-option value="B-">B-</mat-option>
+              <mat-option value="O+">O+</mat-option>
+              <mat-option value="O-">O-</mat-option>
+              <mat-option value="Unknown">Unknown</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div
+            style="display: flex; align-items: center; gap: 10px"
+            class="cell"
+          >
+            <mat-form-field class="cell">
+              <mat-label>Weight (in kg)</mat-label>
+              <input
+                formControlName="weight"
+                type="number"
+                name="weight"
+                required
+                matInput
+              />
+            </mat-form-field>
+
+            <mat-form-field class="cell">
+              <mat-label>Height (in cm)</mat-label>
+              <input
+                formControlName="height"
+                type="number"
+                name="height"
+                required
+                matInput
+              />
+            </mat-form-field>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="patientInfo" label="Add your medical history">
+        <form
+          [formGroup]="patientInfo"
+          class="register-form"
+          (ngSubmit)="onSubmit(patientInfo)"
+          style="justify-content: center"
+        >
+          <mat-form-field class="cell">
+            <mat-label>Prescriptions/Medications</mat-label>
+            <input
+              formControlName="prescriptions"
+              name="prescriptions"
+              type="text"
+              matInput
+            />
+          </mat-form-field>
+          <mat-form-field class="cell">
+            <mat-label>Mental health history</mat-label>
+            <input
+              formControlName="mentalHealthHistory"
+              name="mentalHealthHistory"
+              type="text"
+              matInput
+            />
+          </mat-form-field>
+          <mat-form-field class="cell">
+            <mat-label>Past Surgeries</mat-label>
+            <input
+              formControlName="pastSurgeries"
+              name="pastSurgeries"
+              type="text"
+              matInput
+            />
+          </mat-form-field>
+          <mat-form-field class="cell">
+            <mat-label>Diet Preferences</mat-label>
+            <input
+              formControlName="dietPreferences"
+              name="dietPreferences"
+              type="text"
+              matInput
+            />
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button
+              [disabled]="pending"
+              mat-flat-button
+              class="bg-primary text-secondary"
+              type="submit"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </div>
   }
 </div>

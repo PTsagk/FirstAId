@@ -209,11 +209,32 @@ const getAppointments = async (
 ) => {
   try {
     const db = await getDB();
-    const collection = db.collection("appointments");
+    const appointmentCollection = db.collection("appointments");
     const searchQuery: any = { doctorId: doctorId };
     if (date && !assistant) searchQuery.date = date;
 
-    const appointments = await collection.find(searchQuery).toArray();
+    let appointments = await appointmentCollection.find(searchQuery).toArray();
+
+    const patientCollection = db.collection("patients");
+    // search for patients where email in appointments
+    const patientEmails = appointments.map((appt) => appt.email);
+    // get patients with emails in appointments
+    if (patientEmails.length === 0) {
+      return [];
+    }
+    const patients = await patientCollection
+      .find({ email: { $in: patientEmails } })
+      .toArray();
+    appointments = appointments.map((appointment) => {
+      const patient = patients.find((p) => p.email === appointment.email);
+      if (patient) {
+        return {
+          ...appointment,
+          ...patient,
+        };
+      }
+      return appointment;
+    });
     return appointments;
   } catch (error) {
     console.error("Error fetching appointments:", error);
@@ -343,17 +364,22 @@ router.get("/history", async (req: Request, res: Response) => {
     const doctorId = req.user.id;
 
     const db = await getDB();
-    const collection = db.collection("appointments");
-    let appointments = await collection.find({ doctorId: doctorId }).toArray();
+    const appointmentCollection = db.collection("appointments");
+    let appointments = await appointmentCollection
+      .find({ doctorId: doctorId })
+      .toArray();
+    const notesCollection = db.collection("doctor-notes");
+    const notes = await notesCollection
+      .find({ doctorId: new ObjectId(doctorId) })
+      .toArray();
     // group by email
 
-    if (appointments.length > 0) {
-      const emails = new Set(appointments.map((appt) => appt.email));
-      appointments = Array.from(emails).map((email: string) => ({
-        email,
-        appointments: appointments.filter((appt) => appt.email === email),
-      }));
-    }
+    const emails = new Set(appointments.map((appt) => appt.email));
+    appointments = Array.from(emails).map((email: string) => ({
+      email,
+      appointments: appointments.filter((appt) => appt.email === email),
+      notes: notes.find((note) => note.email === email)?.notes || "",
+    }));
 
     res.json(appointments);
   } catch (error) {

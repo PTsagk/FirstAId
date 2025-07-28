@@ -39,23 +39,29 @@
         <div style="display: flex; flex-direction: column; text-align: end">
           <span><b>Gender:</b></span>
           <span><b>Blood Type:</b></span>
-          <span><b>Allergies:</b></span>
-          <span><b>Diseases:</b></span>
-          <span><b>Height:</b></span>
           <span><b>Weight:</b></span>
-          <span><b>Last Appointment:</b></span>
+          <span><b>Height:</b></span>
+          <span><b>Allergies:</b></span>
+          <span><b>Chronic Conditions:</b></span>
+          <span><b>Prescriptions:</b></span>
+          <span><b>Mental Health History:</b></span>
+          <span><b>Past Surgeries:</b></span>
+          <span><b>Diet Preferences:</b></span>
         </div>
         <div style="display: flex; flex-direction: column; min-width: 100px">
           <span>{{ appointmentInfo.gender || "-" }}</span>
           <span>{{ appointmentInfo.bloodType || "-" }}</span>
-          <span>{{ appointmentInfo.allergies || "-" }}</span>
-          <span>{{ appointmentInfo.diseases || "-" }}</span>
-          <span>{{ appointmentInfo.height || "-" }}</span>
           <span>{{ appointmentInfo.weight || "-" }}</span>
-          <span>{{ appointmentInfo.lastAppointment || "-" }}</span>
+          <span>{{ appointmentInfo.height || "-" }}</span>
+          <span>{{ appointmentInfo.allergies || "-" }}</span>
+          <span>{{ appointmentInfo.chronicConditions || "-" }}</span>
+          <span>{{ appointmentInfo.prescriptions || "-" }}</span>
+          <span>{{ appointmentInfo.mentalHealthHistory || "-" }}</span>
+          <span>{{ appointmentInfo.pastSurgeries || "-" }}</span>
+          <span>{{ appointmentInfo.dietPreferences || "-" }}</span>
         </div>
       </div>
-      @if(appointmentInfo.status !== 'completed' && appointmentInfo.status) {
+      <!-- @if(appointmentInfo.status !== 'completed' && appointmentInfo.status) {
       <button
         style="margin-top: 40px"
         (click)="completeAppointment(true)"
@@ -74,7 +80,7 @@
       >
         Undo Completion
       </button>
-      }
+      } -->
     </div>
   </div>
   <div class="divider"></div>

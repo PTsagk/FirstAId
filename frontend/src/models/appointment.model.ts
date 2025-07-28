@@ -6,13 +6,17 @@ export interface Appointment {
   date: string;
   time: string;
   description: string;
-  gender?: string;
-  bloodType?: string;
-  allergies?: string;
-  diseases?: string;
-  height?: string;
-  weight?: string;
   lastAppointment?: string;
   doctorNotes?: string;
   status?: 'pending' | 'completed' | 'canceled' | 'past';
+  gender?: string;
+  bloodType?: string;
+  weight?: string;
+  height?: string;
+  allergies?: string;
+  chronicConditions?: string;
+  prescriptions?: string;
+  mentalHealthHistory?: string;
+  pastSurgeries?: string;
+  dietPreferences?: string;
 }
