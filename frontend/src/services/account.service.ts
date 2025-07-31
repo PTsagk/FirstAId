@@ -59,7 +59,7 @@ export class AccountService {
     this.dialog.closeAll();
     const modal = this.dialog.open(LoginComponent, {
       width: '80%',
-      height: '80vh',
+      height: '750px',
     });
     modal.componentInstance.isDoctor = isDoctor;
   }
@@ -68,7 +68,7 @@ export class AccountService {
     this.dialog.closeAll();
     const modal = this.dialog.open(RegisterComponent, {
       width: '80%',
-      height: '80vh',
+      height: '750px',
     });
     modal.componentInstance.isDoctor = isDoctor;
   }
