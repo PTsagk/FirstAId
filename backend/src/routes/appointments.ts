@@ -118,7 +118,10 @@ const updateAppointment = async (
   assistant = false
 ) => {
   try {
-    if (!appointmentInfo && !appointmentInfo._id) {
+    if (
+      !appointmentInfo ||
+      (!appointmentInfo._id && !appointmentInfo.appointmentId)
+    ) {
       throw new Error("Invalid appointment data");
     }
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
@@ -228,6 +231,7 @@ const getAppointments = async (
     appointments = appointments.map((appointment) => {
       const patient = patients.find((p) => p.email === appointment.email);
       if (patient) {
+        delete patient._id; // Remove _id to avoid conflicts
         return {
           ...appointment,
           ...patient,
@@ -380,6 +384,21 @@ router.get("/history", async (req: Request, res: Response) => {
       appointments: appointments.filter((appt) => appt.email === email),
       notes: notes.find((note) => note.email === email)?.notes || "",
     }));
+    const patientsCollection = db.collection("patients");
+    const patients = await patientsCollection
+      .find({ email: { $in: appointments.map((appt) => appt.email) } })
+      .toArray();
+    appointments = appointments.map((appointment) => {
+      const patient = patients.find((p) => p.email === appointment.email);
+      if (patient) {
+        delete patient._id; // Remove _id to avoid conflicts
+        return {
+          ...appointment,
+          ...patient,
+        };
+      }
+      return appointment;
+    });
 
     res.json(appointments);
   } catch (error) {
