@@ -25,6 +25,11 @@
     <div class="info-icon">
       <i class="fa-solid fa-bell"></i>
     </div>
+    @if(userInfo.userType === 'patients'){
+    <div class="info-icon" (click)="router.navigate(['/users/history'])">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+    </div>
+    }
     <div
       class="info-icon"
       style="color: rgb(167, 0, 0)"

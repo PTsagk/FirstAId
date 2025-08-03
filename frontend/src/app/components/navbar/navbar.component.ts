@@ -3,13 +3,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AccountService } from '../../../services/account.service';
 import { NgClass } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatDialogModule, NgClass],
+  imports: [
+    MatButtonModule,
+    MatDialogModule,
+    NgClass,
+    RouterOutlet,
+    RouterLink,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
@@ -21,7 +32,7 @@ export class NavbarComponent implements OnDestroy {
   constructor(
     public dialog: MatDialog,
     public accountService: AccountService,
-    private router: Router
+    public router: Router
   ) {
     this.accountService.userInfo
       .pipe(takeUntil(this.destroy$))
@@ -38,6 +49,7 @@ export class NavbarComponent implements OnDestroy {
       }
     });
   }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
