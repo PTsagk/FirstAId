@@ -35,6 +35,7 @@ const createNotification = async (notification) => {
       doctorNotes: notification.doctorNotes,
       patientNotes: notification.patientNotes,
       fullname: notification.fullname,
+      messageReason: notification.messageReason,
     });
     return "Notification created successfully";
   } catch (error) {

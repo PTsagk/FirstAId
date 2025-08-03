@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogRef } from '@angular/material/dialog';
+import moment from 'moment';
 
 @Component({
   selector: 'app-schedule-notification-dlg',
@@ -46,14 +47,16 @@ export class ScheduleNotificationDlgComponent implements OnInit {
     this.scheduleDateTime = this.fb.group({
       date: [this.appointmentInfo.date],
       time: [this.appointmentInfo.time],
+      messageReason: [''],
     });
   }
   scheduleNotification(form: FormGroup) {
     if (!form.valid) return;
     this.pending = true;
     const notification = {
-      date: form.value.date,
+      date: moment(form.value.date).format('YYYY-MM-DD'),
       time: form.value.time,
+      messageReason: form.value.messageReason,
       to: this.appointmentInfo.email,
       doctorNotes: this.appointmentInfo.doctorNotes,
       patientNotes: this.appointmentInfo.description,

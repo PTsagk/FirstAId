@@ -36,7 +36,11 @@ async function runDoctorAssistant(
     run = await openai.beta.threads.runs.create(threadId, {
       assistant_id: "asst_OXKvz1P7b3RhmadMUbBiz75V",
       additional_instructions:
-        "The doctors info is: " + JSON.stringify(doctorInfo),
+        "The doctors info is: " +
+        JSON.stringify(doctorInfo) +
+        "The doctors appointments are: " +
+        JSON.stringify(await getAppointments(doctorId, null, true)) +
+        todayMessage,
     });
 
     let runStatus;
@@ -308,12 +312,6 @@ async function runCompletion(question: string) {
     const response = await openai.chat.completions.create({
       model: "o3-mini",
       messages: [
-        {
-          role: "system",
-          content: `You are a helpfull assistant that helps the doctor of a hospital to manage his appointments
-           and give tips to the patients about their next appointment, how to get their medication and how to prepare
-            for their upcoming appointment.`,
-        },
         {
           role: "user",
           content: question,

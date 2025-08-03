@@ -82,20 +82,15 @@ async function sendNotificationEmails() {
   try {
     const db = await getDB();
     const collection = db.collection("notification_emails");
-    const emailsToSend = await collection
-      .find({
-        date: moment().format("YYYY-MM-DD"),
-        time: {
-          $lte: moment().format("hh:mm A"),
-        },
-      })
-      .toArray();
+    const emailsToSend = await collection.find({}).toArray();
 
     for (const emailData of emailsToSend) {
       if (!moment(emailData.date + emailData.time).isBefore(moment())) {
         emailData.sent = true;
         const gptResponse = await runCompletion(
-          `You are given the doctor notes and the patients notes for an upcoming appointment.
+          `The doctor want's to comminicate with the patient for the following reason:
+          ${emailData.messageReason}.
+          You are given the doctor notes and the patients notes for an upcoming appointment.
           Give some  helpfull information to the patient.
           Doctor notes: ${emailData.doctorNotes} \nPatient notes: ${emailData.patientNotes}`
         );

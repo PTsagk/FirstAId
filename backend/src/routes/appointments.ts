@@ -4,6 +4,7 @@ import { getDB } from "../utils/connect";
 import { sendEmail } from "../utils/email";
 import moment from "moment";
 import { ObjectId } from "mongodb";
+import { runCompletion } from "../utils/openai";
 
 const router = Router();
 
@@ -20,6 +21,13 @@ const createAppointment = async (
     appointmentInfo.doctorId = doctorId;
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
     appointmentInfo.status = "pending";
+    // ask gpt to decide the severity of the appointment
+    appointmentInfo.severity = (
+      await runCompletion(
+        "Decide the severity of the appointment based on the reason for the appointment provided below. Return only one of the 3 values (appointment, emergency, critical). Appointment is for simple things like general checkups, emergency are for things that should be treated the same day but they can wait for a little time and critical are for things that should be treated immediately. Patients reason is: " +
+          appointmentInfo.description
+      )
+    ).choices[0].message.content;
     const db = await getDB();
     // get doctor info
     const doctorCollection = db.collection("doctors");

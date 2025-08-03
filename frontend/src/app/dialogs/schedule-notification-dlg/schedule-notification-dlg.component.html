@@ -3,13 +3,22 @@
   [formGroup]="scheduleDateTime"
   (ngSubmit)="scheduleNotification(scheduleDateTime)"
 >
-  <span style="margin-bottom: 20px; font-size: 18px"
-    >Schedule Notification</span
-  >
+  <span style="margin-bottom: 20px; font-size: 18px">Send Message</span>
   <p style="color: gray; margin-bottom: 10px">
-    Shedule a notification for the patient based on your notes and their
-    appointment reason.
+    Send a message to the patient based on your notes and their appointment
+    reason.
   </p>
+
+  <mat-form-field class="note-container">
+    <mat-label>Add the purpose of the message</mat-label>
+    <textarea
+      style="resize: none"
+      type="text"
+      required
+      matInput
+      formControlName="messageReason"
+    ></textarea>
+  </mat-form-field>
   <div style="display: flex; justify-content: space-between; gap: 10px">
     <!-- Date Picker -->
     <mat-form-field>
