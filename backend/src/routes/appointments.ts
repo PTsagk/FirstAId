@@ -316,6 +316,35 @@ const getAvailableHours = async (
   }
 };
 
+const getPreviousAppointments = async (userEmail: string) => {
+  try {
+    const db = await getDB();
+    const appointmentCollection = db.collection("appointments");
+    const appointments = await appointmentCollection
+      .find({ email: userEmail })
+      .toArray();
+    const doctorsCollection = db.collection("doctors");
+    const doctors = await doctorsCollection
+      .find({
+        _id: { $in: appointments.map((appt) => new ObjectId(appt.doctorId)) },
+      })
+      .toArray();
+    appointments.forEach((appointment) => {
+      const doctor = doctors.find(
+        (doc) => doc._id.toString() === appointment.doctorId
+      );
+      if (doctor) {
+        appointment.doctorName = doctor.name;
+        appointment.doctorEmail = doctor.email;
+      }
+    });
+    return appointments;
+  } catch (error) {
+    console.error("Error fetching previous appointments:", error);
+    throw error;
+  }
+};
+
 // Route handlers
 router.post("/create", async (req: Request, res: Response) => {
   try {
@@ -420,26 +449,7 @@ router.get("/user/history", async (req: Request, res: Response) => {
     if (!userEmail) {
       return res.status(400).send("User email is required");
     }
-    const db = await getDB();
-    const appointmentCollection = db.collection("appointments");
-    const appointments = await appointmentCollection
-      .find({ email: userEmail })
-      .toArray();
-    const doctorsCollection = db.collection("doctors");
-    const doctors = await doctorsCollection
-      .find({
-        _id: { $in: appointments.map((appt) => new ObjectId(appt.doctorId)) },
-      })
-      .toArray();
-    appointments.forEach((appointment) => {
-      const doctor = doctors.find(
-        (doc) => doc._id.toString() === appointment.doctorId
-      );
-      if (doctor) {
-        appointment.doctorName = doctor.name;
-        appointment.doctorEmail = doctor.email;
-      }
-    });
+    const appointments = await getPreviousAppointments(userEmail);
     res.json(appointments);
   } catch (error) {
     console.error(error);
@@ -468,5 +478,6 @@ export {
   deleteAppointment,
   getAppointments,
   getAvailableHours,
+  getPreviousAppointments,
   router as default,
 };

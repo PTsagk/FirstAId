@@ -7,6 +7,7 @@ import {
   deleteAppointment,
   getAppointments,
   getAvailableHours,
+  getPreviousAppointments,
   updateAppointment,
 } from "../routes/appointments";
 import { createNotification } from "../routes/notifications";
@@ -213,6 +214,8 @@ async function runPatientAssistant(
             } else if (name === "createNotification") {
               const params = JSON.parse(args);
               result = await createNotification(params);
+            } else if (name === "getPreviousAppointments") {
+              result = await getPreviousAppointments(patientInfo.email);
             } else {
               result = `No handler for function: ${name}`;
             }
