@@ -112,4 +112,33 @@ async function sendNotificationEmails() {
   }
 }
 
-export { sendEmail, sendReminderEmails, sendNotificationEmails };
+async function sendFollowUpEmails() {
+  try {
+    const db = await getDB();
+    const collection = db.collection("follow_up_emails");
+    const emailsToSend = await collection.find({}).toArray();
+
+    for (const emailData of emailsToSend) {
+      await sendEmail("template_follow_up", emailData.to, {
+        fullname: emailData.fullname,
+        date: emailData.date,
+        time: emailData.time,
+        message: emailData.message,
+      });
+    }
+
+    await collection.deleteMany({
+      _id: {
+        $in: emailsToSend.map((emailData) => new ObjectId(emailData._id)),
+      },
+    });
+  } catch (error) {
+    console.error("Error sending follow-up emails:", error);
+  }
+}
+export {
+  sendEmail,
+  sendReminderEmails,
+  sendNotificationEmails,
+  sendFollowUpEmails,
+};

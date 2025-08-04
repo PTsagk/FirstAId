@@ -17,6 +17,7 @@ import {
   MatDrawerContainer,
   MatDrawerContent,
 } from '@angular/material/sidenav';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-history',
@@ -56,7 +57,7 @@ export class UserHistoryComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   dataSource = new MatTableDataSource(this.previousAppointments);
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.http
       .get(`${environment.api_url}/appointments/user/history`, {
         withCredentials: true,
@@ -107,5 +108,35 @@ export class UserHistoryComponent {
     this.selectedAppointment = { ...appointment };
   }
 
-  sendMessage(message: string) {}
+  sendMessage(message: string) {
+    this.http
+      .post(
+        `${environment.api_url}/notifications/send-follow-up`,
+        {
+          to: this.selectedAppointment.doctorEmail,
+          fullname: this.selectedAppointment.fullname,
+          date: this.selectedAppointment.date,
+          time: this.selectedAppointment.time,
+          message: message,
+        },
+        { withCredentials: true }
+      )
+      .subscribe(
+        (res: any) => {
+          this.snackBar.open('Notification sent successfully', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          });
+          this.sidebar.close();
+        },
+        (err) => {
+          this.snackBar.open('Something went wrong', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
+          });
+        }
+      );
+  }
 }

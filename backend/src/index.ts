@@ -8,7 +8,11 @@ import patientAssistantRouter from "./routes/patient_assistant";
 import cors from "cors";
 import { authenticateToken } from "./routes/auth";
 import cron from "node-cron";
-import { sendReminderEmails, sendNotificationEmails } from "./utils/email";
+import {
+  sendReminderEmails,
+  sendNotificationEmails,
+  sendFollowUpEmails,
+} from "./utils/email";
 import notificationsRouter from "./routes/notifications";
 const app = express();
 dotenv.config({ path: "../.env", override: true });
@@ -38,6 +42,7 @@ cron.schedule("* * * * *", () => {
   console.log("Checking for scheduled emails...");
   sendReminderEmails();
   sendNotificationEmails();
+  sendFollowUpEmails();
 });
 
 app.listen(port, async () => {

@@ -24,6 +24,23 @@ router.post("/create", async (req, res) => {
   }
 });
 
+router.post("/send-follow-up", async (req, res) => {
+  try {
+    const notification = req.body;
+    if (!notification) {
+      return res.status(400).send("Invalid notification data");
+    }
+    if (!notification.to || !notification.message) {
+      return res.status(400).send("Missing required fields");
+    }
+    await createFollowUpNotification(notification);
+    res.json("Follow-up notification created successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 const createNotification = async (notification) => {
   try {
     const db = await getDB();
@@ -44,4 +61,21 @@ const createNotification = async (notification) => {
   }
 };
 
-export { createNotification, router as default };
+const createFollowUpNotification = async (notification) => {
+  try {
+    const db = await getDB();
+    const collection = db.collection("follow_up_emails");
+    await collection.insertOne({
+      to: notification.to,
+      message: notification.message,
+      fullname: notification.fullname,
+      date: notification.date,
+      time: notification.time,
+    });
+    return "Follow-up notification created successfully";
+  } catch (error) {
+    console.error("Error creating follow-up notification:", error);
+    throw new Error("Failed to create follow-up notification");
+  }
+};
+export { createNotification, createFollowUpNotification, router as default };
