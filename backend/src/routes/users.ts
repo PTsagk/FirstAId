@@ -47,9 +47,13 @@ router.post("/:user/login", async (req: Request, res: Response) => {
     if (!isPasswordValid)
       return res.status(401).send("Invalid email or password");
 
-    const token = jwt.sign({ id: user._id, userType }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { id: user._id, userType, email: user.email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
     console.log(process.env.NODE_ENV);
     res.cookie("token", token, {
       httpOnly: true,

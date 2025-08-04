@@ -1,1 +1,116 @@
-<p>user-history works!</p>
+<mat-drawer-container class="chat-bot-container">
+  <mat-drawer
+    opened
+    class="chat-content"
+    #sidebar
+    mode="side"
+    position="end"
+    [opened]="false"
+    class="appointment-info"
+  >
+    <div>
+      <h2>Previous Doctor Messages</h2>
+      <h4>23-07-2025</h4>
+      <p>
+        Hello Panagiotis, We want to remind you that you have an appointment
+        scheduled for 2025-08-03 at 12:20 PM. Dear Patient, I understand you've
+        been experiencing pain in your left wrist. In our upcoming appointment,
+        it would be very helpful if you could share any history of injuries or
+        surgeries, even if they may seem unrelated to your current pain. This
+        background information can help us determine the best course of
+        treatment for you. For now, you might consider taking an
+        over-the-counter painkiller (such as ibuprofen or acetaminophen) to help
+        manage the discomfort. Please remember to follow the dosage instructions
+        on the package or as advised by your pharmacist, and let us know if you
+        have any known allergies or contraindications with these medications.
+        Additionally, here are a few helpful tips you might consider until we
+        see each other: • Rest your wrist as much as possible and avoid
+        activities that may strain it. • Apply ice wrapped in a cloth to the
+        affected area for about 15–20 minutes every few hours to help reduce
+        swelling. • Monitor your symptoms – if you notice increased pain,
+        swelling, redness, or numbness, please inform us or seek medical
+        attention sooner. Providing as much detail as possible about the onset
+        and nature of your wrist pain, along with any past injuries or
+        surgeries, will assist us in giving you the best care possible. Looking
+        forward to speaking with you in our appointment! Best regards,
+      </p>
+    </div>
+    <div class="chat-body">
+      <!-- Chat messages will go here -->
+    </div>
+    <div class="chat-input">
+      <form
+        class="input-container"
+        (ngSubmit)="sendMessage(messageInput.value); messageInput.value = ''"
+      >
+        <textarea
+          name="message"
+          #messageInput
+          class="message-input"
+          placeholder="Send a follow up message regarding this appointment to Dr. {{
+            selectedAppointment?.doctorName
+          }}..."
+          (keyup.enter)="
+            sendMessage(messageInput.value); messageInput.value = ''
+          "
+        ></textarea>
+        <button type="submit" class="send-button text-primary">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <table mat-table [dataSource]="dataSource" matSort class="history-table">
+      <!-- Name Column -->
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Doctor name</th>
+        <td mat-cell *matCellDef="let appointment">
+          {{ appointment.doctorName }}
+        </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Doctor Email</th>
+        <td mat-cell *matCellDef="let appointment">
+          {{ appointment.doctorEmail }}
+        </td>
+      </ng-container>
+
+      <!-- Priority Column -->
+      <ng-container matColumnDef="severity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
+        <td mat-cell *matCellDef="let appointment">
+          {{ appointment.severity }}
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let appointment">{{ appointment.date }}</td>
+      </ng-container>
+
+      <!-- End Date Column -->
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
+        <td mat-cell *matCellDef="let appointment">{{ appointment.time }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        class="table-row"
+        *matRowDef="let row; columns: displayedColumns"
+        (click)="openAppointmentDetails(row)"
+      ></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[20, 30, 40]"
+      pageSize="20"
+      showFirstLastButtons
+    ></mat-paginator>
+  </mat-drawer-content>
+</mat-drawer-container>

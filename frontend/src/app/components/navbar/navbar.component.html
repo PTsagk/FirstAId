@@ -20,12 +20,12 @@
   } @if(hideButtons){
   <div class="user-info">
     <div class="info-icon">
-      <i class="fa-solid fa-sliders"></i>
-    </div>
-    <div class="info-icon">
       <i class="fa-solid fa-bell"></i>
     </div>
     @if(userInfo.userType === 'patients'){
+    <div class="info-icon" (click)="router.navigate(['/users/dashboard'])">
+      <i class="fa-solid fa-home"></i>
+    </div>
     <div class="info-icon" (click)="router.navigate(['/users/history'])">
       <i class="fa-solid fa-clock-rotate-left"></i>
     </div>

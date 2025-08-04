@@ -414,6 +414,39 @@ router.get("/history", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/user/history", async (req: Request, res: Response) => {
+  try {
+    const userEmail = req.user.email;
+    if (!userEmail) {
+      return res.status(400).send("User email is required");
+    }
+    const db = await getDB();
+    const appointmentCollection = db.collection("appointments");
+    const appointments = await appointmentCollection
+      .find({ email: userEmail })
+      .toArray();
+    const doctorsCollection = db.collection("doctors");
+    const doctors = await doctorsCollection
+      .find({
+        _id: { $in: appointments.map((appt) => new ObjectId(appt.doctorId)) },
+      })
+      .toArray();
+    appointments.forEach((appointment) => {
+      const doctor = doctors.find(
+        (doc) => doc._id.toString() === appointment.doctorId
+      );
+      if (doctor) {
+        appointment.doctorName = doctor.name;
+        appointment.doctorEmail = doctor.email;
+      }
+    });
+    res.json(appointments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 router.get("/available-hours", async (req: Request, res: Response) => {
   try {
     const doctorId = req.user.id;

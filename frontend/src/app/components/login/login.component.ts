@@ -81,7 +81,7 @@ export class LoginComponent {
           if (this.isDoctor) {
             this.router.navigate(['/doctors/dashboard']);
           } else {
-            this.router.navigate(['/user/dashboard']);
+            this.router.navigate(['/users/dashboard']);
           }
         },
         error: (err) => {
