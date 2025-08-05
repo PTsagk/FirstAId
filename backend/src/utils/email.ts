@@ -94,6 +94,18 @@ async function sendNotificationEmails() {
           Give some  helpfull information to the patient.
           Doctor notes: ${emailData.doctorNotes} \nPatient notes: ${emailData.patientNotes}`
         );
+        const appointmentMessagesCollection = db.collection(
+          "appointment-messages"
+        );
+        await appointmentMessagesCollection.insertOne({
+          date: emailData.date,
+          time: emailData.time,
+          to: emailData.to,
+          fullname: emailData.fullname,
+          message: gptResponse.choices[0].message.content,
+          appointmentId: emailData.appointmentId,
+        });
+        // Send the email with the generated content
         await sendEmail("template_4ow7iii", emailData.to, {
           fullname: emailData.fullname,
           date: emailData.date,

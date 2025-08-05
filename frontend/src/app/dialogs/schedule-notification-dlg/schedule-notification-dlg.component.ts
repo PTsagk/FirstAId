@@ -61,6 +61,7 @@ export class ScheduleNotificationDlgComponent implements OnInit {
       doctorNotes: this.appointmentInfo.doctorNotes,
       patientNotes: this.appointmentInfo.description,
       fullname: this.appointmentInfo.fullname,
+      appointmentId: this.appointmentInfo._id,
     };
     this.http
       .post(environment.api_url + '/notifications/create', notification, {

@@ -9,31 +9,17 @@
     class="appointment-info"
   >
     <div>
-      <h2>Previous Doctor Messages</h2>
-      <h4>23-07-2025</h4>
-      <p>
-        Hello Panagiotis, We want to remind you that you have an appointment
-        scheduled for 2025-08-03 at 12:20 PM. Dear Patient, I understand you've
-        been experiencing pain in your left wrist. In our upcoming appointment,
-        it would be very helpful if you could share any history of injuries or
-        surgeries, even if they may seem unrelated to your current pain. This
-        background information can help us determine the best course of
-        treatment for you. For now, you might consider taking an
-        over-the-counter painkiller (such as ibuprofen or acetaminophen) to help
-        manage the discomfort. Please remember to follow the dosage instructions
-        on the package or as advised by your pharmacist, and let us know if you
-        have any known allergies or contraindications with these medications.
-        Additionally, here are a few helpful tips you might consider until we
-        see each other: • Rest your wrist as much as possible and avoid
-        activities that may strain it. • Apply ice wrapped in a cloth to the
-        affected area for about 15–20 minutes every few hours to help reduce
-        swelling. • Monitor your symptoms – if you notice increased pain,
-        swelling, redness, or numbness, please inform us or seek medical
-        attention sooner. Providing as much detail as possible about the onset
-        and nature of your wrist pain, along with any past injuries or
-        surgeries, will assist us in giving you the best care possible. Looking
-        forward to speaking with you in our appointment! Best regards,
-      </p>
+      @if(selectedAppointment){
+      <h2>Previous Messages</h2>
+      @for(message of selectedAppointment?.messages; track message) {
+      @if(message.email == selectedAppointment?.doctorEmail) {
+      <h3>Doctor Message</h3>
+      } @if(message.email != selectedAppointment?.doctorEmail) {
+      <h3>Patient Message</h3>
+      }
+      <h4>{{ message.date }}</h4>
+      <p [innerHTML]="message.message"></p>
+      } }
     </div>
     <div class="chat-body">
       <!-- Chat messages will go here -->

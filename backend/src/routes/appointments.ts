@@ -338,6 +338,19 @@ const getPreviousAppointments = async (userEmail: string) => {
         appointment.doctorEmail = doctor.email;
       }
     });
+    const appointmentMessagesCollection = db.collection("appointment-messages");
+    const messages = await appointmentMessagesCollection
+      .find({
+        appointmentId: {
+          $in: appointments.map((appt) => appt._id.toString()),
+        },
+      })
+      .toArray();
+    appointments.forEach((appointment) => {
+      appointment.messages = messages.filter(
+        (msg) => msg.appointmentId.toString() === appointment._id.toString()
+      );
+    });
     return appointments;
   } catch (error) {
     console.error("Error fetching previous appointments:", error);

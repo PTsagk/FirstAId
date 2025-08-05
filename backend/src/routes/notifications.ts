@@ -12,7 +12,9 @@ router.post("/create", async (req, res) => {
       !notification.date ||
       !notification.time ||
       !notification.to ||
-      !notification.fullname
+      !notification.fullname ||
+      !notification.messageReason ||
+      !notification.appointmentId
     ) {
       return res.status(400).send("Missing required fields");
     }
@@ -30,7 +32,11 @@ router.post("/send-follow-up", async (req, res) => {
     if (!notification) {
       return res.status(400).send("Invalid notification data");
     }
-    if (!notification.to || !notification.message) {
+    if (
+      !notification.to ||
+      !notification.message ||
+      !notification.appointmentId
+    ) {
       return res.status(400).send("Missing required fields");
     }
     await createFollowUpNotification(notification);
@@ -53,6 +59,7 @@ const createNotification = async (notification) => {
       patientNotes: notification.patientNotes,
       fullname: notification.fullname,
       messageReason: notification.messageReason,
+      appointmentId: notification.appointmentId,
     });
     return "Notification created successfully";
   } catch (error) {
@@ -72,6 +79,16 @@ const createFollowUpNotification = async (notification) => {
       date: notification.date,
       time: notification.time,
     });
+    const appointmentMessagesCollection = db.collection("appointment-messages");
+    await appointmentMessagesCollection.insertOne({
+      date: notification.date,
+      time: notification.time,
+      to: notification.to,
+      fullname: notification.fullname,
+      message: notification.message,
+      appointmentId: notification.appointmentId,
+    });
+
     return "Follow-up notification created successfully";
   } catch (error) {
     console.error("Error creating follow-up notification:", error);
