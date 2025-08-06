@@ -50,7 +50,7 @@ router.post("/send-follow-up", async (req, res) => {
 const createNotification = async (notification) => {
   try {
     const db = await getDB();
-    const collection = db.collection("notification_emails");
+    const collection = db.collection("emails-queue");
     await collection.insertOne({
       date: notification.date,
       time: notification.time,
@@ -60,6 +60,8 @@ const createNotification = async (notification) => {
       fullname: notification.fullname,
       messageReason: notification.messageReason,
       appointmentId: notification.appointmentId,
+      type: "message",
+      userType: "doctor",
     });
     return "Notification created successfully";
   } catch (error) {
@@ -71,13 +73,15 @@ const createNotification = async (notification) => {
 const createFollowUpNotification = async (notification) => {
   try {
     const db = await getDB();
-    const collection = db.collection("follow_up_emails");
+    const collection = db.collection("emails-queue");
     await collection.insertOne({
       to: notification.to,
       message: notification.message,
       fullname: notification.fullname,
       date: notification.date,
       time: notification.time,
+      type: "message",
+      userType: "patient",
     });
     const appointmentMessagesCollection = db.collection("appointment-messages");
     await appointmentMessagesCollection.insertOne({

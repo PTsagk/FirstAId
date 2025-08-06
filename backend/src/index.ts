@@ -9,11 +9,15 @@ import cors from "cors";
 import { authenticateToken } from "./routes/auth";
 import cron from "node-cron";
 import {
-  sendReminderEmails,
-  sendNotificationEmails,
-  sendFollowUpEmails,
+  sendReminderEmail,
+  sendNotificationEmail,
+  sendFollowUpEmail,
 } from "./utils/email";
 import notificationsRouter from "./routes/notifications";
+import { getDB } from "./utils/connect";
+import { ObjectId } from "mongodb";
+const moment = require("moment");
+
 const app = express();
 dotenv.config({ path: "../.env", override: true });
 const port = process.env.PORT || 3000;
@@ -38,11 +42,39 @@ app.get("/", (req, res) => {
 });
 
 // cron.schedule("* * * * *", () => {
-cron.schedule("* * * * *", () => {
+cron.schedule("* * * * *", async () => {
   console.log("Checking for scheduled emails...");
-  sendReminderEmails();
-  sendNotificationEmails();
-  sendFollowUpEmails();
+  // sendReminderEmails();
+  // sendNotificationEmails();
+  // sendFollowUpEmail();
+  const db = await getDB();
+
+  const collection = db.collection("emails-queue");
+  const emailsToSend = await collection
+    .find({
+      date: moment().format("YYYY-MM-DD"),
+    })
+    .toArray();
+
+  for (const emailData of emailsToSend) {
+    if (emailData.type === "reminder") {
+      emailData.sent = await sendReminderEmail(emailData);
+    } else if (emailData.type === "notification") {
+      emailData.sent = await sendNotificationEmail(emailData);
+    } else if (emailData.type === "message") {
+      emailData.sent = await sendFollowUpEmail(emailData);
+    } else {
+      emailData.sent = false;
+    }
+  }
+
+  await collection.deleteMany({
+    _id: {
+      $in: emailsToSend
+        .filter((emailData) => emailData.sent)
+        .map((emailData) => new ObjectId(emailData._id)),
+    },
+  });
 });
 
 app.listen(port, async () => {

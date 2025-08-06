@@ -98,11 +98,12 @@ const createAppointment = async (
       }
     }
     await appointmentCollection.insertOne(appointmentInfo);
-    const reminderEmailsCollection = db.collection("reminder_emails");
+    const reminderEmailsCollection = db.collection("emails-queue");
     await reminderEmailsCollection.insertOne({
       date: appointmentInfo.date,
       time: appointmentInfo.time,
       to: appointmentInfo.email,
+      type: "reminder",
     });
 
     await sendEmail("template_asoqqkh", appointmentInfo.email, {
