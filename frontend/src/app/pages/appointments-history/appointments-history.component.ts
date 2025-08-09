@@ -38,11 +38,12 @@ export class AppointmentsHistoryComponent {
       });
   }
 
-  saveNotes(notes: string, email: string) {
+  saveNotes(userId: string, notes: string, email: string) {
     this.http
       .post(
         environment.api_url + '/users/notes',
         {
+          userId: userId,
           notes: notes,
           email: email,
         },

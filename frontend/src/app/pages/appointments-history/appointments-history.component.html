@@ -82,7 +82,7 @@
         >
           <h2 style="margin: 0; font-weight: bold">Your notes</h2>
           <button
-            (click)="saveNotes(noteContainer.value, user.email)"
+            (click)="saveNotes(user.userId, noteContainer.value, user.email)"
             matTooltip="Save your notes"
             style="margin-top: 10px"
             mat-flat-button

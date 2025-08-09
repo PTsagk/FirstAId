@@ -61,13 +61,12 @@
           <span>{{ appointmentInfo.dietPreferences || "-" }}</span>
         </div>
       </div>
-      <!-- @if(appointmentInfo.status !== 'completed' && appointmentInfo.status) {
+      @if(appointmentInfo.status !== 'completed' && appointmentInfo.status) {
       <button
         style="margin-top: 40px"
         (click)="completeAppointment(true)"
         mat-flat-button
         color="primary"
-        [disabled]="appointmentInfo.status === 'canceled' || appointmentInfo.status === 'past'"
       >
         Complete Appointment
       </button>
@@ -80,7 +79,7 @@
       >
         Undo Completion
       </button>
-      } -->
+      }
     </div>
   </div>
   <div class="divider"></div>

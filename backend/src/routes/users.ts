@@ -104,6 +104,7 @@ router.post(
     try {
       const notes = req.body.notes;
       const userEmail = req.body.email;
+      const userId = req.body.userId;
       const doctorId = req.user.id;
       if (!doctorId || !notes)
         return res.status(400).send("Missing doctorId or notes");
@@ -111,11 +112,11 @@ router.post(
       const collection = db.collection("doctor-notes");
       const existingNote = await collection.findOne({
         doctorId: new ObjectId(doctorId),
-        email: userEmail,
+        userId: new ObjectId(userId),
       });
       if (existingNote) {
         await collection.updateOne(
-          { doctorId: new ObjectId(doctorId), email: userEmail },
+          { doctorId: new ObjectId(doctorId), userId: new ObjectId(userId) },
           { $set: { notes } }
         );
         res.json("Note updated successfully");
@@ -124,6 +125,7 @@ router.post(
           doctorId: new ObjectId(doctorId),
           email: userEmail,
           notes,
+          userId: new ObjectId(userId),
         });
         res.json("Note created successfully");
       }

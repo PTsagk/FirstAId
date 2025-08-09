@@ -136,6 +136,7 @@ const updateAppointment = async (
     appointmentInfo.date = moment(appointmentInfo.date).format("YYYY-MM-DD");
     const appointmentId = appointmentInfo._id || appointmentInfo.appointmentId;
     delete appointmentInfo._id;
+    delete appointmentInfo.appointmentId;
 
     const db = await getDB();
 
@@ -417,7 +418,6 @@ router.get("/", async (req: Request, res: Response) => {
 router.get("/history", async (req: Request, res: Response) => {
   try {
     const doctorId = req.user.id;
-
     const db = await getDB();
     const appointmentCollection = db.collection("appointments");
     let appointments = await appointmentCollection
@@ -429,20 +429,30 @@ router.get("/history", async (req: Request, res: Response) => {
       .toArray();
     // group by email
 
-    const emails = new Set(appointments.map((appt) => appt.email));
-    appointments = Array.from(emails).map((email: string) => ({
-      email,
-      appointments: appointments.filter((appt) => appt.email === email),
-      notes: notes.find((note) => note.email === email)?.notes || "",
+    // const emails = new Set(appointments.map((appt) => appt.email));
+    let appointmentsPerUser = appointments.map((appt: any) => ({
+      email: appt.email,
+      userId: appt.userId,
+      appointments: appointments.filter(
+        (appointment) => appointment.userId === appt.userId
+      ),
+      notes:
+        notes.find((note) => note.userId.toString() == appt.userId)?.notes ||
+        "",
     }));
     const patientsCollection = db.collection("patients");
     const patients = await patientsCollection
-      .find({ email: { $in: appointments.map((appt) => appt.email) } })
+      .find({
+        _id: {
+          $in: appointmentsPerUser.map((appt) => new ObjectId(appt.userId)),
+        },
+      })
       .toArray();
-    appointments = appointments.map((appointment) => {
-      const patient = patients.find((p) => p.email === appointment.email);
+    appointmentsPerUser = appointmentsPerUser.map((appointment) => {
+      const patient = patients.find(
+        (p) => p._id.toString() === appointment.userId
+      );
       if (patient) {
-        delete patient._id; // Remove _id to avoid conflicts
         return {
           ...appointment,
           ...patient,
@@ -451,7 +461,7 @@ router.get("/history", async (req: Request, res: Response) => {
       return appointment;
     });
 
-    res.json(appointments);
+    res.json(appointmentsPerUser);
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }

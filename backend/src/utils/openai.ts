@@ -200,6 +200,7 @@ async function runPatientAssistant(
             } else if (name === "createAppointment") {
               const params = JSON.parse(args);
               params.duration = doctorInfo.appointmentDuration;
+              params.userId = userId;
               result = await createAppointment(doctorId, params, true);
               result = JSON.stringify(result);
             } else if (name === "updateAppointment") {
