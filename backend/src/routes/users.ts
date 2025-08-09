@@ -109,7 +109,7 @@ router.post(
       if (!doctorId || !notes)
         return res.status(400).send("Missing doctorId or notes");
       const db = await getDB();
-      const collection = db.collection("doctor-notes");
+      const collection = db.collection("notes");
       const existingNote = await collection.findOne({
         doctorId: new ObjectId(doctorId),
         userId: new ObjectId(userId),

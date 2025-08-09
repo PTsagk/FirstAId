@@ -83,8 +83,8 @@ const createFollowUpNotification = async (notification) => {
       type: "message",
       userType: "patient",
     });
-    const appointmentMessagesCollection = db.collection("appointment-messages");
-    await appointmentMessagesCollection.insertOne({
+    const messagesCollection = db.collection("messages");
+    await messagesCollection.insertOne({
       date: notification.date,
       time: notification.time,
       to: notification.to,

@@ -70,10 +70,8 @@ async function sendNotificationEmail(emailData) {
       );
       const db = await getDB();
 
-      const appointmentMessagesCollection = db.collection(
-        "appointment-messages"
-      );
-      await appointmentMessagesCollection.insertOne({
+      const messagesCollection = db.collection("messages");
+      await messagesCollection.insertOne({
         date: emailData.date,
         time: emailData.time,
         to: emailData.to,

@@ -340,8 +340,8 @@ const getPreviousAppointments = async (userEmail: string) => {
         appointment.doctorEmail = doctor.email;
       }
     });
-    const appointmentMessagesCollection = db.collection("appointment-messages");
-    const messages = await appointmentMessagesCollection
+    const messagesCollection = db.collection("messages");
+    const messages = await messagesCollection
       .find({
         appointmentId: {
           $in: appointments.map((appt) => appt._id.toString()),
@@ -423,7 +423,7 @@ router.get("/history", async (req: Request, res: Response) => {
     let appointments = await appointmentCollection
       .find({ doctorId: doctorId })
       .toArray();
-    const notesCollection = db.collection("doctor-notes");
+    const notesCollection = db.collection("notes");
     const notes = await notesCollection
       .find({ doctorId: new ObjectId(doctorId) })
       .toArray();
