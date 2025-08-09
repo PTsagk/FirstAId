@@ -20,7 +20,7 @@ router.post("/chat/:doctorId", async (req, res) => {
         .status(400)
         .send("User ID, Doctor ID and question are required");
     const db = await getDB();
-    const collection = db.collection("patients-threads");
+    const collection = db.collection("conversations-threads");
     let threadInfo = await collection.findOne({
       userId: new ObjectId(userId),
       doctorId: new ObjectId(doctorId),
@@ -56,7 +56,7 @@ router.get("/messages/:doctorId", authenticateToken, async (req, res) => {
     if (!userId || !doctorId)
       return res.status(400).send("User ID and Doctor ID are required");
     const db = await getDB();
-    const collection = db.collection("patients-threads");
+    const collection = db.collection("conversations-threads");
     let threadInfo = await collection.findOne({
       userId: new ObjectId(userId),
       doctorId: new ObjectId(doctorId),
@@ -79,7 +79,7 @@ router.delete("/thread/:doctorId", async (req, res) => {
     if (!userId || !doctorId)
       return res.status(400).send("User ID and Doctor ID are required");
     const db = await getDB();
-    const threads = db.collection("patients-threads");
+    const threads = db.collection("conversations-threads");
     const threadsData = await threads.findOne({
       userId: new ObjectId(userId),
       doctorId: new ObjectId(doctorId),
