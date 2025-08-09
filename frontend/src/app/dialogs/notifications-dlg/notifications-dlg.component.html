@@ -1,1 +1,13 @@
-<p>notifications-dlg works!</p>
+<div class="notifications">
+  <h1>Notifications</h1>
+  @for(notification of notifications; track notification._id) {
+  <div class="notification">
+    <p>{{ notification.message }}</p>
+    <small
+      >{{ notification.createdAt }}
+      @if(!notification.read) {
+      <i class="fa-solid fa-circle" style="color: orange"></i> }
+    </small>
+  </div>
+  }
+</div>

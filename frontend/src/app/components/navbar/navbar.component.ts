@@ -13,6 +13,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
+import { NotificationsDlgComponent } from '../../dialogs/notifications-dlg/notifications-dlg.component';
 
 @Component({
   selector: 'app-navbar',
@@ -78,6 +79,15 @@ export class NavbarComponent implements OnDestroy {
           this.hideButtons = true;
         }
       }
+    });
+  }
+
+  showNotifications() {
+    this.dialog.open(NotificationsDlgComponent, {
+      width: '600px',
+      data: {
+        notifications: this.notifications,
+      },
     });
   }
 

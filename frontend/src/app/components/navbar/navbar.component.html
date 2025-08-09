@@ -19,7 +19,7 @@
   </div>
   } @if(hideButtons){
   <div class="user-info">
-    <div class="info-icon">
+    <div class="info-icon" (click)="showNotifications()">
       <i class="fa-solid fa-bell"></i>
       @if(undreadCount > 0){
       <span class="notification">{{ undreadCount }}</span>
