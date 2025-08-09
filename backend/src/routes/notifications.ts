@@ -91,6 +91,7 @@ const createFollowUpNotification = async (notification) => {
       fullname: notification.fullname,
       message: notification.message,
       appointmentId: notification.appointmentId,
+      userType: "patient",
     });
 
     return "Follow-up notification created successfully";
