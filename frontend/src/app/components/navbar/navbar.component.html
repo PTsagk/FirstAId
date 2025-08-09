@@ -21,8 +21,8 @@
   <div class="user-info">
     <div class="info-icon">
       <i class="fa-solid fa-bell"></i>
-      @if(notifications.length > 0){
-      <span class="notification">{{ notifications.length }}</span>
+      @if(undreadCount > 0){
+      <span class="notification">{{ undreadCount }}</span>
       }
     </div>
     @if(userInfo.userType === 'patients'){

@@ -1,5 +1,6 @@
 import Express from "express";
 import { getDB } from "../utils/connect";
+const moment = require("moment");
 const router = Express.Router();
 
 router.post("/create", async (req, res) => {
@@ -47,6 +48,21 @@ router.post("/send-follow-up", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const db = await getDB();
+    const collection = db.collection("notifications");
+    const notifications = await collection
+      .find({ userId: req.user.id })
+      .toArray();
+    notifications.forEach((n) => (n.read = true));
+    res.json(notifications);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 const createNotification = async (notification) => {
   try {
     const db = await getDB();
@@ -79,6 +95,13 @@ const createEmailNotification = async (notification) => {
       type: "message",
       userType: "doctor",
     });
+
+    createNotification({
+      message: "You have a new message from  " + notification.fullname,
+      sent: false,
+      userId: notification.userId,
+      createdAt: moment().format("YYYY-MM-DD HH:mm"),
+    });
     return "Notification created successfully";
   } catch (error) {
     console.error("Error creating notification:", error);
@@ -110,12 +133,20 @@ const createFollowUpNotification = async (notification) => {
       userType: "patient",
     });
 
+    createNotification({
+      message: "You have a new message from  " + notification.fullname,
+      sent: false,
+      userId: notification.doctorId,
+      createdAt: moment().format("YYYY-MM-DD HH:mm"),
+    });
+
     return "Follow-up notification created successfully";
   } catch (error) {
     console.error("Error creating follow-up notification:", error);
     throw new Error("Failed to create follow-up notification");
   }
 };
+
 export {
   createEmailNotification,
   createFollowUpNotification,

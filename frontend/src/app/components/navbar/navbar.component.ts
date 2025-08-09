@@ -11,6 +11,8 @@ import {
 } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environment/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -31,12 +33,14 @@ export class NavbarComponent implements OnDestroy {
 
   userInfo: any = null;
   notifications: any = [];
+  undreadCount: number = 0;
   constructor(
     public dialog: MatDialog,
     public accountService: AccountService,
     public router: Router,
     private notificationService: NotificationService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private http: HttpClient
   ) {
     this.accountService.userInfo
       .pipe(takeUntil(this.destroy$))
@@ -45,16 +49,25 @@ export class NavbarComponent implements OnDestroy {
           this.userInfo = userInfo;
           this.notificationService.requestNotificationPermission();
 
-          // Connect to SSE
           this.notificationService.connectToNotifications();
 
-          // Subscribe to notifications
           this.notificationService.notifications$.subscribe((notifications) => {
-            this.notifications = notifications;
+            this.notifications.push(...notifications);
             console.log('New notifications:', notifications);
+            this.undreadCount = notifications.filter((n) => !n.read).length;
             this.cd.detectChanges();
-            // Update UI with new notifications
           });
+
+          this.http
+            .get(environment.api_url + '/notifications', {
+              withCredentials: true,
+            })
+            .subscribe((notifications) => {
+              this.notifications = notifications;
+              // @ts-ignore
+              this.undreadCount = notifications.filter((n) => !n.read).length;
+              this.cd.detectChanges();
+            });
         }
       });
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event) => {

@@ -218,6 +218,40 @@ const updateAppointment = async (
       { $set: appointmentInfo }
     );
 
+    const reminderEmailsCollection = db.collection("emails-queue");
+    await reminderEmailsCollection.insertOne({
+      date: appointmentInfo.date,
+      time: appointmentInfo.time,
+      to: appointmentInfo.email,
+      type: "reminder",
+      userId: appointmentInfo.doctorId,
+    });
+
+    createNotification({
+      message:
+        "An appointment has been scheduled for " +
+        appointmentInfo.fullname +
+        " for " +
+        appointmentInfo.date +
+        " at " +
+        appointmentInfo.time,
+      sent: false,
+      userId: appointmentInfo.doctorId,
+      createdAt: moment().format("YYYY-MM-DD HH:mm"),
+    });
+
+    // Add notification for patient
+    createNotification({
+      message:
+        "Your appointment has been scheduled for " +
+        appointmentInfo.date +
+        " at " +
+        appointmentInfo.time,
+      sent: false,
+      userId: appointmentInfo.userId,
+      createdAt: moment().format("YYYY-MM-DD HH:mm"),
+    });
+
     return "OK";
   } catch (error) {
     console.error(error);

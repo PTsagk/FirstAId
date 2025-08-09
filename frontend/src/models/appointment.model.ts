@@ -19,4 +19,6 @@ export interface Appointment {
   mentalHealthHistory?: string;
   pastSurgeries?: string;
   dietPreferences?: string;
+  userId?: string;
+  doctorId?: string;
 }

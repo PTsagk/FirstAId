@@ -118,6 +118,7 @@ export class UserHistoryComponent {
           date: this.selectedAppointment.date,
           time: this.selectedAppointment.time,
           appointmentId: this.selectedAppointment._id,
+          doctorId: this.selectedAppointment.doctorId,
           message: message,
         },
         { withCredentials: true }

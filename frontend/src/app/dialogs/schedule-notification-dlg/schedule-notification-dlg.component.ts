@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
+import { AccountService } from '../../../services/account.service';
 
 @Component({
   selector: 'app-schedule-notification-dlg',
@@ -41,7 +42,8 @@ export class ScheduleNotificationDlgComponent implements OnInit {
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<ScheduleNotificationDlgComponent>
+    private dialogRef: MatDialogRef<ScheduleNotificationDlgComponent>,
+    private accountService: AccountService
   ) {}
   ngOnInit(): void {
     this.scheduleDateTime = this.fb.group({
@@ -62,6 +64,8 @@ export class ScheduleNotificationDlgComponent implements OnInit {
       patientNotes: this.appointmentInfo.description,
       fullname: this.appointmentInfo.fullname,
       appointmentId: this.appointmentInfo._id,
+      userId: this.appointmentInfo.userId,
+      doctorName: this.accountService.userInfo.getValue().name,
     };
     this.http
       .post(environment.api_url + '/notifications/create', notification, {
