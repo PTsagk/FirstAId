@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AccountService } from '../../../services/account.service';
@@ -10,6 +10,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -29,15 +30,32 @@ export class NavbarComponent implements OnDestroy {
   protected destroy$ = new Subject<void>();
 
   userInfo: any = null;
+  notifications: any = [];
   constructor(
     public dialog: MatDialog,
     public accountService: AccountService,
-    public router: Router
+    public router: Router,
+    private notificationService: NotificationService,
+    private cd: ChangeDetectorRef
   ) {
     this.accountService.userInfo
       .pipe(takeUntil(this.destroy$))
       .subscribe((userInfo) => {
-        this.userInfo = userInfo;
+        if (userInfo) {
+          this.userInfo = userInfo;
+          this.notificationService.requestNotificationPermission();
+
+          // Connect to SSE
+          this.notificationService.connectToNotifications();
+
+          // Subscribe to notifications
+          this.notificationService.notifications$.subscribe((notifications) => {
+            this.notifications = notifications;
+            console.log('New notifications:', notifications);
+            this.cd.detectChanges();
+            // Update UI with new notifications
+          });
+        }
       });
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {

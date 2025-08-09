@@ -18,7 +18,7 @@ router.post("/create", async (req, res) => {
     ) {
       return res.status(400).send("Missing required fields");
     }
-    await createNotification(notification);
+    await createEmailNotification(notification);
     res.json("OK");
   } catch (error) {
     console.error(error);
@@ -48,6 +48,22 @@ router.post("/send-follow-up", async (req, res) => {
 });
 
 const createNotification = async (notification) => {
+  try {
+    const db = await getDB();
+    const collection = db.collection("notifications");
+    await collection.insertOne({
+      message: notification.message,
+      sent: false,
+      userId: notification.userId,
+      createdAt: notification.createdAt,
+    });
+  } catch (error) {
+    console.error("Error creating notification:", error);
+    throw new Error("Failed to create notification");
+  }
+};
+
+const createEmailNotification = async (notification) => {
   try {
     const db = await getDB();
     const collection = db.collection("emails-queue");
@@ -100,4 +116,9 @@ const createFollowUpNotification = async (notification) => {
     throw new Error("Failed to create follow-up notification");
   }
 };
-export { createNotification, createFollowUpNotification, router as default };
+export {
+  createEmailNotification,
+  createFollowUpNotification,
+  createNotification,
+  router as default,
+};

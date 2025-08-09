@@ -5,6 +5,7 @@ import { sendEmail } from "../utils/email";
 import moment from "moment";
 import { ObjectId } from "mongodb";
 import { runCompletion } from "../utils/openai";
+import { createNotification } from "./notifications";
 
 const router = Router();
 
@@ -97,6 +98,8 @@ const createAppointment = async (
         });
       }
     }
+
+    // create appointment
     await appointmentCollection.insertOne(appointmentInfo);
     const reminderEmailsCollection = db.collection("emails-queue");
     await reminderEmailsCollection.insertOne({
@@ -104,8 +107,36 @@ const createAppointment = async (
       time: appointmentInfo.time,
       to: appointmentInfo.email,
       type: "reminder",
+      userId: appointmentInfo.doctorId,
     });
 
+    // Add notification for doctor
+    createNotification({
+      message:
+        "An appointment has been scheduled for " +
+        appointmentInfo.fullname +
+        " for " +
+        appointmentInfo.date +
+        " at " +
+        appointmentInfo.time,
+      sent: false,
+      userId: appointmentInfo.doctorId,
+      createdAt: moment().format("YYYY-MM-DD HH:mm"),
+    });
+
+    // Add notification for patient
+    createNotification({
+      message:
+        "Your appointment has been scheduled for " +
+        appointmentInfo.date +
+        " at " +
+        appointmentInfo.time,
+      sent: false,
+      userId: appointmentInfo.userId,
+      createdAt: moment().format("YYYY-MM-DD HH:mm"),
+    });
+
+    // send email notfication to patient
     await sendEmail("template_asoqqkh", appointmentInfo.email, {
       fullname: appointmentInfo.fullname,
       date: appointmentInfo.date,

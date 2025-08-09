@@ -10,7 +10,7 @@ import {
   getPreviousAppointments,
   updateAppointment,
 } from "../routes/appointments";
-import { createNotification } from "../routes/notifications";
+import { createEmailNotification } from "../routes/notifications";
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI,
 });
@@ -79,7 +79,7 @@ async function runDoctorAssistant(
                 params.appointmentId
               );
             } else if (name === "createNotification") {
-              result = await createNotification(params);
+              result = await createEmailNotification(params);
             } else {
               result = `No handler for function: ${name}`;
             }
@@ -214,7 +214,7 @@ async function runPatientAssistant(
               result = JSON.stringify(result);
             } else if (name === "createNotification") {
               const params = JSON.parse(args);
-              result = await createNotification(params);
+              result = await createEmailNotification(params);
             } else if (name === "getPreviousAppointments") {
               result = await getPreviousAppointments(patientInfo.email);
             } else {

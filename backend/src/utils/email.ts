@@ -49,8 +49,8 @@ async function sendReminderEmail(emailData) {
         date: emailData.date,
         time: emailData.time,
       });
-      return true;
     }
+
     return false;
   } catch (error) {
     console.error("Error sending scheduled emails:", error);

@@ -44,9 +44,6 @@ app.get("/", (req, res) => {
 // cron.schedule("* * * * *", () => {
 cron.schedule("* * * * *", async () => {
   console.log("Checking for scheduled emails...");
-  // sendReminderEmails();
-  // sendNotificationEmails();
-  // sendFollowUpEmail();
   const db = await getDB();
 
   const collection = db.collection("emails-queue");
@@ -74,6 +71,70 @@ cron.schedule("* * * * *", async () => {
         .filter((emailData) => emailData.sent)
         .map((emailData) => new ObjectId(emailData._id)),
     },
+  });
+
+  // Check for new notifications and send to clients
+  const notificationsCollection = db.collection("notifications");
+  const newNotifications = await notificationsCollection
+    .find({ sent: false })
+    .toArray();
+
+  for (const notification of newNotifications) {
+    const userId = notification.userId;
+
+    if (userId && sseConnections.has(userId)) {
+      const res = sseConnections.get(userId);
+      try {
+        res?.write(
+          `data: ${JSON.stringify({
+            type: "notification",
+            data: notification,
+          })}\n\n`
+        );
+
+        // Mark as sent
+        await notificationsCollection.updateOne(
+          { _id: notification._id },
+          { $set: { sent: true, sentAt: new Date() } }
+        );
+
+        console.log(`Notification sent to user: ${userId}`);
+      } catch (error) {
+        console.error(`Failed to send notification to user ${userId}:`, error);
+        sseConnections.delete(userId);
+      }
+    }
+  }
+});
+const sseConnections = new Map<string, express.Response>();
+
+// SSE endpoint for notifications
+app.get("/notifications/stream", authenticateToken, (req: any, res) => {
+  const userId = req.user.id;
+
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+    "Access-Control-Allow-Origin": req.headers.origin || "*",
+    "Access-Control-Allow-Credentials": "true",
+  });
+
+  // Store connection
+  sseConnections.set(userId, res);
+
+  // Send initial connection confirmation
+  res.write(
+    `data: ${JSON.stringify({
+      type: "connected",
+      message: "Connected to notifications",
+    })}\n\n`
+  );
+
+  // Handle client disconnect
+  req.on("close", () => {
+    sseConnections.delete(userId);
+    console.log(`SSE connection closed for user: ${userId}`);
   });
 });
 
