@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDlgComponent } from '../confirmation-dlg/confirmation-dlg.component';
-import { ScheduleNotificationDlgComponent } from '../schedule-notification-dlg/schedule-notification-dlg.component';
+import { SendMessageDlgComponent } from '../send-message-dlg/send-message-dlg';
 
 @Component({
   selector: 'app-appointment-details-dlg',
@@ -107,8 +107,8 @@ export class AppointmentDetailsDlgComponent {
       });
   }
 
-  scheduleNotification(): void {
-    const dlg = this.dialog.open(ScheduleNotificationDlgComponent, {
+  sendMessage(): void {
+    const dlg = this.dialog.open(SendMessageDlgComponent, {
       width: '500px',
       data: {
         appointmentInfo: this.appointmentInfo,

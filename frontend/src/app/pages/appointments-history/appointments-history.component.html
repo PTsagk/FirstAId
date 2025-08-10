@@ -112,7 +112,9 @@
     </div>
 
     <div class="appointments">
-      <app-patient-list [labelSearch]="patient.email"></app-patient-list>
+      <app-appointment-list
+        [labelSearch]="patient.email"
+      ></app-appointment-list>
     </div>
   </mat-expansion-panel>
   }

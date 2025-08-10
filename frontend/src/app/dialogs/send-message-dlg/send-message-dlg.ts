@@ -21,7 +21,7 @@ import { AccountService } from '../../../services/account.service';
 import { from } from 'rxjs';
 
 @Component({
-  selector: 'app-schedule-notification-dlg',
+  selector: 'app-send-message-dlg',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -32,10 +32,10 @@ import { from } from 'rxjs';
     MatButtonModule,
     MatInputModule,
   ],
-  templateUrl: './schedule-notification-dlg.component.html',
-  styleUrl: './schedule-notification-dlg.component.scss',
+  templateUrl: './send-message-dlg.component.html',
+  styleUrl: './send-message-dlg.component.scss',
 })
-export class ScheduleNotificationDlgComponent implements OnInit {
+export class SendMessageDlgComponent implements OnInit {
   appointmentInfo!: Appointment;
   scheduleDateTime!: FormGroup;
   pending: boolean = false;
@@ -43,7 +43,7 @@ export class ScheduleNotificationDlgComponent implements OnInit {
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<ScheduleNotificationDlgComponent>,
+    private dialogRef: MatDialogRef<SendMessageDlgComponent>,
     private accountService: AccountService
   ) {}
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class ScheduleNotificationDlgComponent implements OnInit {
       messageReason: [''],
     });
   }
-  scheduleNotification(form: FormGroup) {
+  sendMessage(form: FormGroup) {
     if (!form.valid) return;
     this.pending = true;
     const notification = {

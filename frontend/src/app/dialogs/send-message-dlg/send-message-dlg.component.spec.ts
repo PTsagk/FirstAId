@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PatientListsComponent } from './patient-lists.component';
+import { SendMessageDlgComponent } from './send-message-dlg';
 
-describe('PatientListComponent', () => {
-  let component: PatientListsComponent;
-  let fixture: ComponentFixture<PatientListsComponent>;
+describe('SendMessageDlgComponent', () => {
+  let component: SendMessageDlgComponent;
+  let fixture: ComponentFixture<SendMessageDlgComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PatientListsComponent],
+      imports: [SendMessageDlgComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PatientListsComponent);
+    fixture = TestBed.createComponent(SendMessageDlgComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -15,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDlgComponent } from '../../dialogs/confirmation-dlg/confirmation-dlg.component';
 import { marked } from 'marked';
 import { Chart, registerables } from 'chart.js';
-import { PatientListComponent } from '../../components/patient-list/patient-list.component';
+import { AppointmentListComponent } from '../../components/appointment-list/appointment-list.component';
 
 @Component({
   selector: 'app-chat-bot',
@@ -175,7 +175,7 @@ export class ChatBotComponent implements OnInit, AfterViewInit {
                   firstPoint.index
                 ];
               console.log(`Clicked on ${label}: ${value}`);
-              const dialogRef = this.dialog.open(PatientListComponent, {
+              const dialogRef = this.dialog.open(AppointmentListComponent, {
                 width: '1000px',
                 data: {
                   title: `Data for ${label}`,

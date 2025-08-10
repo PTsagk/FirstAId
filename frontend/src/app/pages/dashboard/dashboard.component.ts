@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DashboardBoxComponent } from '../../components/dashboard-box/dashboard-box.component';
-import { PatientListComponent } from '../../components/patient-list/patient-list.component';
+import { AppointmentListComponent } from '../../components/appointment-list/appointment-list.component';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { AppointmentService } from '../../../services/appointment.service';
 import { MatButton } from '@angular/material/button';
@@ -10,7 +10,7 @@ import moment from 'moment';
   standalone: true,
   imports: [
     DashboardBoxComponent,
-    PatientListComponent,
+    AppointmentListComponent,
     CalendarComponent,
     MatButton,
   ],

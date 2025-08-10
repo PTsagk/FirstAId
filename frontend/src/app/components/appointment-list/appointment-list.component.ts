@@ -25,9 +25,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
 @Component({
-  selector: 'app-patient-list',
-  templateUrl: './patient-list.component.html',
-  styleUrls: ['./patient-list.component.scss'],
+  selector: 'app-appointment-list',
+  templateUrl: './appointment-list.component.html',
+  styleUrls: ['./appointment-list.component.scss'],
   standalone: true,
   imports: [
     MatPaginator,
@@ -42,7 +42,7 @@ import { ActivatedRoute } from '@angular/router';
     MatProgressSpinnerModule,
   ],
 })
-export class PatientListComponent implements AfterViewInit {
+export class AppointmentListComponent implements AfterViewInit {
   pending: boolean = true;
   displayedColumns: string[] = [
     'fullname',

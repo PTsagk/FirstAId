@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AppointmentService } from '../../../services/appointment.service';
 import { Appointment } from '../../../models/appointment.model';
-import { PatientListComponent } from '../../components/patient-list/patient-list.component';
+import { AppointmentListComponent } from '../../components/appointment-list/appointment-list.component';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
@@ -15,7 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   imports: [
     MatExpansionModule,
     MatButtonModule,
-    PatientListComponent,
+    AppointmentListComponent,
     MatInputModule,
   ],
   templateUrl: './appointments-history.component.html',
