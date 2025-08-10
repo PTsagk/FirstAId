@@ -1,4 +1,3 @@
-// Import necessary modules
 import { Request, Response, Router } from "express";
 import { getDB } from "../utils/connect";
 import { sendEmail } from "../utils/email";

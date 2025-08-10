@@ -1,6 +1,5 @@
 import emailjs from "@emailjs/nodejs";
 import { getDB } from "./connect";
-import { ObjectId } from "mongodb";
 import { runCompletion } from "./openai";
 const moment = require("moment");
 

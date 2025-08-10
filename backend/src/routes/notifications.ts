@@ -151,9 +151,49 @@ const createFollowUpNotification = async (notification) => {
   }
 };
 
+const sendSEENotification = async (sseConnections) => {
+  // Check for new notifications and send to clients
+  const db = await getDB();
+  const notificationsCollection = db.collection("notifications");
+  const newNotifications = await notificationsCollection
+    .find({ sent: false })
+    .toArray();
+
+  for (const notification of newNotifications) {
+    const patientId = notification.patientId;
+
+    if (patientId && sseConnections.has(patientId)) {
+      const res = sseConnections.get(patientId);
+      try {
+        res?.write(
+          `data: ${JSON.stringify({
+            type: "notification",
+            data: notification,
+          })}\n\n`
+        );
+
+        // Mark as sent
+        await notificationsCollection.updateOne(
+          { _id: notification._id },
+          { $set: { sent: true, sentAt: new Date() } }
+        );
+
+        console.log(`Notification sent to patient: ${patientId}`);
+      } catch (error) {
+        console.error(
+          `Failed to send notification to patient ${patientId}:`,
+          error
+        );
+        sseConnections.delete(patientId);
+      }
+    }
+  }
+};
+
 export {
   createEmailNotification,
   createFollowUpNotification,
   createNotification,
+  sendSEENotification,
   router as default,
 };

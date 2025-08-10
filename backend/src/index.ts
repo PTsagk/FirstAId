@@ -14,7 +14,9 @@ import {
   sendNotificationEmail,
   sendFollowUpEmail,
 } from "./utils/email";
-import notificationsRouter from "./routes/notifications";
+import notificationsRouter, {
+  sendSEENotification,
+} from "./routes/notifications";
 import { getDB } from "./utils/connect";
 import { ObjectId } from "mongodb";
 const moment = require("moment");
@@ -65,7 +67,6 @@ cron.schedule("* * * * *", async () => {
       emailData.sent = false;
     }
   }
-
   await collection.deleteMany({
     _id: {
       $in: emailsToSend
@@ -74,41 +75,8 @@ cron.schedule("* * * * *", async () => {
     },
   });
 
-  // Check for new notifications and send to clients
-  const notificationsCollection = db.collection("notifications");
-  const newNotifications = await notificationsCollection
-    .find({ sent: false })
-    .toArray();
-
-  for (const notification of newNotifications) {
-    const patientId = notification.patientId;
-
-    if (patientId && sseConnections.has(patientId)) {
-      const res = sseConnections.get(patientId);
-      try {
-        res?.write(
-          `data: ${JSON.stringify({
-            type: "notification",
-            data: notification,
-          })}\n\n`
-        );
-
-        // Mark as sent
-        await notificationsCollection.updateOne(
-          { _id: notification._id },
-          { $set: { sent: true, sentAt: new Date() } }
-        );
-
-        console.log(`Notification sent to patient: ${patientId}`);
-      } catch (error) {
-        console.error(
-          `Failed to send notification to patient ${patientId}:`,
-          error
-        );
-        sseConnections.delete(patientId);
-      }
-    }
-  }
+  // send notification events (SSE)
+  sendSEENotification(sseConnections);
 });
 const sseConnections = new Map<string, express.Response>();
 
