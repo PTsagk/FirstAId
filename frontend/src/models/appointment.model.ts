@@ -19,6 +19,6 @@ export interface Appointment {
   mentalHealthHistory?: string;
   pastSurgeries?: string;
   dietPreferences?: string;
-  userId?: string;
+  patientId?: string;
   doctorId?: string;
 }

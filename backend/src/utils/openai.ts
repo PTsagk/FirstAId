@@ -142,7 +142,7 @@ async function runDoctorAssistant(
 async function runPatientAssistant(
   threadId: string,
   question: string,
-  userId?: string,
+  patientId?: string,
   doctorId?: string
 ) {
   let run = null;
@@ -160,7 +160,9 @@ async function runPatientAssistant(
     const doctors = db.collection("doctors");
     const patients = db.collection("patients");
     const doctorInfo = await doctors.findOne({ _id: new ObjectId(doctorId) });
-    const patientInfo = await patients.findOne({ _id: new ObjectId(userId) });
+    const patientInfo = await patients.findOne({
+      _id: new ObjectId(patientId),
+    });
     run = await openai.beta.threads.runs.create(threadId, {
       assistant_id: "asst_YhszAb0grob0xcPbgF56r3Xm",
       additional_instructions:
@@ -200,7 +202,7 @@ async function runPatientAssistant(
             } else if (name === "createAppointment") {
               const params = JSON.parse(args);
               params.duration = doctorInfo.appointmentDuration;
-              params.userId = userId;
+              params.patientId = patientId;
               result = await createAppointment(doctorId, params, true);
               result = JSON.stringify(result);
             } else if (name === "updateAppointment") {

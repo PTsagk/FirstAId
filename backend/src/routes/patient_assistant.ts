@@ -12,17 +12,17 @@ import { authenticateToken } from "./auth";
 
 router.post("/chat/:doctorId", async (req, res) => {
   try {
-    const userId = req.user.id;
+    const patientId = req.user.id;
     const question = req.body.question;
     const doctorId = req.params.doctorId;
-    if (!userId || !doctorId || !question)
+    if (!patientId || !doctorId || !question)
       return res
         .status(400)
         .send("User ID, Doctor ID and question are required");
     const db = await getDB();
     const collection = db.collection("conversations-threads");
     let threadInfo = await collection.findOne({
-      userId: new ObjectId(userId),
+      patientId: new ObjectId(patientId),
       doctorId: new ObjectId(doctorId),
     });
     let threadId = threadInfo?.threadId;
@@ -30,7 +30,7 @@ router.post("/chat/:doctorId", async (req, res) => {
       // create a new thread for the patient
       threadId = await createThreadId();
       await collection.insertOne({
-        userId: new ObjectId(userId),
+        patientId: new ObjectId(patientId),
         doctorId: new ObjectId(doctorId),
         threadId,
       });
@@ -38,7 +38,7 @@ router.post("/chat/:doctorId", async (req, res) => {
     const messages = await runPatientAssistant(
       threadId,
       question,
-      userId,
+      patientId,
       doctorId
     );
     const message = messages.length > 0 ? messages.shift() : null;
@@ -51,14 +51,14 @@ router.post("/chat/:doctorId", async (req, res) => {
 
 router.get("/messages/:doctorId", authenticateToken, async (req, res) => {
   try {
-    const userId = req.user.id;
+    const patientId = req.user.id;
     const doctorId = req.params.doctorId;
-    if (!userId || !doctorId)
+    if (!patientId || !doctorId)
       return res.status(400).send("User ID and Doctor ID are required");
     const db = await getDB();
     const collection = db.collection("conversations-threads");
     let threadInfo = await collection.findOne({
-      userId: new ObjectId(userId),
+      patientId: new ObjectId(patientId),
       doctorId: new ObjectId(doctorId),
     });
     if (!threadInfo?.threadId) {
@@ -74,14 +74,14 @@ router.get("/messages/:doctorId", authenticateToken, async (req, res) => {
 
 router.delete("/thread/:doctorId", async (req, res) => {
   try {
-    const userId = req.user.id;
+    const patientId = req.user.id;
     const doctorId = req.params.doctorId;
-    if (!userId || !doctorId)
+    if (!patientId || !doctorId)
       return res.status(400).send("User ID and Doctor ID are required");
     const db = await getDB();
     const threads = db.collection("conversations-threads");
     const threadsData = await threads.findOne({
-      userId: new ObjectId(userId),
+      patientId: new ObjectId(patientId),
       doctorId: new ObjectId(doctorId),
     });
     if (!threadsData) {
@@ -93,7 +93,7 @@ router.delete("/thread/:doctorId", async (req, res) => {
     }
     await deleteThread(threadId);
     await threads.deleteOne({
-      userId: new ObjectId(userId),
+      patientId: new ObjectId(patientId),
       doctorId: new ObjectId(doctorId),
     });
     res.json("OK");

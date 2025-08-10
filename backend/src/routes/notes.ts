@@ -8,7 +8,7 @@ router.post("/", async (req: Request, res: Response) => {
   try {
     const notes = req.body.notes;
     const userEmail = req.body.email;
-    const userId = req.body.userId;
+    const patientId = req.body.patientId;
     const doctorId = req.user.id;
     if (!doctorId || !notes)
       return res.status(400).send("Missing doctorId or notes");
@@ -16,11 +16,14 @@ router.post("/", async (req: Request, res: Response) => {
     const collection = db.collection("notes");
     const existingNote = await collection.findOne({
       doctorId: new ObjectId(doctorId),
-      userId: new ObjectId(userId),
+      patientId: new ObjectId(patientId),
     });
     if (existingNote) {
       await collection.updateOne(
-        { doctorId: new ObjectId(doctorId), userId: new ObjectId(userId) },
+        {
+          doctorId: new ObjectId(doctorId),
+          patientId: new ObjectId(patientId),
+        },
         { $set: { notes } }
       );
       res.json("Note updated successfully");
@@ -29,7 +32,7 @@ router.post("/", async (req: Request, res: Response) => {
         doctorId: new ObjectId(doctorId),
         email: userEmail,
         notes,
-        userId: new ObjectId(userId),
+        patientId: new ObjectId(patientId),
       });
       res.json("Note created successfully");
     }

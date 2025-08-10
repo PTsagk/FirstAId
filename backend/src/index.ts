@@ -81,10 +81,10 @@ cron.schedule("* * * * *", async () => {
     .toArray();
 
   for (const notification of newNotifications) {
-    const userId = notification.userId;
+    const patientId = notification.patientId;
 
-    if (userId && sseConnections.has(userId)) {
-      const res = sseConnections.get(userId);
+    if (patientId && sseConnections.has(patientId)) {
+      const res = sseConnections.get(patientId);
       try {
         res?.write(
           `data: ${JSON.stringify({
@@ -99,10 +99,13 @@ cron.schedule("* * * * *", async () => {
           { $set: { sent: true, sentAt: new Date() } }
         );
 
-        console.log(`Notification sent to user: ${userId}`);
+        console.log(`Notification sent to user: ${patientId}`);
       } catch (error) {
-        console.error(`Failed to send notification to user ${userId}:`, error);
-        sseConnections.delete(userId);
+        console.error(
+          `Failed to send notification to user ${patientId}:`,
+          error
+        );
+        sseConnections.delete(patientId);
       }
     }
   }
@@ -111,7 +114,7 @@ const sseConnections = new Map<string, express.Response>();
 
 // SSE endpoint for notifications
 app.get("/notifications/stream", authenticateToken, (req: any, res) => {
-  const userId = req.user.id;
+  const patientId = req.user.id;
 
   res.writeHead(200, {
     "Content-Type": "text/event-stream",
@@ -122,7 +125,7 @@ app.get("/notifications/stream", authenticateToken, (req: any, res) => {
   });
 
   // Store connection
-  sseConnections.set(userId, res);
+  sseConnections.set(patientId, res);
 
   // Send initial connection confirmation
   res.write(
@@ -134,8 +137,8 @@ app.get("/notifications/stream", authenticateToken, (req: any, res) => {
 
   // Handle client disconnect
   req.on("close", () => {
-    sseConnections.delete(userId);
-    console.log(`SSE connection closed for user: ${userId}`);
+    sseConnections.delete(patientId);
+    console.log(`SSE connection closed for user: ${patientId}`);
   });
 });
 

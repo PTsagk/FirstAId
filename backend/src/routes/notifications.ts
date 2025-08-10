@@ -55,7 +55,7 @@ router.get("/", async (req, res) => {
     const db = await getDB();
     const collection = db.collection("notifications");
     const notifications = await collection
-      .find({ userId: req.user.id })
+      .find({ patientId: req.user.id })
       .toArray();
     notifications.forEach((n) => (n.read = true));
     res.json(notifications);
@@ -72,7 +72,7 @@ const createNotification = async (notification) => {
     await collection.insertOne({
       message: notification.message,
       sent: false,
-      userId: notification.userId,
+      patientId: notification.patientId,
       createdAt: notification.createdAt,
     });
   } catch (error) {
@@ -102,7 +102,7 @@ const createEmailNotification = async (notification) => {
     createNotification({
       message: "You have a new message from  " + notification.fullname,
       sent: false,
-      userId: notification.userId,
+      patientId: notification.patientId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
     return "Notification created successfully";
@@ -140,7 +140,7 @@ const createFollowUpNotification = async (notification) => {
     createNotification({
       message: "You have a new message from  " + notification.fullname,
       sent: false,
-      userId: notification.doctorId,
+      patientId: notification.doctorId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
 

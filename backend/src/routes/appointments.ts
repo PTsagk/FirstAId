@@ -109,7 +109,7 @@ const createAppointment = async (
       to: doctor.email,
       from: appointmentInfo.email,
       type: "reminder",
-      userId: appointmentInfo.doctorId,
+      patientId: appointmentInfo.doctorId,
     });
 
     // Add notification for doctor
@@ -124,7 +124,7 @@ const createAppointment = async (
         ". Appointment severity is " +
         appointmentInfo.severity,
       sent: false,
-      userId: appointmentInfo.doctorId,
+      patientId: appointmentInfo.doctorId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
 
@@ -136,7 +136,7 @@ const createAppointment = async (
         " at " +
         appointmentInfo.time,
       sent: false,
-      userId: appointmentInfo.userId,
+      patientId: appointmentInfo.patientId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
     return appointmentInfo;
@@ -222,7 +222,7 @@ const updateAppointment = async (
       to: doctor.email,
       from: appointmentInfo.email,
       type: "reminder",
-      userId: appointmentInfo.doctorId,
+      patientId: appointmentInfo.doctorId,
     });
 
     createNotification({
@@ -234,7 +234,7 @@ const updateAppointment = async (
         " at " +
         appointmentInfo.time,
       sent: false,
-      userId: appointmentInfo.doctorId,
+      patientId: appointmentInfo.doctorId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
 
@@ -246,7 +246,7 @@ const updateAppointment = async (
         " at " +
         appointmentInfo.time,
       sent: false,
-      userId: appointmentInfo.userId,
+      patientId: appointmentInfo.patientId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
 
@@ -495,25 +495,25 @@ router.get("/history", async (req: Request, res: Response) => {
     // const emails = new Set(appointments.map((appt) => appt.email));
     let appointmentsPerUser = appointments.map((appt: any) => ({
       email: appt.email,
-      userId: appt.userId,
+      patientId: appt.patientId,
       appointments: appointments.filter(
-        (appointment) => appointment.userId === appt.userId
+        (appointment) => appointment.patientId === appt.patientId
       ),
       notes:
-        notes.find((note) => note.userId.toString() == appt.userId)?.notes ||
-        "",
+        notes.find((note) => note.patientId.toString() == appt.patientId)
+          ?.notes || "",
     }));
     const patientsCollection = db.collection("patients");
     const patients = await patientsCollection
       .find({
         _id: {
-          $in: appointmentsPerUser.map((appt) => new ObjectId(appt.userId)),
+          $in: appointmentsPerUser.map((appt) => new ObjectId(appt.patientId)),
         },
       })
       .toArray();
     appointmentsPerUser = appointmentsPerUser.map((appointment) => {
       const patient = patients.find(
-        (p) => p._id.toString() === appointment.userId
+        (p) => p._id.toString() === appointment.patientId
       );
       if (patient) {
         return {
