@@ -381,12 +381,12 @@ const getAvailableHours = async (
   }
 };
 
-const getPreviousAppointments = async (userEmail: string) => {
+const getPreviousAppointments = async (patientEmail: string) => {
   try {
     const db = await getDB();
     const appointmentCollection = db.collection("appointments");
     const appointments = await appointmentCollection
-      .find({ email: userEmail })
+      .find({ email: patientEmail })
       .toArray();
     const doctorsCollection = db.collection("doctors");
     const doctors = await doctorsCollection
@@ -493,7 +493,7 @@ router.get("/history", async (req: Request, res: Response) => {
     // group by email
 
     // const emails = new Set(appointments.map((appt) => appt.email));
-    let appointmentsPerUser = appointments.map((appt: any) => ({
+    let appointmentsPerPatient = appointments.map((appt: any) => ({
       email: appt.email,
       patientId: appt.patientId,
       appointments: appointments.filter(
@@ -507,11 +507,13 @@ router.get("/history", async (req: Request, res: Response) => {
     const patients = await patientsCollection
       .find({
         _id: {
-          $in: appointmentsPerUser.map((appt) => new ObjectId(appt.patientId)),
+          $in: appointmentsPerPatient.map(
+            (appt) => new ObjectId(appt.patientId)
+          ),
         },
       })
       .toArray();
-    appointmentsPerUser = appointmentsPerUser.map((appointment) => {
+    appointmentsPerPatient = appointmentsPerPatient.map((appointment) => {
       const patient = patients.find(
         (p) => p._id.toString() === appointment.patientId
       );
@@ -524,19 +526,19 @@ router.get("/history", async (req: Request, res: Response) => {
       return appointment;
     });
 
-    res.json(appointmentsPerUser);
+    res.json(appointmentsPerPatient);
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
 });
 
-router.get("/user/history", async (req: Request, res: Response) => {
+router.get("/patient/history", async (req: Request, res: Response) => {
   try {
-    const userEmail = req.user.email;
-    if (!userEmail) {
-      return res.status(400).send("User email is required");
+    const patientEmail = req.user.email;
+    if (!patientEmail) {
+      return res.status(400).send("Patient email is required");
     }
-    const appointments = await getPreviousAppointments(userEmail);
+    const appointments = await getPreviousAppointments(patientEmail);
     res.json(appointments);
   } catch (error) {
     console.error(error);

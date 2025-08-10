@@ -1,7 +1,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import userRouter from "./routes/users";
+import usersRouter from "./routes/users";
 import appointmentRouter from "./routes/appointments";
 import doctorAssistantRouter from "./routes/doctor_assistant";
 import patientAssistantRouter from "./routes/patient_assistant";
@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: true, limit: 4000000 }));
 app.use(express.json({ limit: 4000000 }));
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use("/users", userRouter);
+app.use("/users", usersRouter);
 app.use("/appointments", authenticateToken, appointmentRouter);
 app.use("/notes", authenticateToken, notesRouter);
 app.use("/notifications", authenticateToken, notificationsRouter);
@@ -99,10 +99,10 @@ cron.schedule("* * * * *", async () => {
           { $set: { sent: true, sentAt: new Date() } }
         );
 
-        console.log(`Notification sent to user: ${patientId}`);
+        console.log(`Notification sent to patient: ${patientId}`);
       } catch (error) {
         console.error(
-          `Failed to send notification to user ${patientId}:`,
+          `Failed to send notification to patient ${patientId}:`,
           error
         );
         sseConnections.delete(patientId);
@@ -114,7 +114,7 @@ const sseConnections = new Map<string, express.Response>();
 
 // SSE endpoint for notifications
 app.get("/notifications/stream", authenticateToken, (req: any, res) => {
-  const patientId = req.user.id;
+  const patientId = req.patient.id;
 
   res.writeHead(200, {
     "Content-Type": "text/event-stream",
@@ -138,7 +138,7 @@ app.get("/notifications/stream", authenticateToken, (req: any, res) => {
   // Handle client disconnect
   req.on("close", () => {
     sseConnections.delete(patientId);
-    console.log(`SSE connection closed for user: ${patientId}`);
+    console.log(`SSE connection closed for patient: ${patientId}`);
   });
 });
 

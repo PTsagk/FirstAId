@@ -1,5 +1,5 @@
 <div class="appointments-history">
-  @for(user of users; track user.email){
+  @for(patient of patients; track patient.email){
   <mat-expansion-panel class="user-card-container">
     <mat-expansion-panel-header class="doctor-card">
       <mat-panel-title
@@ -12,9 +12,9 @@
         <div style="display: flex; align-items: center">
           <img src="../../../assets/user.png" alt="" class="user-image" />
           <div class="user-info">
-            <h3>{{ user.appointments[0].fullname }}</h3>
+            <h3>{{ patient.appointments[0].fullname }}</h3>
             <h4 style="color: gray; font-size: 12px">
-              {{ user.email }}
+              {{ patient.email }}
             </h4>
           </div>
         </div>
@@ -28,47 +28,47 @@
         <h2 style="font-weight: bold">General Info</h2>
         <div>
           <span style="font-weight: bold">Total appointments:</span>
-          {{ user.appointments.length }}
+          {{ patient.appointments.length }}
         </div>
         <div>
           <span style="font-weight: bold">Email:</span>
-          {{ user.email }}
+          {{ patient.email }}
         </div>
         <div>
           <span style="font-weight: bold">Blood Type:</span>
-          {{ user.bloodType || "-" }}
+          {{ patient.bloodType || "-" }}
         </div>
         <div>
           <span style="font-weight: bold">Weight:</span>
-          {{ user.weight || "-" }}
+          {{ patient.weight || "-" }}
         </div>
         <div>
           <span style="font-weight: bold">Height:</span>
-          {{ user.height || "-" }}
+          {{ patient.height || "-" }}
         </div>
         <div>
           <span style="font-weight: bold">Allergies:</span>
-          {{ user.allergies || "-" }}
+          {{ patient.allergies || "-" }}
         </div>
         <div>
           <span style="font-weight: bold">Chronic Conditions:</span>
-          {{ user.chronicConditions || "-" }}
+          {{ patient.chronicConditions || "-" }}
         </div>
         <div>
           <span style="font-weight: bold">Prescriptions:</span>
-          {{ user.prescriptions || "-" }}
+          {{ patient.prescriptions || "-" }}
         </div>
         <div>
           <span style="font-weight: bold">Mental Health History:</span>
-          {{ user.mentalHealthHistory || "-" }}
+          {{ patient.mentalHealthHistory || "-" }}
         </div>
         <div>
           <span style="font-weight: bold">Past Surgeries:</span>
-          {{ user.pastSurgeries || "-" }}
+          {{ patient.pastSurgeries || "-" }}
         </div>
         <div>
           <span style="font-weight: bold">Diet Preferences:</span>
-          {{ user.dietPreferences || "-" }}
+          {{ patient.dietPreferences || "-" }}
         </div>
       </div>
       <div class="doctor-notes">
@@ -82,7 +82,9 @@
         >
           <h2 style="margin: 0; font-weight: bold">Your notes</h2>
           <button
-            (click)="saveNotes(user.patientId, noteContainer.value, user.email)"
+            (click)="
+              saveNotes(patient.patientId, noteContainer.value, patient.email)
+            "
             matTooltip="Save your notes"
             style="margin-top: 10px"
             mat-flat-button
@@ -98,7 +100,7 @@
         >
           <mat-label>Add your notes here</mat-label>
           <textarea
-            [value]="user.notes"
+            [value]="patient.notes"
             #noteContainer
             style="resize: none"
             type="text"
@@ -110,7 +112,7 @@
     </div>
 
     <div class="appointments">
-      <app-patient-list [labelSearch]="user.email"></app-patient-list>
+      <app-patient-list [labelSearch]="patient.email"></app-patient-list>
     </div>
   </mat-expansion-panel>
   }

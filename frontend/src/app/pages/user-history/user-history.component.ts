@@ -59,7 +59,7 @@ export class UserHistoryComponent {
   dataSource = new MatTableDataSource(this.previousAppointments);
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.http
-      .get(`${environment.api_url}/appointments/user/history`, {
+      .get(`${environment.api_url}/appointments/patient/history`, {
         withCredentials: true,
       })
       .subscribe((appointments: any) => {

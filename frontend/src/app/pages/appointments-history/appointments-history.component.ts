@@ -22,7 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './appointments-history.component.scss',
 })
 export class AppointmentsHistoryComponent {
-  users: any = null;
+  patients: any = null;
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.http
       .get(environment.api_url + '/appointments/history', {
@@ -30,7 +30,7 @@ export class AppointmentsHistoryComponent {
       })
       .subscribe({
         next: (res: any) => {
-          this.users = res;
+          this.patients = res;
         },
         error: (err) => {
           console.error('Error fetching appointment history:', err);

@@ -7,7 +7,7 @@ const router = Express.Router();
 router.post("/", async (req: Request, res: Response) => {
   try {
     const notes = req.body.notes;
-    const userEmail = req.body.email;
+    const patientEmail = req.body.email;
     const patientId = req.body.patientId;
     const doctorId = req.user.id;
     if (!doctorId || !notes)
@@ -30,7 +30,7 @@ router.post("/", async (req: Request, res: Response) => {
     } else {
       await collection.insertOne({
         doctorId: new ObjectId(doctorId),
-        email: userEmail,
+        email: patientEmail,
         notes,
         patientId: new ObjectId(patientId),
       });
