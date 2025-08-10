@@ -41,7 +41,7 @@ export class AppointmentsHistoryComponent {
   saveNotes(userId: string, notes: string, email: string) {
     this.http
       .post(
-        environment.api_url + '/users/notes',
+        environment.api_url + '/notes',
         {
           userId: userId,
           notes: notes,

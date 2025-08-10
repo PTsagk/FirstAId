@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
 import { AccountService } from '../../../services/account.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-schedule-notification-dlg',
@@ -60,6 +61,7 @@ export class ScheduleNotificationDlgComponent implements OnInit {
       time: form.value.time,
       messageReason: form.value.messageReason,
       to: this.appointmentInfo.email,
+      from: this.accountService.userInfo.getValue().email,
       doctorNotes: this.appointmentInfo.doctorNotes,
       patientNotes: this.appointmentInfo.description,
       fullname: this.appointmentInfo.fullname,
@@ -68,9 +70,13 @@ export class ScheduleNotificationDlgComponent implements OnInit {
       doctorName: this.accountService.userInfo.getValue().name,
     };
     this.http
-      .post(environment.api_url + '/notifications/create', notification, {
-        withCredentials: true,
-      })
+      .post(
+        environment.api_url + '/notifications/doctor-message',
+        notification,
+        {
+          withCredentials: true,
+        }
+      )
       .subscribe((res) => {
         this.dialogRef.close();
         this.pending = false;

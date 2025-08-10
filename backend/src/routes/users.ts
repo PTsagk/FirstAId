@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 const router = Express.Router();
 import { ObjectId } from "mongodb";
 import { authenticateToken } from "./auth";
-import { createThreadId, getAssistantMessages } from "../utils/openai";
 router.post("/:user/register", async (req, res) => {
   try {
     const userType = req.params.user;
@@ -90,45 +89,6 @@ router.get(
       const collection = db.collection("doctors");
       const doctors = await collection.find({}).toArray();
       res.json(doctors);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
-    }
-  }
-);
-
-router.post(
-  "/notes",
-  authenticateToken,
-  async (req: Request, res: Response) => {
-    try {
-      const notes = req.body.notes;
-      const userEmail = req.body.email;
-      const userId = req.body.userId;
-      const doctorId = req.user.id;
-      if (!doctorId || !notes)
-        return res.status(400).send("Missing doctorId or notes");
-      const db = await getDB();
-      const collection = db.collection("notes");
-      const existingNote = await collection.findOne({
-        doctorId: new ObjectId(doctorId),
-        userId: new ObjectId(userId),
-      });
-      if (existingNote) {
-        await collection.updateOne(
-          { doctorId: new ObjectId(doctorId), userId: new ObjectId(userId) },
-          { $set: { notes } }
-        );
-        res.json("Note updated successfully");
-      } else {
-        await collection.insertOne({
-          doctorId: new ObjectId(doctorId),
-          email: userEmail,
-          notes,
-          userId: new ObjectId(userId),
-        });
-        res.json("Note created successfully");
-      }
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");

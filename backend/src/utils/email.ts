@@ -5,7 +5,7 @@ import { runCompletion } from "./openai";
 const moment = require("moment");
 
 const sendEmail = async (
-  templateID: string = "template_asoqqkh",
+  templateID: string = "template_4ow7iii",
   to: string,
   messageInfo: any
 ) => {
@@ -17,7 +17,7 @@ const sendEmail = async (
     };
 
     // if (
-    //   templateID === "template_asoqqkh" ||
+    //   templateID === "template_4ow7iii" ||
     //   templateID === "template_4ow7iii"
     // ) {
     //   templateParams.fullname = messageInfo.fullname;
@@ -46,8 +46,9 @@ async function sendReminderEmail(emailData) {
     ) {
       await sendEmail("template_4ow7iii", emailData.to, {
         fullname: emailData.fullname,
-        date: emailData.date,
-        time: emailData.time,
+        message: `This is a reminder for your appointment on ${emailData.date} at ${emailData.time}.`,
+        to: emailData.to,
+        from: emailData.from,
       });
     }
 
@@ -84,9 +85,8 @@ async function sendNotificationEmail(emailData) {
       // Send the email with the generated content
       await sendEmail("template_4ow7iii", emailData.to, {
         fullname: emailData.fullname,
-        date: emailData.date,
-        time: emailData.time,
-        assistant: gptResponse.choices[0].message.content,
+        message: gptResponse.choices[0].message.content,
+        to: emailData.to,
       });
       return true;
     }
@@ -98,11 +98,10 @@ async function sendNotificationEmail(emailData) {
 
 async function sendFollowUpEmail(emailData) {
   try {
-    await sendEmail("template_follow_up", emailData.to, {
+    await sendEmail("template_4ow7iii", emailData.to, {
       fullname: emailData.fullname,
-      date: emailData.date,
-      time: emailData.time,
       message: emailData.message,
+      to: emailData.to,
     });
     return true;
   } catch (error) {

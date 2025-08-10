@@ -5,6 +5,7 @@ import userRouter from "./routes/users";
 import appointmentRouter from "./routes/appointments";
 import doctorAssistantRouter from "./routes/doctor_assistant";
 import patientAssistantRouter from "./routes/patient_assistant";
+import notesRouter from "./routes/notes";
 import cors from "cors";
 import { authenticateToken } from "./routes/auth";
 import cron from "node-cron";
@@ -34,6 +35,7 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use("/users", userRouter);
 app.use("/appointments", authenticateToken, appointmentRouter);
+app.use("/notes", authenticateToken, notesRouter);
 app.use("/notifications", authenticateToken, notificationsRouter);
 app.use("/doctor-assistant", authenticateToken, doctorAssistantRouter);
 app.use("/patient-assistant", authenticateToken, patientAssistantRouter);
@@ -41,7 +43,6 @@ app.get("/", (req, res) => {
   res.send("Hello, TypeScript with Express!");
 });
 
-// cron.schedule("* * * * *", () => {
 cron.schedule("* * * * *", async () => {
   console.log("Checking for scheduled emails...");
   const db = await getDB();

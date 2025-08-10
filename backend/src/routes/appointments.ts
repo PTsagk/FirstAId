@@ -91,21 +91,23 @@ const createAppointment = async (
           { _id: nextAppointment._id },
           { $set: { time: newTime } }
         );
-        await sendEmail("template_asoqqkh", nextAppointment.email, {
+        await sendEmail("template_4ow7iii", nextAppointment.email, {
           fullname: nextAppointment.fullname,
-          date: nextAppointment.date,
-          time: newTime,
+          message: `Your appointment has been rescheduled to ${newTime} because of an emergency.`,
+          to: nextAppointment.email,
+          from: doctor.email,
         });
       }
     }
 
-    // create appointment
+    // Email for doctor
     await appointmentCollection.insertOne(appointmentInfo);
     const reminderEmailsCollection = db.collection("emails-queue");
     await reminderEmailsCollection.insertOne({
       date: appointmentInfo.date,
       time: appointmentInfo.time,
-      to: appointmentInfo.email,
+      to: doctor.email,
+      from: appointmentInfo.email,
       type: "reminder",
       userId: appointmentInfo.doctorId,
     });
@@ -118,7 +120,9 @@ const createAppointment = async (
         " for " +
         appointmentInfo.date +
         " at " +
-        appointmentInfo.time,
+        appointmentInfo.time +
+        ". Appointment severity is " +
+        appointmentInfo.severity,
       sent: false,
       userId: appointmentInfo.doctorId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
@@ -134,13 +138,6 @@ const createAppointment = async (
       sent: false,
       userId: appointmentInfo.userId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
-    });
-
-    // send email notfication to patient
-    await sendEmail("template_asoqqkh", appointmentInfo.email, {
-      fullname: appointmentInfo.fullname,
-      date: appointmentInfo.date,
-      time: appointmentInfo.time,
     });
     return appointmentInfo;
   } catch (error) {
@@ -222,7 +219,8 @@ const updateAppointment = async (
     await reminderEmailsCollection.insertOne({
       date: appointmentInfo.date,
       time: appointmentInfo.time,
-      to: appointmentInfo.email,
+      to: doctor.email,
+      from: appointmentInfo.email,
       type: "reminder",
       userId: appointmentInfo.doctorId,
     });

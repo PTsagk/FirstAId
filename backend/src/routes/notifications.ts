@@ -3,7 +3,7 @@ import { getDB } from "../utils/connect";
 const moment = require("moment");
 const router = Express.Router();
 
-router.post("/create", async (req, res) => {
+router.post("/doctor-message", async (req, res) => {
   try {
     const notification = req.body;
     if (!notification) {
@@ -13,6 +13,7 @@ router.post("/create", async (req, res) => {
       !notification.date ||
       !notification.time ||
       !notification.to ||
+      !notification.from ||
       !notification.fullname ||
       !notification.messageReason ||
       !notification.appointmentId
@@ -35,6 +36,7 @@ router.post("/send-follow-up", async (req, res) => {
     }
     if (
       !notification.to ||
+      !notification.from ||
       !notification.message ||
       !notification.appointmentId
     ) {
@@ -87,6 +89,7 @@ const createEmailNotification = async (notification) => {
       date: notification.date,
       time: notification.time,
       to: notification.to,
+      from: notification.from,
       doctorNotes: notification.doctorNotes,
       patientNotes: notification.patientNotes,
       fullname: notification.fullname,
@@ -115,6 +118,7 @@ const createFollowUpNotification = async (notification) => {
     const collection = db.collection("emails-queue");
     await collection.insertOne({
       to: notification.to,
+      from: notification.from,
       message: notification.message,
       fullname: notification.fullname,
       date: notification.date,

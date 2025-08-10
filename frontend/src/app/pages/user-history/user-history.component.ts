@@ -114,6 +114,7 @@ export class UserHistoryComponent {
         `${environment.api_url}/notifications/send-follow-up`,
         {
           to: this.selectedAppointment.doctorEmail,
+          from: this.selectedAppointment.email,
           fullname: this.selectedAppointment.fullname,
           date: this.selectedAppointment.date,
           time: this.selectedAppointment.time,
