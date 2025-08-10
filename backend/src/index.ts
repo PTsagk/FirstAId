@@ -82,7 +82,7 @@ const sseConnections = new Map<string, express.Response>();
 
 // SSE endpoint for notifications
 app.get("/notifications/stream", authenticateToken, (req: any, res) => {
-  const patientId = req.patient.id;
+  const patientId = req.user.id;
 
   res.writeHead(200, {
     "Content-Type": "text/event-stream",

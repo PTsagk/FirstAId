@@ -49,6 +49,8 @@ async function sendReminderEmail(emailData) {
         to: emailData.to,
         from: emailData.from,
       });
+
+      return true;
     }
 
     return false;

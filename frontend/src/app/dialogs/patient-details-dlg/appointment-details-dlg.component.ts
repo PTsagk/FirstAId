@@ -85,8 +85,11 @@ export class AppointmentDetailsDlgComponent {
     }
     this.http
       .patch(
-        environment.api_url + '/appointments/update',
-        { appointmentInfo: this.appointmentInfo },
+        environment.api_url + '/notes/update',
+        {
+          appointmentId: this.appointmentInfo._id,
+          notes: this.appointmentInfo.doctorNotes,
+        },
         { withCredentials: true }
       )
       .subscribe({

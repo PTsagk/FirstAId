@@ -42,4 +42,18 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
+router.patch("/update", async (req: Request, res: Response) => {
+  const db = await getDB();
+  const { appointmentId, notes } = req.body;
+  if (!appointmentId || !notes) {
+    return res.status(400).send("Missing appointmentId or notes");
+  }
+  const collection = db.collection("appointments");
+  await collection.updateOne(
+    { _id: new ObjectId(appointmentId) },
+    { $set: { doctorNotes: notes } }
+  );
+  res.json("Note updated successfully");
+});
+
 export default router;

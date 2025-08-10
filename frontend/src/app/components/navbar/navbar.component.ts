@@ -53,6 +53,7 @@ export class NavbarComponent implements OnDestroy {
           this.notificationService.connectToNotifications();
 
           this.notificationService.notifications$.subscribe((notifications) => {
+            notifications = notifications.reverse();
             this.notifications.push(...notifications);
             console.log('New notifications:', notifications);
             this.undreadCount = notifications.filter((n) => !n.read).length;
