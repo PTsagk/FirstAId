@@ -67,6 +67,7 @@
       <ngx-mat-timepicker
         (timeSet)="onTimeChanged($event)"
         [format]="12"
+        [minutesGap]="appointmentDuration"
         #timePicker
       ></ngx-mat-timepicker>
     </mat-form-field>
