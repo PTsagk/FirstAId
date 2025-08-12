@@ -54,7 +54,7 @@ const createAppointment = async (
     const appointmentStart = moment(appointmentInfo.time, "hh:mm A");
     const appointmentEnd = appointmentStart
       .clone()
-      .add(appointmentInfo.duration, "minutes");
+      .add(appointmentInfo.appointmentDuration, "minutes");
 
     const existingAppointment = await appointmentCollection.findOne({
       doctorId: appointmentInfo.doctorId,
@@ -84,7 +84,7 @@ const createAppointment = async (
         .toArray();
       for (const nextAppointment of nextAppointments) {
         const newTime = moment(nextAppointment.time, "hh:mm A")
-          .add(nextAppointment.duration, "minutes")
+          .add(nextAppointment.appointmentDuration, "minutes")
           .format("hh:mm A");
         await appointmentCollection.updateOne(
           { _id: nextAppointment._id },

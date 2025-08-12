@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -43,6 +43,7 @@ import { marked } from 'marked';
   ],
   templateUrl: './doctors-list.component.html',
   styleUrl: './doctors-list.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class DoctorsListComponent {
   @ViewChild('sidebar', { static: true }) sidebar!: MatDrawer;

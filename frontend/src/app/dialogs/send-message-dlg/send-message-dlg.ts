@@ -19,6 +19,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
 import { AccountService } from '../../../services/account.service';
 import { from } from 'rxjs';
+import { DoctorMessage } from '../../../models/message.model';
 
 @Component({
   selector: 'app-send-message-dlg',
@@ -56,18 +57,18 @@ export class SendMessageDlgComponent implements OnInit {
   sendMessage(form: FormGroup) {
     if (!form.valid) return;
     this.pending = true;
-    const notification = {
+    const notification: DoctorMessage = {
       date: moment(form.value.date).format('YYYY-MM-DD'),
       time: form.value.time,
       messageReason: form.value.messageReason,
       to: this.appointmentInfo.email,
       from: this.accountService.userInfo.getValue().email,
-      doctorNotes: this.appointmentInfo.doctorNotes,
-      patientNotes: this.appointmentInfo.description,
-      fullname: this.appointmentInfo.fullname,
-      appointmentId: this.appointmentInfo._id,
-      patientId: this.appointmentInfo.patientId,
-      doctorName: this.accountService.userInfo.getValue().name,
+      doctorNotes: this.appointmentInfo.doctorNotes as string,
+      patientNotes: this.appointmentInfo.description as string,
+      fullname: this.appointmentInfo.fullname as string,
+      appointmentId: this.appointmentInfo._id as string,
+      patientId: this.appointmentInfo.patientId as string,
+      doctorName: this.accountService.userInfo.getValue().name as string,
     };
     this.http
       .post(

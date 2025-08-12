@@ -25,7 +25,7 @@
       <span class="notification">{{ undreadCount }}</span>
       }
     </div>
-    @if(userInfo.userType === 'patients'){
+    @if(userInfo && userInfo?.userType === 'patients'){
     <div class="info-icon" (click)="router.navigate(['/users/dashboard'])">
       <i class="fa-solid fa-home"></i>
     </div>

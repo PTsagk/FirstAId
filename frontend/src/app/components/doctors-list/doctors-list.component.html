@@ -93,8 +93,10 @@
       </div>
       } @for(message of messages; track message.role) { @if(message.text ==
       'loading' && message.role == 'assistant'){
-      <div class="loading-spinner">
-        <i class="fa-solid fa-spinner fa-spin"></i>
+      <div class="message {{ message.role }}-message">
+        <div class="loading-spinner">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+        </div>
       </div>
       } @if(message.text != 'loading'){
       <div class="message {{ message.role }}-message">
@@ -113,7 +115,7 @@
         name="message"
         #messageInput
         class="message-input"
-        placeholder="Chat with Dr. John Doe AI Bot..."
+        placeholder="Chat with Dr. {{ selectedDoctor.name }} AI Bot..."
         (keyup.enter)="sendMessage(messageInput.value); messageInput.value = ''"
       ></textarea>
       <button type="submit" class="send-button text-primary">

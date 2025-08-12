@@ -79,7 +79,7 @@ export class CreateAppointmentComponent implements OnInit {
     }
 
     this.account.userInfo.subscribe((user) => {
-      if (user) {
+      if (user && 'appointmentDuration' in user) {
         this.appointmentDuration = user.appointmentDuration || 15;
         this.workingStartTime = user.workingStartTime;
         this.workingEndTime = user.workingEndTime;
@@ -142,11 +142,11 @@ export class CreateAppointmentComponent implements OnInit {
             },
           });
       } else {
-        const appointmentInfo = form.value;
+        const appointmentInfo: Appointment = form.value;
         appointmentInfo.time = moment(appointmentInfo.time, 'hh:mm A').format(
           'hh:mm A'
         );
-        appointmentInfo.duration = this.appointmentDuration;
+        appointmentInfo.appointmentDuration = this.appointmentDuration;
         this.http
           .post(
             environment.api_url + '/appointments/create',
