@@ -1,18 +1,10 @@
 import { NgClass } from '@angular/common';
-import {
-  Component,
-  ViewChild,
-  AfterViewInit,
-  Input,
-  Inject,
-} from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CreateAppointmentComponent } from '../create-appointment/create-appointment.component';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment/environment';
 import { AppointmentService } from '../../../services/appointment.service';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';

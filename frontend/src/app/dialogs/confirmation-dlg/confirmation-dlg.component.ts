@@ -5,7 +5,6 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { Appointment } from '../../../models/appointment.model';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 

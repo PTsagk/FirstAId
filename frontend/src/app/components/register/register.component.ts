@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -10,23 +10,17 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
 import moment from 'moment';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
-  NgForm,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import {
-  MatDatepickerInputEvent,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-register',

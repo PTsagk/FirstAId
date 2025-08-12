@@ -1,12 +1,6 @@
 import { Routes } from '@angular/router';
 import { DoctorDashboardComponent } from './pages/doctor-dashboard/doctor-dashboard.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { CalendarComponent } from './pages/calendar/calendar.component';
-import { ChatBotComponent } from './pages/chat-bot/chat-bot.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
-import { AppointmentsHistoryComponent } from './pages/appointments-history/appointments-history.component';
-import { UserHistoryComponent } from './pages/user-history/user-history.component';
-import { DoctorsListComponent } from './components/doctors-list/doctors-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },

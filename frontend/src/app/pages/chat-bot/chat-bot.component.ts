@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NgModel, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { environment } from '../../../environment/environment';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';

@@ -1,13 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  NavigationEnd,
-  Router,
-  RouterEvent,
-  RouterOutlet,
-} from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { Subject, takeUntil } from 'rxjs';
 import { FooterComponent } from './components/footer/footer.component';
 
 @Component({

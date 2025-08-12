@@ -3,12 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environment/environment';
 import { Appointment } from '../../../models/appointment.model';
-import {
-  Form,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
@@ -18,7 +13,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
 import { AccountService } from '../../../services/account.service';
-import { from } from 'rxjs';
 import { DoctorMessage } from '../../../models/message.model';
 
 @Component({

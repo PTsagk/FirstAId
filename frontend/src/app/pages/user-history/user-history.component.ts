@@ -8,7 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { AppointmentService } from '../../../services/appointment.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
 import { Appointment } from '../../../models/appointment.model';

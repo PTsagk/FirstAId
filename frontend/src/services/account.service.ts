@@ -6,9 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environment/environment';
 import { Router } from '@angular/router';
-import { Patient } from '../models/patient.model';
-import { Doctor } from '../models/doctor.model';
-
 @Injectable({
   providedIn: 'root',
 })

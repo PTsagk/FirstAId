@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { AppointmentService } from '../../../services/appointment.service';
-import { Appointment } from '../../../models/appointment.model';
 import { AppointmentListComponent } from '../../components/appointment-list/appointment-list.component';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClient } from '@angular/common/http';
