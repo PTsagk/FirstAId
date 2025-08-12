@@ -49,8 +49,8 @@ export class SendMessageDlgComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.scheduleDateTime = this.fb.group({
-      date: [this.appointmentInfo.date],
-      time: [this.appointmentInfo.time],
+      date: [moment().format('YYYY-MM-DD')],
+      time: [moment().format('hh:mm A')],
       messageReason: [''],
     });
   }
