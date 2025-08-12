@@ -79,7 +79,7 @@ export class CreateAppointmentComponent implements OnInit {
     }
 
     this.account.userInfo.subscribe((user) => {
-      if (user && 'appointmentDuration' in user) {
+      if (user) {
         this.appointmentDuration = user.appointmentDuration || 15;
         this.workingStartTime = user.workingStartTime;
         this.workingEndTime = user.workingEndTime;

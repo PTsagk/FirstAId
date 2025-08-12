@@ -21,23 +21,53 @@ export const routes: Routes = [
     path: 'doctors',
     component: DoctorDashboardComponent,
     children: [
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'calendar', component: CalendarComponent },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent
+          ),
+      },
+      {
+        path: 'calendar',
+        loadComponent: () =>
+          import('./pages/calendar/calendar.component').then(
+            (m) => m.CalendarComponent
+          ),
+      },
       {
         path: 'history',
-        component: AppointmentsHistoryComponent,
+        loadComponent: () =>
+          import(
+            './pages/appointments-history/appointments-history.component'
+          ).then((m) => m.AppointmentsHistoryComponent),
       },
-      { path: 'chat-bot', component: ChatBotComponent },
+      {
+        path: 'chat-bot',
+        loadComponent: () =>
+          import('./pages/chat-bot/chat-bot.component').then(
+            (m) => m.ChatBotComponent
+          ),
+      },
     ],
   },
   {
     path: 'users',
     component: UserDashboardComponent,
     children: [
-      { path: 'dashboard', component: DoctorsListComponent },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./components/doctors-list/doctors-list.component').then(
+            (m) => m.DoctorsListComponent
+          ),
+      },
       {
         path: 'history',
-        component: UserHistoryComponent,
+        loadComponent: () =>
+          import('./pages/user-history/user-history.component').then(
+            (m) => m.UserHistoryComponent
+          ),
       },
     ],
   },
