@@ -197,6 +197,7 @@ const updateAppointment = async (
     const existingAppointment = await collection.findOne({
       doctorId: appointmentInfo.doctorId,
       date: appointmentInfo.date,
+      _id: { $ne: new ObjectId(appointmentId) }, // Exclude current appointment
       time: {
         $gte: startTime,
         $lt: endTime,
@@ -461,15 +462,15 @@ router.get("/", async (req: Request, res: Response) => {
   try {
     const doctorId = req.user.id;
     const appointments = await getAppointments(doctorId);
-    appointments.forEach((appointment) => {
-      // check if appointment date is before today
-      if (
-        moment(appointment.date).isBefore(moment(), "day") &&
-        appointment.status !== "completed"
-      ) {
-        appointment.status = "past";
-      }
-    });
+    // appointments.forEach((appointment) => {
+    //   // check if appointment date is before today
+    //   if (
+    //     moment(appointment.date).isBefore(moment(), "day") &&
+    //     appointment.status !== "completed"
+    //   ) {
+    //     appointment.status = "past";
+    //   }
+    // });
     res.json(appointments);
   } catch (error) {
     console.error(error);

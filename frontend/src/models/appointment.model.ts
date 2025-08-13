@@ -9,7 +9,7 @@ export interface Appointment {
   description: string;
   lastAppointment?: string;
   doctorNotes?: string;
-  status?: 'pending' | 'completed' | 'canceled' | 'past';
+  status?: 'pending' | 'completed';
   gender?: string;
   bloodType?: string;
   weight?: string;

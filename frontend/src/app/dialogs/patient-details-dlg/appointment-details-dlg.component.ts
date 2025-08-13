@@ -75,21 +75,19 @@ export class AppointmentDetailsDlgComponent {
     } else {
       this.appointmentInfo.doctorNotes = this.doctorNotes.nativeElement.value;
     }
-    this.appointmentService
-      .updateAppointmentNotes(this.appointmentInfo)
-      .subscribe({
-        next: (res: any) => {
-          this.appointmentService.refreshAppointments();
-          this.snackBar.open('Note saved', '', {
-            duration: 2000,
-            verticalPosition: 'top',
-            panelClass: ['snackbar-success'],
-          });
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    this.appointmentService.updateAppointment(this.appointmentInfo).subscribe({
+      next: (res: any) => {
+        this.appointmentService.refreshAppointments();
+        this.snackBar.open('Note saved', '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success'],
+        });
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   sendMessage(): void {
@@ -113,6 +111,7 @@ export class AppointmentDetailsDlgComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success'],
         });
+        this.appointmentService.refreshAppointments();
         this.dialog.closeAll();
       },
       error: (err) => {

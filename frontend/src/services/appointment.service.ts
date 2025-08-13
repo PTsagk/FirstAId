@@ -51,17 +51,6 @@ export class AppointmentService {
     );
   }
 
-  updateAppointmentNotes(appointmentInfo: Appointment) {
-    return this.http.patch(
-      environment.api_url + '/notes/update',
-      {
-        appointmentId: appointmentInfo._id,
-        notes: appointmentInfo.doctorNotes,
-      },
-      { withCredentials: true }
-    );
-  }
-
   getAppointmentHistory(isDoctor: boolean = true) {
     return this.http.get(
       environment.api_url +

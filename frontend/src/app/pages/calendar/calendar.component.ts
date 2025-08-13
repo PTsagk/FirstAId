@@ -171,7 +171,7 @@ export class CalendarComponent implements OnInit {
       return {
         html: `
           <div class="fc-event-main-container">
-            <div class="fc-event-title">${eventInfo.event.title}</div>
+            <div class="fc-event-title" >${eventInfo.event.title}</div>
           </div>
         `,
       };
@@ -179,8 +179,15 @@ export class CalendarComponent implements OnInit {
     return {
       html: `
         <div class="fc-event-main-container">
-          <div class="fc-event-title">${eventInfo.event.title}</div>
+          <div class="fc-event-title">${eventInfo.event.title} ${
+        eventInfo.event.extendedProps.status == 'completed'
+          ? `
+            <i class="fa-solid fa-check"></i>
+          `
+          : ''
+      }</div>
           <div class="fc-event-severity">#${severity}</div>
+         
         </div>
       `,
     };
