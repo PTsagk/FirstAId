@@ -42,9 +42,7 @@ export class LoginComponent {
   pending: boolean = false;
   constructor(
     private dialogRef: MatDialogRef<LoginComponent>,
-    private dialog: MatDialog,
     public accountService: AccountService,
-    private http: HttpClient,
     private snackBar: MatSnackBar,
     private router: Router
   ) {
@@ -62,37 +60,30 @@ export class LoginComponent {
 
     if (userInfo.status != 'VALID') return;
     this.pending = true;
-    this.http
-      .post(
-        environment.api_url +
-          `/users/${this.isDoctor ? 'doctors' : 'patients'}/login`,
-        userInfo.value,
-        { withCredentials: true }
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.dialogRef.close();
-          this.snackBar.open('Login Successful', '', {
-            duration: 2000,
-            verticalPosition: 'top',
-          });
-          this.pending = false;
-          this.accountService.userInfo.next(res);
-          if (this.isDoctor) {
-            this.router.navigate(['/doctors/dashboard']);
-          } else {
-            this.router.navigate(['/users/dashboard']);
-          }
-        },
-        error: (err) => {
-          this.pending = false;
-          console.log(err);
-          this.snackBar.open(err.error, '', {
-            duration: 2000,
-            verticalPosition: 'top',
-            panelClass: ['snackbar-error'],
-          });
-        },
-      });
+    this.accountService.login(this.isDoctor, userInfo).subscribe({
+      next: (res: any) => {
+        this.dialogRef.close();
+        this.snackBar.open('Login Successful', '', {
+          duration: 2000,
+          verticalPosition: 'top',
+        });
+        this.pending = false;
+        this.accountService.userInfo.next(res);
+        if (this.isDoctor) {
+          this.router.navigate(['/doctors/dashboard']);
+        } else {
+          this.router.navigate(['/users/dashboard']);
+        }
+      },
+      error: (err) => {
+        this.pending = false;
+        console.log(err);
+        this.snackBar.open(err.error, '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error'],
+        });
+      },
+    });
   }
 }

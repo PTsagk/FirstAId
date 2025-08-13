@@ -11,8 +11,6 @@ import {
 } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment/environment';
 import { NotificationsDlgComponent } from '../../dialogs/notifications-dlg/notifications-dlg.component';
 
 @Component({
@@ -40,8 +38,7 @@ export class NavbarComponent implements OnDestroy {
     public accountService: AccountService,
     public router: Router,
     private notificationService: NotificationService,
-    private cd: ChangeDetectorRef,
-    private http: HttpClient
+    private cd: ChangeDetectorRef
   ) {
     this.accountService.userInfo
       .pipe(takeUntil(this.destroy$))
@@ -60,10 +57,8 @@ export class NavbarComponent implements OnDestroy {
             this.cd.detectChanges();
           });
 
-          this.http
-            .get(environment.api_url + '/notifications', {
-              withCredentials: true,
-            })
+          this.notificationService
+            .getNotifications()
             .subscribe((notifications) => {
               this.notifications = notifications;
               // @ts-ignore

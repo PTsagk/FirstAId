@@ -62,7 +62,6 @@ export class RegisterComponent {
   constructor(
     private dialogRef: MatDialogRef<RegisterComponent>,
     public accountService: AccountService,
-    private http: HttpClient,
     private snackBar: MatSnackBar
   ) {
     this.patientInfo = new FormGroup({
@@ -115,29 +114,23 @@ export class RegisterComponent {
     this.doctorInfo.patchValue({
       specialDates: this.specialDates,
     });
-    this.http
-      .post(
-        environment.api_url +
-          `/users/${this.isDoctor ? 'doctors' : 'patients'}/register`,
-        userInfo.value
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.dialogRef.close();
-          this.snackBar.open('Account created successfully', '', {
-            duration: 2000,
-            verticalPosition: 'top',
-          });
-        },
-        error: (err) => {
-          this.pending = false;
-          this.snackBar.open(err.error, '', {
-            duration: 2000,
-            verticalPosition: 'top',
-            panelClass: ['snackbar-error'],
-          });
-        },
-      });
+    this.accountService.register(this.isDoctor, userInfo).subscribe({
+      next: (res: any) => {
+        this.dialogRef.close();
+        this.snackBar.open('Account created successfully', '', {
+          duration: 2000,
+          verticalPosition: 'top',
+        });
+      },
+      error: (err) => {
+        this.pending = false;
+        this.snackBar.open(err.error, '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error'],
+        });
+      },
+    });
   }
 
   switchUser() {

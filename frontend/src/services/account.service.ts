@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environment/environment';
 import { Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 @Injectable({
   providedIn: 'root',
 })
@@ -49,12 +50,30 @@ export class AccountService {
       });
   }
 
+  updateUserNotes(patientId: string, notes: string, email: string) {
+    return this.http.post(
+      environment.api_url + '/notes',
+      {
+        patientId: patientId,
+        notes: notes,
+        email: email,
+      },
+      { withCredentials: true }
+    );
+  }
+
+  getDoctors() {
+    return this.http.get(environment.api_url + `/users/doctors`, {
+      withCredentials: true,
+    });
+  }
+
   refreshUserInfo() {
     sessionStorage.removeItem('userInfo');
     this.fetchUserInfo();
   }
 
-  login(isDoctor: boolean = true) {
+  loginModal(isDoctor: boolean = true) {
     this.dialog.closeAll();
     const modal = this.dialog.open(LoginComponent, {
       width: '80%',
@@ -63,13 +82,28 @@ export class AccountService {
     modal.componentInstance.isDoctor = isDoctor;
   }
 
-  register(isDoctor: boolean = true) {
+  registerModal(isDoctor: boolean = true) {
     this.dialog.closeAll();
     const modal = this.dialog.open(RegisterComponent, {
       width: '80%',
       height: '750px',
     });
     modal.componentInstance.isDoctor = isDoctor;
+  }
+
+  register(isDoctor: boolean = true, userInfo: FormGroup) {
+    return this.http.post(
+      environment.api_url +
+        `/users/${isDoctor ? 'doctors' : 'patients'}/register`,
+      userInfo.value
+    );
+  }
+  login(isDoctor: boolean = true, userInfo: FormGroup) {
+    return this.http.post(
+      environment.api_url + `/users/${isDoctor ? 'doctors' : 'patients'}/login`,
+      userInfo.value,
+      { withCredentials: true }
+    );
   }
 
   logout() {

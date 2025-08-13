@@ -8,8 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment/environment';
 import { Appointment } from '../../../models/appointment.model';
 import {
   MatDrawer,
@@ -17,6 +15,8 @@ import {
   MatDrawerContent,
 } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppointmentService } from '../../../services/appointment.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-user-history',
@@ -56,11 +56,13 @@ export class UserHistoryComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   dataSource = new MatTableDataSource(this.previousAppointments);
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-    this.http
-      .get(`${environment.api_url}/appointments/patient/history`, {
-        withCredentials: true,
-      })
+  constructor(
+    private snackBar: MatSnackBar,
+    private appointmentService: AppointmentService,
+    private notificationService: NotificationService
+  ) {
+    this.appointmentService
+      .getAppointmentHistory(false)
       .subscribe((appointments: any) => {
         this.previousAppointments = appointments;
         this.dataSource.sortingDataAccessor = (
@@ -108,21 +110,8 @@ export class UserHistoryComponent {
   }
 
   sendMessage(message: string) {
-    this.http
-      .post(
-        `${environment.api_url}/notifications/send-follow-up`,
-        {
-          to: this.selectedAppointment.doctorEmail,
-          from: this.selectedAppointment.email,
-          fullname: this.selectedAppointment.fullname,
-          date: this.selectedAppointment.date,
-          time: this.selectedAppointment.time,
-          appointmentId: this.selectedAppointment._id,
-          doctorId: this.selectedAppointment.doctorId,
-          message: message,
-        },
-        { withCredentials: true }
-      )
+    this.notificationService
+      .sendUserMessage(this.selectedAppointment, message)
       .subscribe(
         (res: any) => {
           this.snackBar.open('Notification sent successfully', '', {

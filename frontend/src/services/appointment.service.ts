@@ -23,6 +23,15 @@ export class AppointmentService {
       }
     });
   }
+  createAppointment(newAppointment: Appointment) {
+    return this.http.post(
+      environment.api_url + '/appointments/create',
+      {
+        appointmentInfo: newAppointment,
+      },
+      { withCredentials: true }
+    );
+  }
   updateAppointment(updatedAppointment: Appointment) {
     return this.http.patch(
       environment.api_url + '/appointments/update',
@@ -30,6 +39,36 @@ export class AppointmentService {
         appointmentInfo: updatedAppointment,
       },
       { withCredentials: true }
+    );
+  }
+
+  deleteAppointment(appointmentId: string) {
+    return this.http.delete(
+      environment.api_url + `/appointments/delete/${appointmentId}`,
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
+  updateAppointmentNotes(appointmentInfo: Appointment) {
+    return this.http.patch(
+      environment.api_url + '/notes/update',
+      {
+        appointmentId: appointmentInfo._id,
+        notes: appointmentInfo.doctorNotes,
+      },
+      { withCredentials: true }
+    );
+  }
+
+  getAppointmentHistory(isDoctor: boolean = true) {
+    return this.http.get(
+      environment.api_url +
+        `/appointments/${isDoctor ? 'doctor' : 'patient'}/history`,
+      {
+        withCredentials: true,
+      }
     );
   }
   private fetchAppointments() {

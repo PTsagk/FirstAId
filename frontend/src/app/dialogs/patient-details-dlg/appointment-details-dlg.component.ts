@@ -2,8 +2,6 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Appointment } from '../../../models/appointment.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateAppointmentComponent } from '../../components/create-appointment/create-appointment.component';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment/environment';
 import { AppointmentService } from '../../../services/appointment.service';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -31,7 +29,6 @@ export class AppointmentDetailsDlgComponent {
   constructor(
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private http: HttpClient,
     private appointmentService: AppointmentService
   ) {}
 
@@ -57,13 +54,8 @@ export class AppointmentDetailsDlgComponent {
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.http
-          .delete(
-            environment.api_url + `/appointments/delete/${appointmentId}`,
-            {
-              withCredentials: true,
-            }
-          )
+        this.appointmentService
+          .deleteAppointment(appointmentId || '')
           .subscribe({
             next: (res: any) => {
               this.appointmentService.refreshAppointments();
@@ -83,15 +75,8 @@ export class AppointmentDetailsDlgComponent {
     } else {
       this.appointmentInfo.doctorNotes = this.doctorNotes.nativeElement.value;
     }
-    this.http
-      .patch(
-        environment.api_url + '/notes/update',
-        {
-          appointmentId: this.appointmentInfo._id,
-          notes: this.appointmentInfo.doctorNotes,
-        },
-        { withCredentials: true }
-      )
+    this.appointmentService
+      .updateAppointmentNotes(this.appointmentInfo)
       .subscribe({
         next: (res: any) => {
           this.appointmentService.refreshAppointments();
@@ -120,25 +105,19 @@ export class AppointmentDetailsDlgComponent {
   completeAppointment(complete: boolean = true): void {
     if (complete) this.appointmentInfo.status = 'completed';
     else this.appointmentInfo.status = 'pending';
-    this.http
-      .patch(
-        environment.api_url + '/appointments/update',
-        { appointmentInfo: this.appointmentInfo },
-        { withCredentials: true }
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.appointmentService.refreshAppointments();
-          this.snackBar.open('Appointment completed', '', {
-            duration: 2000,
-            verticalPosition: 'top',
-            panelClass: ['snackbar-success'],
-          });
-          this.dialog.closeAll();
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    this.appointmentService.updateAppointment(this.appointmentInfo).subscribe({
+      next: (res: any) => {
+        this.appointmentService.refreshAppointments();
+        this.snackBar.open('Appointment completed', '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success'],
+        });
+        this.dialog.closeAll();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

@@ -17,9 +17,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment/environment';
 import { marked } from 'marked';
+import { AssistantService } from '../../../services/assistant.service';
+import { AccountService } from '../../../services/account.service';
 
 @Component({
   selector: 'app-doctors-list',
@@ -70,7 +70,11 @@ export class DoctorsListComponent {
   selectedDoctor: any = {};
   pending: boolean = false;
   messageForm!: FormGroup;
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(
+    private accountService: AccountService,
+    private fb: FormBuilder,
+    private assistantService: AssistantService
+  ) {
     this.getDoctors();
     this.messageForm = this.fb.group({
       message: ['', Validators.required],
@@ -78,34 +82,22 @@ export class DoctorsListComponent {
   }
 
   getDoctors() {
-    this.http
-      .get(environment.api_url + `/users/doctors`, {
-        withCredentials: true,
-      })
-      .subscribe({
-        next: (res: any) => {
-          // this.doctors = res.map((doctor: any) => ({
-          //   ...doctor,
-          //   available:
-          //     doctor.workingStartTime !== 'None' &&
-          //     doctor.workingEndTime !== 'None',
-          // }));
-          this.allDoctors = res;
-          this.doctors = res;
-        },
-        error: (err) => {
-          console.error('Error fetching doctors:', err);
-        },
-      });
+    this.accountService.getDoctors().subscribe({
+      next: (res: any) => {
+        this.allDoctors = res;
+        this.doctors = res;
+      },
+      error: (err) => {
+        console.error('Error fetching doctors:', err);
+      },
+    });
   }
 
   getMessages(doctorId?: string) {
     this.messages = [];
     this.pending = true;
-    this.http
-      .get(environment.api_url + `/patient-assistant/messages/` + doctorId, {
-        withCredentials: true,
-      })
+    this.assistantService
+      .getMessages(doctorId || this.selectedDoctor._id)
       .subscribe({
         next: (res: any) => {
           this.messages = res
@@ -151,14 +143,8 @@ export class DoctorsListComponent {
       text: 'loading',
       role: 'assistant',
     });
-    this.http
-      .post(
-        environment.api_url +
-          '/patient-assistant/chat/' +
-          this.selectedDoctor._id,
-        { question: message },
-        { withCredentials: true }
-      )
+    this.assistantService
+      .sendPatientMessage(this.selectedDoctor._id, message)
       .subscribe({
         next: (res: any) => {
           this.messages.pop(); // Remove the loading message
@@ -192,23 +178,16 @@ export class DoctorsListComponent {
   }
 
   deleteThread() {
-    this.http
-      .delete(
-        environment.api_url +
-          '/patient-assistant/thread/' +
-          this.selectedDoctor._id,
-        { withCredentials: true }
-      )
-      .subscribe({
-        next: () => {
-          this.messages = [];
-          this.selectedDoctor = {};
-          this.sidebar.close();
-        },
-        error: (err) => {
-          console.error('Error deleting thread:', err);
-        },
-      });
+    this.assistantService.deleteThread(this.selectedDoctor._id).subscribe({
+      next: () => {
+        this.messages = [];
+        this.selectedDoctor = {};
+        this.sidebar.close();
+      },
+      error: (err) => {
+        console.error('Error deleting thread:', err);
+      },
+    });
   }
 
   scrollToBottom() {

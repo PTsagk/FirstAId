@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -16,6 +15,7 @@ import { ConfirmationDlgComponent } from '../../dialogs/confirmation-dlg/confirm
 import { marked } from 'marked';
 import { Chart, registerables } from 'chart.js';
 import { AppointmentListComponent } from '../../components/appointment-list/appointment-list.component';
+import { AssistantService } from '../../../services/assistant.service';
 
 @Component({
   selector: 'app-chat-bot',
@@ -37,9 +37,9 @@ export class ChatBotComponent implements OnInit, AfterViewInit {
   userMessage = '';
   pending: boolean = false;
   constructor(
-    private http: HttpClient,
     private dialog: MatDialog,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private assistantService: AssistantService
   ) {}
 
   get ChartId(): string {
@@ -60,67 +60,59 @@ export class ChatBotComponent implements OnInit, AfterViewInit {
       this.scrollToBottom();
       const params = { question: this.userMessage };
       this.userMessage = '';
-      this.http
-        .post(`${environment.api_url + '/doctor-assistant/chat'}`, params, {
-          withCredentials: true,
-        })
-        .subscribe(
-          (res: any) => {
-            this.messages.pop(); // Remove the loading message
-            this.messages.push({
-              text: marked(
-                res.role == 'assistant' ? res.content.message_text : res.content
-              ) as string,
-              sender: 'bot',
-              chartData:
-                res.content?.chart_data &&
-                Object.keys(res.content?.chart_data).length > 0
-                  ? res.content.chart_data
-                  : null,
-              specifiedDate: res.content?.specified_date,
-              id: Math.random().toString(36).substr(2, 9), // Generate a unique ID for the chart
-            });
-            this.cd.detectChanges(); // Ensure the view is updated
-            this.initializeCharts([this.messages[this.messages.length - 1]]); // Initialize charts after new message is added
-            this.scrollToBottom(); // Scroll to the bottom after adding the new message
-          },
-          (err) => {
-            this.messages.pop(); // Remove the loading message
-            this.messages.push({
-              text: 'Error: Unable to get response from the server.',
-              sender: 'bot',
-            });
-          }
-        );
+      this.assistantService.sendDoctorMessage(params).subscribe(
+        (res: any) => {
+          this.messages.pop(); // Remove the loading message
+          this.messages.push({
+            text: marked(
+              res.role == 'assistant' ? res.content.message_text : res.content
+            ) as string,
+            sender: 'bot',
+            chartData:
+              res.content?.chart_data &&
+              Object.keys(res.content?.chart_data).length > 0
+                ? res.content.chart_data
+                : null,
+            specifiedDate: res.content?.specified_date,
+            id: Math.random().toString(36).substr(2, 9), // Generate a unique ID for the chart
+          });
+          this.cd.detectChanges(); // Ensure the view is updated
+          this.initializeCharts([this.messages[this.messages.length - 1]]); // Initialize charts after new message is added
+          this.scrollToBottom(); // Scroll to the bottom after adding the new message
+        },
+        (err) => {
+          this.messages.pop(); // Remove the loading message
+          this.messages.push({
+            text: 'Error: Unable to get response from the server.',
+            sender: 'bot',
+          });
+        }
+      );
     }
   }
 
   getMessages() {
     this.messages = [];
     this.pending = true;
-    this.http
-      .get(`${environment.api_url + '/doctor-assistant/messages'}`, {
-        withCredentials: true,
-      })
-      .subscribe((res: any) => {
-        this.pending = false;
-        this.messages = res.map((msg: any) => ({
-          text: marked(
-            msg.role == 'assistant' ? msg.content?.message_text : msg.content
-          ) as string,
-          sender: msg.role === 'user' ? 'user' : 'bot',
-          chartData:
-            msg.content?.chart_data &&
-            Object.keys(msg.content?.chart_data).length > 0
-              ? msg.content.chart_data
-              : null,
-          specifiedDate: msg.content?.specified_date || null,
-          id: msg.id,
-        }));
-        this.messages.reverse();
-        this.scrollToBottom();
-        this.initializeCharts(this.messages);
-      });
+    this.assistantService.getMessages().subscribe((res: any) => {
+      this.pending = false;
+      this.messages = res.map((msg: any) => ({
+        text: marked(
+          msg.role == 'assistant' ? msg.content?.message_text : msg.content
+        ) as string,
+        sender: msg.role === 'user' ? 'user' : 'bot',
+        chartData:
+          msg.content?.chart_data &&
+          Object.keys(msg.content?.chart_data).length > 0
+            ? msg.content.chart_data
+            : null,
+        specifiedDate: msg.content?.specified_date || null,
+        id: msg.id,
+      }));
+      this.messages.reverse();
+      this.scrollToBottom();
+      this.initializeCharts(this.messages);
+    });
   }
 
   clearChat() {
@@ -134,14 +126,10 @@ export class ChatBotComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.http
-          .delete(`${environment.api_url + '/doctor-assistant/thread'}`, {
-            withCredentials: true,
-          })
-          .subscribe(() => {
-            this.messages = [];
-            this.scrollToBottom();
-          });
+        this.assistantService.deleteThread().subscribe(() => {
+          this.messages = [];
+          this.scrollToBottom();
+        });
       }
     });
   }

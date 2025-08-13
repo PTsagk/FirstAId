@@ -477,7 +477,7 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/history", async (req: Request, res: Response) => {
+router.get("/doctor/history", async (req: Request, res: Response) => {
   try {
     const doctorId = req.user.id;
     const db = await getDB();

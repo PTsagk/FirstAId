@@ -14,7 +14,6 @@ import {
   NgxMatTimepickerComponent,
   NgxMatTimepickerModule,
 } from 'ngx-mat-timepicker';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -56,7 +55,6 @@ export class CreateAppointmentComponent implements OnInit {
   constructor(
     public account: AccountService,
     private fb: FormBuilder,
-    private http: HttpClient,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<CreateAppointmentComponent>,
     private dialog: MatDialog,
@@ -147,34 +145,26 @@ export class CreateAppointmentComponent implements OnInit {
           'hh:mm A'
         );
         appointmentInfo.appointmentDuration = this.appointmentDuration;
-        this.http
-          .post(
-            environment.api_url + '/appointments/create',
-            {
-              appointmentInfo: appointmentInfo,
-            },
-            { withCredentials: true }
-          )
-          .subscribe({
-            next: (res: any) => {
-              this.snackBar.open('Appointment created successfuly', '', {
-                duration: 2000,
-                verticalPosition: 'top',
-                panelClass: ['snackbar-success'],
-              });
-              this.dialogRef.close();
-              this.pending = false;
-              this.appointmentService.refreshAppointments();
-            },
-            error: (err) => {
-              this.snackBar.open(err.error, '', {
-                duration: 2000,
-                verticalPosition: 'top',
-                panelClass: ['snackbar-error'],
-              });
-              this.pending = false;
-            },
-          });
+        this.appointmentService.createAppointment(appointmentInfo).subscribe({
+          next: (res: any) => {
+            this.snackBar.open('Appointment created successfuly', '', {
+              duration: 2000,
+              verticalPosition: 'top',
+              panelClass: ['snackbar-success'],
+            });
+            this.dialogRef.close();
+            this.pending = false;
+            this.appointmentService.refreshAppointments();
+          },
+          error: (err) => {
+            this.snackBar.open(err.error, '', {
+              duration: 2000,
+              verticalPosition: 'top',
+              panelClass: ['snackbar-error'],
+            });
+            this.pending = false;
+          },
+        });
       }
     }
   }

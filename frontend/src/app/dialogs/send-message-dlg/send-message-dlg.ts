@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environment/environment';
@@ -14,6 +13,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
 import { AccountService } from '../../../services/account.service';
 import { DoctorMessage } from '../../../models/message.model';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-send-message-dlg',
@@ -35,11 +35,11 @@ export class SendMessageDlgComponent implements OnInit {
   scheduleDateTime!: FormGroup;
   pending: boolean = false;
   constructor(
-    private http: HttpClient,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<SendMessageDlgComponent>,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private notificationService: NotificationService
   ) {}
   ngOnInit(): void {
     this.scheduleDateTime = this.fb.group({
@@ -64,14 +64,8 @@ export class SendMessageDlgComponent implements OnInit {
       patientId: this.appointmentInfo.patientId as string,
       doctorName: this.accountService.userInfo.getValue().name as string,
     };
-    this.http
-      .post(
-        environment.api_url + '/notifications/doctor-message',
-        notification,
-        {
-          withCredentials: true,
-        }
-      )
+    this.notificationService
+      .sendDoctorMessage(notification)
       .subscribe((res) => {
         this.dialogRef.close();
         this.pending = false;
