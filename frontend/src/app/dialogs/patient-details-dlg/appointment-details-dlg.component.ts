@@ -26,6 +26,7 @@ import { SendMessageDlgComponent } from '../send-message-dlg/send-message-dlg';
 export class AppointmentDetailsDlgComponent {
   @ViewChild('doctorNotes') doctorNotes!: ElementRef<HTMLTextAreaElement>;
   appointmentInfo!: Appointment;
+  pending: boolean = false;
   constructor(
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
@@ -75,19 +76,24 @@ export class AppointmentDetailsDlgComponent {
     } else {
       this.appointmentInfo.doctorNotes = this.doctorNotes.nativeElement.value;
     }
-    this.appointmentService.updateAppointment(this.appointmentInfo).subscribe({
-      next: (res: any) => {
-        this.appointmentService.refreshAppointments();
-        this.snackBar.open('Note saved', '', {
-          duration: 2000,
-          verticalPosition: 'top',
-          panelClass: ['snackbar-success'],
-        });
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.pending = true;
+    this.appointmentService
+      .updateAppointment(this.appointmentInfo, true)
+      .subscribe({
+        next: (res: any) => {
+          this.appointmentService.refreshAppointments();
+          this.snackBar.open('Note saved', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          });
+          this.pending = false;
+        },
+        error: (err) => {
+          console.log(err);
+          this.pending = false;
+        },
+      });
   }
 
   sendMessage(): void {
@@ -103,20 +109,22 @@ export class AppointmentDetailsDlgComponent {
   completeAppointment(complete: boolean = true): void {
     if (complete) this.appointmentInfo.status = 'completed';
     else this.appointmentInfo.status = 'pending';
-    this.appointmentService.updateAppointment(this.appointmentInfo).subscribe({
-      next: (res: any) => {
-        this.appointmentService.refreshAppointments();
-        this.snackBar.open('Appointment completed', '', {
-          duration: 2000,
-          verticalPosition: 'top',
-          panelClass: ['snackbar-success'],
-        });
-        this.appointmentService.refreshAppointments();
-        this.dialog.closeAll();
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.appointmentService
+      .updateAppointment(this.appointmentInfo, true)
+      .subscribe({
+        next: (res: any) => {
+          this.appointmentService.refreshAppointments();
+          this.snackBar.open('Appointment completed', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          });
+          this.appointmentService.refreshAppointments();
+          this.dialog.closeAll();
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 }

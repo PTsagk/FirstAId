@@ -151,7 +151,8 @@ const createAppointment = async (
 const updateAppointment = async (
   doctorId,
   appointmentInfo,
-  assistant = false
+  assistant = false,
+  ignoreNotification = false
 ) => {
   try {
     if (
@@ -215,41 +216,42 @@ const updateAppointment = async (
       { $set: appointmentInfo }
     );
 
-    const reminderEmailsCollection = db.collection("emails-queue");
-    await reminderEmailsCollection.insertOne({
-      date: appointmentInfo.date,
-      time: appointmentInfo.time,
-      to: doctor.email,
-      from: appointmentInfo.email,
-      type: "reminder",
-      patientId: appointmentInfo.doctorId,
-    });
+    if (!ignoreNotification) {
+      const reminderEmailsCollection = db.collection("emails-queue");
+      await reminderEmailsCollection.insertOne({
+        date: appointmentInfo.date,
+        time: appointmentInfo.time,
+        to: doctor.email,
+        from: appointmentInfo.email,
+        type: "reminder",
+        patientId: appointmentInfo.doctorId,
+      });
 
-    createNotification({
-      message:
-        "An appointment has been scheduled for " +
-        appointmentInfo.fullname +
-        " for " +
-        appointmentInfo.date +
-        " at " +
-        appointmentInfo.time,
-      sent: false,
-      patientId: appointmentInfo.doctorId,
-      createdAt: moment().format("YYYY-MM-DD HH:mm"),
-    });
+      createNotification({
+        message:
+          "An appointment has been scheduled for " +
+          appointmentInfo.fullname +
+          " for " +
+          appointmentInfo.date +
+          " at " +
+          appointmentInfo.time,
+        sent: false,
+        patientId: appointmentInfo.doctorId,
+        createdAt: moment().format("YYYY-MM-DD HH:mm"),
+      });
 
-    // Add notification for patient
-    createNotification({
-      message:
-        "Your appointment has been scheduled for " +
-        appointmentInfo.date +
-        " at " +
-        appointmentInfo.time,
-      sent: false,
-      patientId: appointmentInfo.patientId,
-      createdAt: moment().format("YYYY-MM-DD HH:mm"),
-    });
-
+      // Add notification for patient
+      createNotification({
+        message:
+          "Your appointment has been scheduled for " +
+          appointmentInfo.date +
+          " at " +
+          appointmentInfo.time,
+        sent: false,
+        patientId: appointmentInfo.patientId,
+        createdAt: moment().format("YYYY-MM-DD HH:mm"),
+      });
+    }
     return "OK";
   } catch (error) {
     console.error(error);
@@ -438,8 +440,13 @@ router.post("/create", async (req: Request, res: Response) => {
 router.patch("/update", async (req: Request, res: Response) => {
   try {
     const doctorId = req.user.id;
+    const ignoreNotification = req.body.ignoreNotification || false;
     const appointmentInfo = req.body.appointmentInfo;
-    const result = await updateAppointment(doctorId, appointmentInfo);
+    const result = await updateAppointment(
+      doctorId,
+      appointmentInfo,
+      ignoreNotification
+    );
     res.json(result);
   } catch (error) {
     console.error(error);

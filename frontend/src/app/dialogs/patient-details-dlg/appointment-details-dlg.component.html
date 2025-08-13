@@ -111,6 +111,11 @@
           matInput
           [value]="appointmentInfo.doctorNotes || ''"
         ></textarea>
+        @if(pending){
+        <div class="loading-spinner">
+          <i class="fa-solid fa-spinner fa-spin" style="font-size: 40px"></i>
+        </div>
+        }
       </mat-form-field>
     </div>
   </div>

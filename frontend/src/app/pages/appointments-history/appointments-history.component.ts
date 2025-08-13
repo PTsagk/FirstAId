@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppointmentService } from '../../../services/appointment.service';
 import { AccountService } from '../../../services/account.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-appointments-history',
@@ -15,28 +16,35 @@ import { AccountService } from '../../../services/account.service';
     MatButtonModule,
     AppointmentListComponent,
     MatInputModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './appointments-history.component.html',
   styleUrl: './appointments-history.component.scss',
 })
 export class AppointmentsHistoryComponent {
   patients: any = null;
+  pending: boolean = false;
+  notesPending: boolean = false;
   constructor(
     private snackBar: MatSnackBar,
     private appointmentService: AppointmentService,
     private accountService: AccountService
   ) {
+    this.pending = true;
     this.appointmentService.getAppointmentHistory().subscribe({
       next: (res: any) => {
         this.patients = res;
+        this.pending = false;
       },
       error: (err) => {
         console.error('Error fetching appointment history:', err);
+        this.pending = false;
       },
     });
   }
 
   saveNotes(patientId: string, notes: string, email: string) {
+    this.notesPending = true;
     this.accountService.updateUserNotes(patientId, notes, email).subscribe({
       next: (res) => {
         console.log('Notes saved successfully:', res);
@@ -45,6 +53,7 @@ export class AppointmentsHistoryComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-success'],
         });
+        this.notesPending = false;
       },
       error: (err) => {
         console.error('Error saving notes:', err);
@@ -53,6 +62,7 @@ export class AppointmentsHistoryComponent {
           verticalPosition: 'top',
           panelClass: ['snackbar-error'],
         });
+        this.notesPending = false;
       },
     });
   }

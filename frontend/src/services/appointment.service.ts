@@ -32,11 +32,15 @@ export class AppointmentService {
       { withCredentials: true }
     );
   }
-  updateAppointment(updatedAppointment: Appointment) {
+  updateAppointment(
+    updatedAppointment: Appointment,
+    ignoreNotification: boolean = false
+  ) {
     return this.http.patch(
       environment.api_url + '/appointments/update',
       {
         appointmentInfo: updatedAppointment,
+        ignoreNotification,
       },
       { withCredentials: true }
     );

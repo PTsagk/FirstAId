@@ -1,5 +1,5 @@
 <div class="appointments-history">
-  @for(patient of patients; track patient.email){
+  @if(!pending){ @for(patient of patients; track patient.email){
   <mat-expansion-panel class="user-card-container">
     <mat-expansion-panel-header class="doctor-card">
       <mat-panel-title
@@ -107,6 +107,11 @@
             required
             matInput
           ></textarea>
+          @if(notesPending){
+          <div class="loading-spinner">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size: 40px"></i>
+          </div>
+          }
         </mat-form-field>
       </div>
     </div>
@@ -117,5 +122,9 @@
       ></app-appointment-list>
     </div>
   </mat-expansion-panel>
+  } } @if(pending){
+  <div class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
   }
 </div>
