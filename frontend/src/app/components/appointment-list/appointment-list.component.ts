@@ -42,6 +42,7 @@ export class AppointmentListComponent implements AfterViewInit {
     'severity',
     'date',
     'time',
+    'status',
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -122,6 +123,9 @@ export class AppointmentListComponent implements AfterViewInit {
           case 'time':
             // For time, you might need to parse it properly
             return item.time;
+          case 'status':
+            const statusOrder = { pending: 0, completed: 1 };
+            return statusOrder[item.status as keyof typeof statusOrder] || 0;
           default:
             return (item as any)[property];
         }
