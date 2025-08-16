@@ -75,16 +75,32 @@ async function sendNotificationEmail(emailData) {
       const db = await getDB();
 
       const messagesCollection = db.collection("messages");
-      await messagesCollection.insertOne({
+
+      const existingMessageDoc = await messagesCollection.findOne({
+        appointmentId: emailData.appointmentId,
+      });
+
+      const newMessage = {
         date: emailData.date,
         time: emailData.time,
         to: emailData.to,
         fullname: emailData.fullname,
         message: gptResponse.choices[0].message.content,
-        appointmentId: emailData.appointmentId,
-        type: "message",
         userType: "doctor",
-      });
+      };
+
+      if (existingMessageDoc) {
+        await messagesCollection.updateOne(
+          { appointmentId: emailData.appointmentId },
+          { $push: { messages: newMessage } }
+        );
+      } else {
+        await messagesCollection.insertOne({
+          appointmentId: emailData.appointmentId,
+          messages: [newMessage],
+        });
+      }
+
       // Send the email with the generated content
       await sendEmail("template_4ow7iii", emailData.to, {
         fullname: emailData.fullname,
@@ -109,19 +125,34 @@ async function sendFollowUpEmail(emailData) {
     if (emailData.userType == "doctor") {
       const db = await getDB();
       const messagesCollection = db.collection("messages");
-      await messagesCollection.insertOne({
+      const existingMessageDoc = await messagesCollection.findOne({
+        appointmentId: emailData.appointmentId,
+      });
+
+      const newMessage = {
         date: emailData.date,
         time: emailData.time,
         to: emailData.to,
         fullname: emailData.fullname,
         message: emailData.messageReason,
-        appointmentId: emailData.appointmentId,
         userType: "doctor",
-      });
+      };
+
+      if (existingMessageDoc) {
+        await messagesCollection.updateOne(
+          { appointmentId: emailData.appointmentId },
+          { $push: { messages: newMessage } }
+        );
+      } else {
+        await messagesCollection.insertOne({
+          appointmentId: emailData.appointmentId,
+          messages: [newMessage],
+        });
+      }
       createNotification({
         message: "You have a new message from  " + emailData.fullname,
         sent: false,
-        patientId: emailData.patientId,
+        userId: emailData.patientId,
         createdAt: moment().format("YYYY-MM-DD HH:mm"),
       });
     }

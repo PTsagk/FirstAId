@@ -8,7 +8,7 @@ export interface DoctorMessage {
   patientNotes: string;
   fullname: string;
   appointmentId: string;
-  patientId: string;
+  userId: string;
   doctorName: string;
 }
 

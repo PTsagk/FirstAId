@@ -6,4 +6,7 @@
   padding: 12px;
   display: flex;
   justify-content: space-between;
+  p {
+    max-width: 400px;
+  }
 }

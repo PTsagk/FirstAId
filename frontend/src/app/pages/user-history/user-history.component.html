@@ -45,7 +45,10 @@
             sendMessage(messageInput.value); messageInput.value = ''
           "
         ></textarea>
-        <button type="submit" class="send-button text-primary">
+        <button
+          class="send-button text-primary"
+          (click)="sendMessage(messageInput.value); messageInput.value = ''"
+        >
           <i class="fa-solid fa-paper-plane"></i>
         </button>
       </form>

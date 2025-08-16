@@ -69,6 +69,13 @@ export class NotificationService {
     });
   }
 
+  deleteNotification(notificationId: string) {
+    return this.http.delete(
+      `${environment.api_url}/notifications/${notificationId}`,
+      { withCredentials: true }
+    );
+  }
+
   sendDoctorMessage(notification: any) {
     return this.http.post(
       environment.api_url + '/notifications/doctor-message',
@@ -79,19 +86,10 @@ export class NotificationService {
     );
   }
 
-  sendUserMessage(appointment: any, message: string) {
+  sendUserMessage(newMessage: any) {
     return this.http.post(
       `${environment.api_url}/notifications/send-follow-up`,
-      {
-        to: appointment.doctorEmail,
-        from: appointment.email,
-        fullname: appointment.fullname,
-        date: appointment.date,
-        time: appointment.time,
-        appointmentId: appointment._id,
-        doctorId: appointment.doctorId,
-        message: message,
-      },
+      newMessage,
       { withCredentials: true }
     );
   }

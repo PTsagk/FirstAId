@@ -108,7 +108,7 @@ const createAppointment = async (
       to: doctor.email,
       from: appointmentInfo.email,
       type: "reminder",
-      patientId: appointmentInfo.doctorId,
+      userId: appointmentInfo.doctorId,
     });
 
     // Add notification for doctor
@@ -123,7 +123,7 @@ const createAppointment = async (
         ". Appointment severity is " +
         appointmentInfo.severity,
       sent: false,
-      patientId: appointmentInfo.doctorId,
+      userId: appointmentInfo.doctorId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
 
@@ -135,7 +135,7 @@ const createAppointment = async (
         " at " +
         appointmentInfo.time,
       sent: false,
-      patientId: appointmentInfo.patientId,
+      userId: appointmentInfo.patientId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
     return appointmentInfo;
@@ -224,7 +224,7 @@ const updateAppointment = async (
         to: doctor.email,
         from: appointmentInfo.email,
         type: "reminder",
-        patientId: appointmentInfo.doctorId,
+        userId: appointmentInfo.doctorId,
       });
 
       createNotification({
@@ -236,7 +236,7 @@ const updateAppointment = async (
           " at " +
           appointmentInfo.time,
         sent: false,
-        patientId: appointmentInfo.doctorId,
+        userId: appointmentInfo.doctorId,
         createdAt: moment().format("YYYY-MM-DD HH:mm"),
       });
 
@@ -248,7 +248,7 @@ const updateAppointment = async (
           " at " +
           appointmentInfo.time,
         sent: false,
-        patientId: appointmentInfo.patientId,
+        userId: appointmentInfo.patientId,
         createdAt: moment().format("YYYY-MM-DD HH:mm"),
       });
     }
@@ -406,7 +406,7 @@ const getPreviousAppointments = async (patientEmail: string) => {
       }
     });
     const messagesCollection = db.collection("messages");
-    const messages = await messagesCollection
+    const conversations = await messagesCollection
       .find({
         appointmentId: {
           $in: appointments.map((appt) => appt._id.toString()),
@@ -414,9 +414,10 @@ const getPreviousAppointments = async (patientEmail: string) => {
       })
       .toArray();
     appointments.forEach((appointment) => {
-      appointment.messages = messages.filter(
-        (msg) => msg.appointmentId.toString() === appointment._id.toString()
-      );
+      appointment.messages =
+        conversations.find(
+          (msg) => msg.appointmentId.toString() === appointment._id.toString()
+        )?.messages || [];
     });
     return appointments;
   } catch (error) {

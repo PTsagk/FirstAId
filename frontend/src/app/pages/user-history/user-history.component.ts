@@ -114,29 +114,37 @@ export class UserHistoryComponent {
   }
 
   sendMessage(message: string) {
-    this.notificationService
-      .sendUserMessage(this.selectedAppointment, message)
-      .subscribe(
-        (res: any) => {
-          this.snackBar.open('Notification sent successfully', '', {
-            duration: 2000,
-            verticalPosition: 'top',
-            panelClass: ['snackbar-success'],
-          });
-          this.selectedAppointment.messages.push({
-            date: moment().format('YYYY-MM-DD'),
-            time: moment().format('hh:mm A'),
-            userType: 'patient',
-            message: message,
-          });
-        },
-        (err) => {
-          this.snackBar.open('Something went wrong', '', {
-            duration: 2000,
-            verticalPosition: 'top',
-            panelClass: ['snackbar-error'],
-          });
-        }
-      );
+    const newMessage = {
+      to: this.selectedAppointment.doctorEmail,
+      from: this.selectedAppointment.email,
+      message: message,
+      fullname: this.selectedAppointment.fullname,
+      date: moment().format('YYYY-MM-DD'),
+      time: moment().format('hh:mm A'),
+      appointmentId: this.selectedAppointment._id,
+      userId: this.selectedAppointment.doctorId,
+    };
+    this.notificationService.sendUserMessage(newMessage).subscribe(
+      (res: any) => {
+        this.snackBar.open('Notification sent successfully', '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-success'],
+        });
+        this.selectedAppointment.messages.push({
+          date: moment().format('YYYY-MM-DD'),
+          time: moment().format('hh:mm A'),
+          userType: 'patient',
+          message: message,
+        });
+      },
+      (err) => {
+        this.snackBar.open('Something went wrong', '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error'],
+        });
+      }
+    );
   }
 }

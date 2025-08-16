@@ -84,7 +84,7 @@ const sseConnections = new Map<string, express.Response>();
 
 // SSE endpoint for notifications
 app.get("/notifications/stream", authenticateToken, (req: any, res) => {
-  const patientId = req.user.id;
+  const userId = req.user.id;
 
   res.writeHead(200, {
     "Content-Type": "text/event-stream",
@@ -95,7 +95,7 @@ app.get("/notifications/stream", authenticateToken, (req: any, res) => {
   });
 
   // Store connection
-  sseConnections.set(patientId, res);
+  sseConnections.set(userId, res);
 
   // Send initial connection confirmation
   res.write(
@@ -107,8 +107,8 @@ app.get("/notifications/stream", authenticateToken, (req: any, res) => {
 
   // Handle client disconnect
   req.on("close", () => {
-    sseConnections.delete(patientId);
-    console.log(`SSE connection closed for patient: ${patientId}`);
+    sseConnections.delete(userId);
+    console.log(`SSE connection closed for patient: ${userId}`);
   });
 });
 

@@ -7,6 +7,16 @@
       >{{ notification.createdAt }}
       @if(!notification.read) {
       <i class="fa-solid fa-circle" style="color: orange"></i> }
+      <i
+        class="fa-solid fa-trash"
+        style="
+          color: rgb(173, 0, 0);
+          margin-left: 5px;
+          padding: 10px;
+          cursor: pointer;
+        "
+        (click)="deleteNotification(notification._id)"
+      ></i>
     </small>
   </div>
   }

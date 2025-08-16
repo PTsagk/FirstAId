@@ -1,5 +1,6 @@
 import Express from "express";
 import { getDB } from "../utils/connect";
+import { ObjectId } from "mongodb";
 const moment = require("moment");
 const router = Express.Router();
 
@@ -17,7 +18,7 @@ router.post("/doctor-message", async (req, res) => {
       !notification.fullname ||
       !notification.messageReason ||
       !notification.appointmentId ||
-      !notification.patientId
+      !notification.userId
     ) {
       return res.status(400).send("Missing required fields");
     }
@@ -56,10 +57,25 @@ router.get("/", async (req, res) => {
     const db = await getDB();
     const collection = db.collection("notifications");
     const notifications = await collection
-      .find({ patientId: req.user.id })
+      .find({ userId: req.user.id })
       .toArray();
     notifications.forEach((n) => (n.read = true));
     res.json(notifications);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const db = await getDB();
+    const collection = db.collection("notifications");
+    await collection.deleteOne({
+      _id: new ObjectId(req.params.id),
+      userId: req.user.id,
+    });
+    res.sendStatus(204);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -73,7 +89,7 @@ const createNotification = async (notification) => {
     await collection.insertOne({
       message: notification.message,
       sent: false,
-      patientId: notification.patientId,
+      userId: notification.userId,
       createdAt: notification.createdAt,
     });
   } catch (error) {
@@ -96,7 +112,7 @@ const createEmailNotification = async (notification) => {
       fullname: notification.fullname,
       messageReason: notification.messageReason,
       appointmentId: notification.appointmentId,
-      patientId: notification.patientId,
+      userId: notification.userId,
       type: "message",
       userType: "doctor",
     });
@@ -122,20 +138,36 @@ const createFollowUpNotification = async (notification) => {
       userType: "patient",
     });
     const messagesCollection = db.collection("messages");
-    await messagesCollection.insertOne({
+
+    const existingMessageDoc = await messagesCollection.findOne({
+      appointmentId: notification.appointmentId,
+    });
+
+    const newMessage = {
       date: notification.date,
       time: notification.time,
       to: notification.to,
       fullname: notification.fullname,
       message: notification.message,
-      appointmentId: notification.appointmentId,
       userType: "patient",
-    });
+    };
+
+    if (existingMessageDoc) {
+      await messagesCollection.updateOne(
+        { appointmentId: notification.appointmentId },
+        { $push: { messages: newMessage } }
+      );
+    } else {
+      await messagesCollection.insertOne({
+        appointmentId: notification.appointmentId,
+        messages: [newMessage],
+      });
+    }
 
     createNotification({
       message: "You have a new message from  " + notification.fullname,
       sent: false,
-      patientId: notification.doctorId,
+      userId: notification.userId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
 
@@ -155,10 +187,10 @@ const sendSEENotification = async (sseConnections) => {
     .toArray();
 
   for (const notification of newNotifications) {
-    const patientId = notification.patientId;
+    const userId = notification.userId;
 
-    if (patientId && sseConnections.has(patientId)) {
-      const res = sseConnections.get(patientId);
+    if (userId && sseConnections.has(userId)) {
+      const res = sseConnections.get(userId);
       try {
         res?.write(
           `data: ${JSON.stringify({
@@ -167,13 +199,10 @@ const sendSEENotification = async (sseConnections) => {
           })}\n\n`
         );
 
-        console.log(`Notification sent to patient: ${patientId}`);
+        console.log(`Notification sent to user: ${userId}`);
       } catch (error) {
-        console.error(
-          `Failed to send notification to patient ${patientId}:`,
-          error
-        );
-        sseConnections.delete(patientId);
+        console.error(`Failed to send notification to user ${userId}:`, error);
+        sseConnections.delete(userId);
       }
     }
     // Mark as sent
