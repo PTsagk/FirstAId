@@ -543,6 +543,24 @@ router.get("/doctor/history", async (req: Request, res: Response) => {
     res.status(500).send("Internal Server Error");
   }
 });
+router.get(
+  "/doctor/:appointmentId/history",
+  async (req: Request, res: Response) => {
+    try {
+      const appointmentId = req.params.appointmentId;
+      const doctorId = req.user.id;
+      const db = await getDB();
+      const messagesCollection = db.collection("messages");
+      const history = await messagesCollection.findOne({
+        appointmentId: appointmentId,
+      });
+      res.json(history?.messages || []);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
 
 router.get("/patient/history", async (req: Request, res: Response) => {
   try {

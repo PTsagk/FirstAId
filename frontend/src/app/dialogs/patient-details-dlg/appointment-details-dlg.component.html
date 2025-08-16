@@ -11,6 +11,11 @@
   </div>
   <div style="display: flex; position: absolute; right: 10px; gap: 10px">
     <i
+      (click)="showPreviousMessages()"
+      style="padding: 5px"
+      class="fa-solid fa-comments cursor-pointer"
+    ></i>
+    <i
       (click)="sendMessage()"
       style="padding: 5px"
       class="fa-solid fa-paper-plane cursor-pointer"

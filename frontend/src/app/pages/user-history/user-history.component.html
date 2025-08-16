@@ -8,7 +8,7 @@
     [opened]="false"
     class="appointment-info"
   >
-    <div>
+    <div class="chat-body">
       @if(selectedAppointment){
       <h2>Previous Messages</h2>
       @for(message of selectedAppointment?.messages; track message) {
@@ -25,9 +25,6 @@
         <p [innerHTML]="message.message"></p>
       </div>
       } }
-    </div>
-    <div class="chat-body">
-      <!-- Chat messages will go here -->
     </div>
     <div class="chat-input">
       <form

@@ -64,6 +64,15 @@ export class AppointmentService {
       }
     );
   }
+
+  getAppointmentMessages(appointmentId: string) {
+    return this.http.get(
+      environment.api_url + `/appointments/doctor/${appointmentId}/history`,
+      {
+        withCredentials: true,
+      }
+    );
+  }
   private fetchAppointments() {
     this.http
       .get(environment.api_url + `/appointments`, {

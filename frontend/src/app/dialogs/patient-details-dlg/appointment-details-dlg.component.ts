@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDlgComponent } from '../confirmation-dlg/confirmation-dlg.component';
 import { SendMessageDlgComponent } from '../send-message-dlg/send-message-dlg';
+import { PreviousMessagesDlgComponent } from '../previous-messages-dlg/previous-messages-dlg.component';
 
 @Component({
   selector: 'app-appointment-details-dlg',
@@ -104,6 +105,15 @@ export class AppointmentDetailsDlgComponent {
       },
     });
     dlg.componentInstance.appointmentInfo = this.appointmentInfo;
+  }
+
+  showPreviousMessages(): void {
+    const dlg = this.dialog.open(PreviousMessagesDlgComponent, {
+      width: '700px',
+      data: {
+        appointmentInfo: this.appointmentInfo,
+      },
+    });
   }
 
   completeAppointment(complete: boolean = true): void {

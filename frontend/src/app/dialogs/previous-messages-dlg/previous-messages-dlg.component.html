@@ -1,0 +1,30 @@
+<div class="previous-messages-dlg">
+  <div class="header">
+    <h2>Previous Messages</h2>
+    <i
+      (click)="sendMessage()"
+      style="padding: 5px"
+      class="fa-solid fa-paper-plane cursor-pointer"
+    ></i>
+  </div>
+  <div class="messages">
+    @for(message of messages; track message.id){
+    <div
+      [ngStyle]="{
+        'margin-left': message.userType === 'patient' ? 'auto' : 'initial'
+      }"
+      style="width: fit-content; font-size: 12px"
+    >
+      {{ message.date + " " + message.time }}
+    </div>
+    <div class="message {{ message.userType }}-message">
+      <p>{{ message.message }}</p>
+    </div>
+    }
+  </div>
+  @if(pending){
+  <div class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  }
+</div>

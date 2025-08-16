@@ -29,6 +29,10 @@
   padding: 20px;
 }
 
+.chat-body {
+  height: 700px;
+  overflow-y: auto;
+}
 .input-container {
   border-radius: 10px;
   border: 1px solid #ccc;
