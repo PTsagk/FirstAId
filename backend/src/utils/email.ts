@@ -10,7 +10,7 @@ const sendEmail = async (
   to: string,
   messageInfo: any
 ) => {
-  // if (process.env.NODE_ENV === "development") return;
+  if (process.env.NODE_ENV === "development") return;
   try {
     let templateParams: any = {
       notes: "Check this out!",
