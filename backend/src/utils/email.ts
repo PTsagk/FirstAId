@@ -1,6 +1,7 @@
 import emailjs from "@emailjs/nodejs";
 import { getDB } from "./connect";
 import { runCompletion } from "./openai";
+import { createNotification } from "../routes/notifications";
 const moment = require("moment");
 
 const sendEmail = async (
@@ -8,6 +9,7 @@ const sendEmail = async (
   to: string,
   messageInfo: any
 ) => {
+  if (process.env.NODE_ENV === "development") return;
   try {
     let templateParams: any = {
       notes: "Check this out!",
@@ -104,6 +106,25 @@ async function sendFollowUpEmail(emailData) {
       message: emailData.message,
       to: emailData.to,
     });
+    if (emailData.userType == "doctor") {
+      const db = await getDB();
+      const messagesCollection = db.collection("messages");
+      await messagesCollection.insertOne({
+        date: emailData.date,
+        time: emailData.time,
+        to: emailData.to,
+        fullname: emailData.fullname,
+        message: emailData.messageReason,
+        appointmentId: emailData.appointmentId,
+        userType: "doctor",
+      });
+      createNotification({
+        message: "You have a new message from  " + emailData.fullname,
+        sent: false,
+        patientId: emailData.patientId,
+        createdAt: moment().format("YYYY-MM-DD HH:mm"),
+      });
+    }
     return true;
   } catch (error) {
     console.error("Error sending follow-up emails:", error);

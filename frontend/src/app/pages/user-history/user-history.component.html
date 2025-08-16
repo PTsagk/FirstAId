@@ -1,4 +1,4 @@
-<mat-drawer-container class="chat-bot-container">
+<mat-drawer-container class="user-history-container">
   <mat-drawer
     opened
     class="chat-content"
@@ -12,13 +12,18 @@
       @if(selectedAppointment){
       <h2>Previous Messages</h2>
       @for(message of selectedAppointment?.messages; track message) {
-      @if(message.email == selectedAppointment?.doctorEmail) {
-      <h3>Doctor Message</h3>
-      } @if(message.email != selectedAppointment?.doctorEmail) {
-      <h3>Patient Message</h3>
-      }
-      <h4>{{ message.date }}</h4>
-      <p [innerHTML]="message.message"></p>
+
+      <div
+        [ngStyle]="{
+          'margin-left': message.userType === 'patient' ? 'auto' : 'initial'
+        }"
+        style="font-size: 12px; width: fit-content"
+      >
+        {{ message.date + " " + message.time }}
+      </div>
+      <div class="{{ message.userType }}-message message">
+        <p [innerHTML]="message.message"></p>
+      </div>
       } }
     </div>
     <div class="chat-body">
@@ -47,6 +52,7 @@
     </div>
   </mat-drawer>
   <mat-drawer-content>
+    <h1>Apointment history</h1>
     <table mat-table [dataSource]="dataSource" matSort class="history-table">
       <!-- Name Column -->
       <ng-container matColumnDef="fullname">

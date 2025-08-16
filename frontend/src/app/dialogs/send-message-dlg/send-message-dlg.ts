@@ -69,7 +69,7 @@ export class SendMessageDlgComponent implements OnInit {
       .subscribe((res) => {
         this.dialogRef.close();
         this.pending = false;
-        this.snackBar.open('Notification scheduled', '', {
+        this.snackBar.open('Message scheduled', '', {
           duration: 2000,
           verticalPosition: 'top',
           panelClass: ['snackbar-success'],

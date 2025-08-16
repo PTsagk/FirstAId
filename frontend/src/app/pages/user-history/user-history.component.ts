@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +17,8 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppointmentService } from '../../../services/appointment.service';
 import { NotificationService } from '../../../services/notification.service';
+import { NgStyle } from '@angular/common';
+import moment from 'moment';
 
 @Component({
   selector: 'app-user-history',
@@ -37,9 +39,11 @@ import { NotificationService } from '../../../services/notification.service';
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
+    NgStyle,
   ],
   templateUrl: './user-history.component.html',
   styleUrl: './user-history.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserHistoryComponent {
   previousAppointments = [];
@@ -119,7 +123,12 @@ export class UserHistoryComponent {
             verticalPosition: 'top',
             panelClass: ['snackbar-success'],
           });
-          this.sidebar.close();
+          this.selectedAppointment.messages.push({
+            date: moment().format('YYYY-MM-DD'),
+            time: moment().format('hh:mm A'),
+            userType: 'patient',
+            message: message,
+          });
         },
         (err) => {
           this.snackBar.open('Something went wrong', '', {

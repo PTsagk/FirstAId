@@ -16,7 +16,8 @@ router.post("/doctor-message", async (req, res) => {
       !notification.from ||
       !notification.fullname ||
       !notification.messageReason ||
-      !notification.appointmentId
+      !notification.appointmentId ||
+      !notification.patientId
     ) {
       return res.status(400).send("Missing required fields");
     }
@@ -95,15 +96,9 @@ const createEmailNotification = async (notification) => {
       fullname: notification.fullname,
       messageReason: notification.messageReason,
       appointmentId: notification.appointmentId,
+      patientId: notification.patientId,
       type: "message",
       userType: "doctor",
-    });
-
-    createNotification({
-      message: "You have a new message from  " + notification.fullname,
-      sent: false,
-      patientId: notification.patientId,
-      createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
     return "Notification created successfully";
   } catch (error) {
@@ -172,12 +167,6 @@ const sendSEENotification = async (sseConnections) => {
           })}\n\n`
         );
 
-        // Mark as sent
-        await notificationsCollection.updateOne(
-          { _id: notification._id },
-          { $set: { sent: true, sentAt: new Date() } }
-        );
-
         console.log(`Notification sent to patient: ${patientId}`);
       } catch (error) {
         console.error(
@@ -187,6 +176,11 @@ const sendSEENotification = async (sseConnections) => {
         sseConnections.delete(patientId);
       }
     }
+    // Mark as sent
+    await notificationsCollection.updateOne(
+      { _id: notification._id },
+      { $set: { sent: true, sentAt: new Date() } }
+    );
   }
 };
 
