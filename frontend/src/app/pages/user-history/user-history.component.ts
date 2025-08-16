@@ -123,6 +123,8 @@ export class UserHistoryComponent {
       time: moment().format('hh:mm A'),
       appointmentId: this.selectedAppointment._id,
       userId: this.selectedAppointment.doctorId,
+      patientId: this.selectedAppointment.patientId,
+      doctorId: this.selectedAppointment.doctorId,
     };
     this.notificationService.sendUserMessage(newMessage).subscribe(
       (res: any) => {

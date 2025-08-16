@@ -9,6 +9,7 @@ export interface DoctorMessage {
   fullname: string;
   appointmentId: string;
   userId: string;
+  doctorId: string;
   doctorName: string;
 }
 

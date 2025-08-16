@@ -59,11 +59,15 @@ cron.schedule("* * * * *", async () => {
   for (const emailData of emailsToSend) {
     if (emailData.type === "reminder") {
       emailData.sent = await sendReminderEmail(emailData);
-    }
-    // else if (emailData.type === "notification") {
-    //   emailData.sent = await sendNotificationEmail(emailData);
-    // }
-    else if (emailData.type === "message") {
+    } else if (
+      emailData.type === "message" &&
+      emailData.userType === "doctor"
+    ) {
+      emailData.sent = await sendNotificationEmail(emailData);
+    } else if (
+      emailData.type === "message" &&
+      emailData.userType === "patient"
+    ) {
       emailData.sent = await sendFollowUpEmail(emailData);
     } else {
       emailData.sent = false;

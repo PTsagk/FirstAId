@@ -18,7 +18,7 @@
       {{ message.date + " " + message.time }}
     </div>
     <div class="message {{ message.userType }}-message">
-      <p>{{ message.message }}</p>
+      <p [innerHTML]="message.message"></p>
     </div>
     }
   </div>

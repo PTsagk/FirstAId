@@ -553,6 +553,7 @@ router.get(
       const messagesCollection = db.collection("messages");
       const history = await messagesCollection.findOne({
         appointmentId: appointmentId,
+        doctorId: new ObjectId(doctorId),
       });
       res.json(history?.messages || []);
     } catch (error) {

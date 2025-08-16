@@ -62,6 +62,7 @@ export class SendMessageDlgComponent implements OnInit {
       fullname: this.appointmentInfo.fullname as string,
       appointmentId: this.appointmentInfo._id as string,
       userId: this.appointmentInfo.patientId as string,
+      doctorId: this.appointmentInfo.doctorId as string,
       doctorName: this.accountService.userInfo.getValue().name as string,
     };
     this.notificationService

@@ -113,6 +113,7 @@ const createEmailNotification = async (notification) => {
       messageReason: notification.messageReason,
       appointmentId: notification.appointmentId,
       userId: notification.userId,
+      doctorId: notification.doctorId,
       type: "message",
       userType: "doctor",
     });
@@ -141,6 +142,7 @@ const createFollowUpNotification = async (notification) => {
 
     const existingMessageDoc = await messagesCollection.findOne({
       appointmentId: notification.appointmentId,
+      patientId: notification.patientId,
     });
 
     const newMessage = {
@@ -160,6 +162,8 @@ const createFollowUpNotification = async (notification) => {
     } else {
       await messagesCollection.insertOne({
         appointmentId: notification.appointmentId,
+        patientId: notification.patientId,
+        doctorId: notification.doctorId,
         messages: [newMessage],
       });
     }

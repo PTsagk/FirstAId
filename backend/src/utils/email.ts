@@ -2,6 +2,7 @@ import emailjs from "@emailjs/nodejs";
 import { getDB } from "./connect";
 import { runCompletion } from "./openai";
 import { createNotification } from "../routes/notifications";
+import { ObjectId } from "mongodb";
 const moment = require("moment");
 
 const sendEmail = async (
@@ -9,7 +10,7 @@ const sendEmail = async (
   to: string,
   messageInfo: any
 ) => {
-  if (process.env.NODE_ENV === "development") return;
+  // if (process.env.NODE_ENV === "development") return;
   try {
     let templateParams: any = {
       notes: "Check this out!",
@@ -65,19 +66,33 @@ async function sendNotificationEmail(emailData) {
   try {
     if (!moment(emailData.date + emailData.time).isBefore(moment())) {
       emailData.sent = true;
+      const db = await getDB();
+      const patient = await db
+        .collection("patients")
+        .findOne({ _id: new ObjectId(emailData.userId) });
+      const doctor = await db
+        .collection("doctors")
+        .findOne({ _id: new ObjectId(emailData.doctorId) });
       const gptResponse = await runCompletion(
         `The doctor want's to comminicate with the patient for the following reason:
           ${emailData.messageReason}.
           You are given the doctor notes and the patients notes for an upcoming appointment.
           Give some  helpfull information to the patient.
-          Doctor notes: ${emailData.doctorNotes} \nPatient notes: ${emailData.patientNotes}`
+          Doctor notes: ${emailData.doctorNotes} \nPatient notes: ${
+          emailData.patientNotes
+        }.
+          You are also given the doctor and the patient info
+          Doctor info: ${JSON.stringify(
+            doctor
+          )} \nPatient info: ${JSON.stringify(patient)}
+          `
       );
-      const db = await getDB();
 
       const messagesCollection = db.collection("messages");
 
       const existingMessageDoc = await messagesCollection.findOne({
         appointmentId: emailData.appointmentId,
+        doctorId: emailData.doctorId,
       });
 
       const newMessage = {
@@ -91,16 +106,27 @@ async function sendNotificationEmail(emailData) {
 
       if (existingMessageDoc) {
         await messagesCollection.updateOne(
-          { appointmentId: emailData.appointmentId },
+          {
+            appointmentId: emailData.appointmentId,
+            doctorId: emailData.doctorId,
+            patientId: emailData.userId,
+          },
           { $push: { messages: newMessage } }
         );
       } else {
         await messagesCollection.insertOne({
           appointmentId: emailData.appointmentId,
+          patientId: emailData.userId,
+          doctorId: emailData.doctorId,
           messages: [newMessage],
         });
       }
-
+      createNotification({
+        message: "You have a new message from  " + emailData.fullname,
+        sent: false,
+        userId: emailData.userId,
+        createdAt: moment().format("YYYY-MM-DD HH:mm"),
+      });
       // Send the email with the generated content
       await sendEmail("template_4ow7iii", emailData.to, {
         fullname: emailData.fullname,
@@ -123,38 +149,6 @@ async function sendFollowUpEmail(emailData) {
       to: emailData.to,
     });
     if (emailData.userType == "doctor") {
-      const db = await getDB();
-      const messagesCollection = db.collection("messages");
-      const existingMessageDoc = await messagesCollection.findOne({
-        appointmentId: emailData.appointmentId,
-      });
-
-      const newMessage = {
-        date: emailData.date,
-        time: emailData.time,
-        to: emailData.to,
-        fullname: emailData.fullname,
-        message: emailData.messageReason,
-        userType: "doctor",
-      };
-
-      if (existingMessageDoc) {
-        await messagesCollection.updateOne(
-          { appointmentId: emailData.appointmentId },
-          { $push: { messages: newMessage } }
-        );
-      } else {
-        await messagesCollection.insertOne({
-          appointmentId: emailData.appointmentId,
-          messages: [newMessage],
-        });
-      }
-      createNotification({
-        message: "You have a new message from  " + emailData.fullname,
-        sent: false,
-        userId: emailData.patientId,
-        createdAt: moment().format("YYYY-MM-DD HH:mm"),
-      });
     }
     return true;
   } catch (error) {
