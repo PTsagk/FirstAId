@@ -1,11 +1,10 @@
 import { Request, Response, Router } from "express";
 import { getDB } from "../utils/connect";
 import { sendEmail } from "../utils/email";
-import moment from "moment";
 import { ObjectId } from "mongodb";
 import { runCompletion } from "../utils/openai";
 import { createNotification } from "./notifications";
-
+const moment = require("moment");
 const router = Router();
 
 // Create appointment
@@ -193,9 +192,10 @@ const updateAppointment = async (
 
     const startTime = moment(appointmentInfo.time, "hh:mm A").format("hh:mm A");
     const endTime = moment(appointmentInfo.time, "hh:mm A")
-      .add(50, "minutes")
+      .add(appointmentInfo.appointmentDuration, "minutes")
       .format("hh:mm A");
 
+    // Check for overlapping appointments
     const existingAppointment = await collection.findOne({
       doctorId: appointmentInfo.doctorId,
       date: appointmentInfo.date,
@@ -205,6 +205,7 @@ const updateAppointment = async (
         $lt: endTime,
       },
     });
+
     if (existingAppointment) {
       if (assistant) {
         return "Appointment already exists for this time";
@@ -212,6 +213,29 @@ const updateAppointment = async (
         throw new Error("Appointment already exists for this time");
       }
     }
+
+    // Check if the new time is at least 1 hour before the previous scheduled time
+    const previousAppointment = await collection.findOne({
+      _id: new ObjectId(appointmentId),
+      doctorId: doctorId,
+    });
+    if (previousAppointment) {
+      const prevTime = moment(
+        previousAppointment.date + " " + previousAppointment.time,
+        "YYYY-MM-DD hh:mm A"
+      );
+
+      if (prevTime.isAfter(moment().subtract(1, "hours"))) {
+        if (assistant) {
+          return "Appointment cannot be rescheduled to less than 1 hour before its previous time";
+        } else {
+          throw new Error(
+            "Appointment cannot be rescheduled to less than 1 hour before its previous time"
+          );
+        }
+      }
+    }
+
     await collection.updateOne(
       { _id: new ObjectId(appointmentId), doctorId: doctorId },
       { $set: appointmentInfo }
@@ -255,7 +279,7 @@ const updateAppointment = async (
     }
     return "OK";
   } catch (error) {
-    console.error(error);
+    console.log("Error updating appointment: " + error.message);
     throw new Error("Error updating appointment: " + error.message);
   }
 };
@@ -452,7 +476,7 @@ router.patch("/update", async (req: Request, res: Response) => {
       appointmentInfo,
       ignoreNotification
     );
-    res.json(result);
+    return res.json(result);
   } catch (error) {
     console.error(error);
     res.status(500).send(error?.message || "Internal Server Error");

@@ -138,6 +138,14 @@ export class CreateAppointmentComponent implements OnInit {
               this.pending = false;
               this.appointmentService.refreshAppointments();
             },
+            error: (err) => {
+              this.snackBar.open(err.error, '', {
+                duration: 2000,
+                verticalPosition: 'top',
+                panelClass: ['snackbar-error'],
+              });
+              this.pending = false;
+            },
           });
       } else {
         const appointmentInfo: Appointment = form.value;
