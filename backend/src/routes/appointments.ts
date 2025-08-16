@@ -141,7 +141,8 @@ const createAppointment = async (
     return appointmentInfo;
   } catch (error) {
     console.error(error);
-    throw new Error("Error creating appointment: " + error.message);
+    return null;
+    // throw new Error("Error creating appointment: " + error.message);
 
     // res.status(500).send("Internal Server Error");
   }
@@ -432,6 +433,9 @@ router.post("/create", async (req: Request, res: Response) => {
     const doctorId = req.user.id;
     const appointmentInfo = req.body.appointmentInfo;
     const appointment = await createAppointment(doctorId, appointmentInfo);
+    if (!appointment) {
+      return res.status(400).send("Error creating appointment");
+    }
     res.json(appointment);
   } catch (error) {
     console.error(error);

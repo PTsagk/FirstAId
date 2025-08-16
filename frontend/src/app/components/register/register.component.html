@@ -394,6 +394,17 @@
               />
             </mat-form-field>
           </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button
+              [disabled]="pending"
+              mat-flat-button
+              class="bg-primary text-secondary"
+              matStepperNext
+            >
+              Next
+            </button>
+          </div>
         </form>
       </mat-step>
       <mat-step [stepControl]="patientInfo" label="Add your medical history">
