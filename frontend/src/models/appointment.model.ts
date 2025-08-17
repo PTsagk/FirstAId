@@ -1,12 +1,12 @@
 export interface Appointment {
   _id?: string;
-  fullname: string;
+  fullname?: string;
   email: string;
   severity: 'appointment' | 'emergency' | 'critical';
   date: string;
   time: string;
   appointmentDuration?: number;
-  description: string;
+  description?: string;
   lastAppointment?: string;
   doctorNotes?: string;
   status?: 'pending' | 'completed';

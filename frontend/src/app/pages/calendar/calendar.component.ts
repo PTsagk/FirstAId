@@ -235,9 +235,16 @@ export class CalendarComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        const updatedAppointment = { ...info.event.extendedProps };
-        updatedAppointment.date = newDate;
-        updatedAppointment.time = newTime;
+        const updatedAppointment = {
+          _id: info.event.extendedProps._id,
+          date: newDate,
+          time: newTime,
+          severity: info.event.extendedProps.severity,
+          appointmentDuration: info.event.extendedProps.appointmentDuration,
+          email: info.event.extendedProps.email,
+          doctorId: info.event.extendedProps.doctorId,
+          patientId: info.event.extendedProps.patientId,
+        };
         this.appointmentService
           .updateAppointment(updatedAppointment)
           .subscribe({

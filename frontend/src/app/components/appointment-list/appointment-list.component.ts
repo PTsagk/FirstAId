@@ -110,7 +110,7 @@ export class AppointmentListComponent implements AfterViewInit {
       ) => {
         switch (property) {
           case 'fullname':
-            return item.fullname.toLowerCase();
+            return item.fullname ? item.fullname.toLowerCase() : '';
           case 'email':
             return item.email.toLowerCase();
           case 'severity':
