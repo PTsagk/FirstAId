@@ -81,7 +81,8 @@ async function runDoctorAssistant(
                 params.doctorId,
                 params.appointmentId
               );
-            } else if (name === "createNotification") {
+            } else if (name === "sendMessage") {
+              params.doctorId = doctorId;
               result = await createEmailNotification(params);
             } else {
               result = `No handler for function: ${name}`;
@@ -229,6 +230,7 @@ async function runPatientAssistant(
               result = await createEmailNotification(params);
             } else if (name === "followUpMessage") {
               const params = JSON.parse(args);
+              params.patientId = patientId;
               result = await createFollowUpNotification(params);
             } else if (name === "getPreviousAppointments") {
               result = await getPreviousAppointments(patientInfo.email);

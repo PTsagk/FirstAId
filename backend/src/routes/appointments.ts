@@ -225,7 +225,10 @@ const updateAppointment = async (
         "YYYY-MM-DD hh:mm A"
       );
 
-      if (prevTime.isAfter(moment().subtract(1, "hours"))) {
+      if (
+        prevTime.isAfter(moment().subtract(1, "hours")) &&
+        !prevTime.isAfter(moment())
+      ) {
         if (assistant) {
           return "Appointment cannot be rescheduled to less than 1 hour before its previous time";
         } else {

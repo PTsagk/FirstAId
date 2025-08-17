@@ -103,17 +103,17 @@ const createEmailNotification = async (notification) => {
     const db = await getDB();
     const collection = db.collection("emails-queue");
     await collection.insertOne({
-      date: notification.date,
-      time: notification.time,
+      date: notification?.date || moment().format("YYYY-MM-DD"),
+      time: notification?.time || moment().format("hh:mm A"),
       to: notification.to,
       from: notification.from,
-      doctorNotes: notification.doctorNotes,
-      patientNotes: notification.patientNotes,
       fullname: notification.fullname,
-      messageReason: notification.messageReason,
-      appointmentId: notification.appointmentId,
       userId: notification.userId,
       doctorId: notification.doctorId,
+      appointmentId: notification.appointmentId,
+      doctorNotes: notification.doctorNotes,
+      patientNotes: notification.patientNotes,
+      messageReason: notification.messageReason,
       type: "message",
       userType: "doctor",
     });
