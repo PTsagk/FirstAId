@@ -254,7 +254,7 @@ const updateAppointment = async (
 
       createNotification({
         message:
-          "An appointment has been scheduled for " +
+          "An appointment has been rescheduled for " +
           appointmentInfo.fullname +
           " for " +
           appointmentInfo.date +

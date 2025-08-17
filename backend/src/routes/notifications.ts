@@ -126,6 +126,8 @@ const createEmailNotification = async (notification) => {
 
 const createFollowUpNotification = async (notification) => {
   try {
+    notification.date = moment().format("YYYY-MM-DD");
+    notification.time = moment().format("hh:mm");
     const db = await getDB();
     const collection = db.collection("emails-queue");
     await collection.insertOne({

@@ -3,8 +3,8 @@
   @for(notification of notifications; track notification._id) {
   <div class="notification">
     <p>{{ notification.message }}</p>
-    <small
-      >{{ notification.createdAt }}
+    <div style="display: flex; align-items: center; white-space: nowrap">
+      {{ notification.createdAt }}
       @if(!notification.read) {
       <i class="fa-solid fa-circle" style="color: orange"></i> }
       <i
@@ -17,7 +17,7 @@
         "
         (click)="deleteNotification(notification._id)"
       ></i>
-    </small>
+    </div>
   </div>
   }
 </div>

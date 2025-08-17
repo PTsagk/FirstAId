@@ -10,7 +10,10 @@ import {
   getPreviousAppointments,
   updateAppointment,
 } from "../routes/appointments";
-import { createEmailNotification } from "../routes/notifications";
+import {
+  createEmailNotification,
+  createFollowUpNotification,
+} from "../routes/notifications";
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI,
 });
@@ -159,6 +162,10 @@ async function runPatientAssistant(
     const db = await getDB();
     const doctors = db.collection("doctors");
     const patients = db.collection("patients");
+    const patientAppointments = await db
+      .collection("appointments")
+      .find({ patientId: patientId, doctorId: doctorId })
+      .toArray();
     const doctorInfo = await doctors.findOne({ _id: new ObjectId(doctorId) });
     const patientInfo = await patients.findOne({
       _id: new ObjectId(patientId),
@@ -170,6 +177,9 @@ async function runPatientAssistant(
         JSON.stringify(doctorInfo) +
         ". The patients info are: " +
         JSON.stringify({ patientInfo }) +
+        ". The patients previous/coming appointments are: " +
+        JSON.stringify(patientAppointments) +
+        ". " +
         todayMessage,
     });
 
@@ -217,6 +227,9 @@ async function runPatientAssistant(
             } else if (name === "createNotification") {
               const params = JSON.parse(args);
               result = await createEmailNotification(params);
+            } else if (name === "followUpMessage") {
+              const params = JSON.parse(args);
+              result = await createFollowUpNotification(params);
             } else if (name === "getPreviousAppointments") {
               result = await getPreviousAppointments(patientInfo.email);
             } else {
