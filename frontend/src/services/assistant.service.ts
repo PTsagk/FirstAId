@@ -57,4 +57,16 @@ export class AssistantService {
         }
       );
   }
+
+  generateDoctorMessage(
+    message: string,
+    appointmentId: string,
+    patientId: string
+  ) {
+    return this.http.post(
+      environment.api_url + '/doctor-assistant/message/generate',
+      { question: message, appointmentId, patientId },
+      { withCredentials: true }
+    );
+  }
 }

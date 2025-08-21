@@ -67,26 +67,26 @@ async function sendNotificationEmail(emailData) {
     if (!moment(emailData.date + emailData.time).isBefore(moment())) {
       emailData.sent = true;
       const db = await getDB();
-      const patient = await db
-        .collection("patients")
-        .findOne({ _id: new ObjectId(emailData.userId) });
-      const doctor = await db
-        .collection("doctors")
-        .findOne({ _id: new ObjectId(emailData.doctorId) });
-      const gptResponse = await runCompletion(
-        `The doctor want's to comminicate with the patient for the following reason:
-          ${emailData.messageReason}.
-          You are given the doctor notes and the patients notes for an upcoming appointment.
-          Give some  helpfull information to the patient.
-          Doctor notes: ${emailData.doctorNotes} \nPatient notes: ${
-          emailData.patientNotes
-        }.
-          You are also given the doctor and the patient info
-          Doctor info: ${JSON.stringify(
-            doctor
-          )} \nPatient info: ${JSON.stringify(patient)}
-          `
-      );
+      // const patient = await db
+      //   .collection("patients")
+      //   .findOne({ _id: new ObjectId(emailData.userId) });
+      // const doctor = await db
+      //   .collection("doctors")
+      //   .findOne({ _id: new ObjectId(emailData.doctorId) });
+      // const gptResponse = await runCompletion(
+      //   `The doctor want's to comminicate with the patient for the following reason:
+      //     ${emailData.message}.
+      //     You are given the doctor notes and the patients notes for an upcoming appointment.
+      //     Give some  helpfull information to the patient.
+      //     Doctor notes: ${emailData.doctorNotes} \nPatient notes: ${
+      //     emailData.patientNotes
+      //   }.
+      //     You are also given the doctor and the patient info
+      //     Doctor info: ${JSON.stringify(
+      //       doctor
+      //     )} \nPatient info: ${JSON.stringify(patient)}
+      //     `
+      // );
 
       const messagesCollection = db.collection("messages");
 
@@ -100,7 +100,7 @@ async function sendNotificationEmail(emailData) {
         time: emailData.time,
         to: emailData.to,
         fullname: emailData.fullname,
-        message: gptResponse.choices[0].message.content,
+        message: emailData.message,
         userType: "doctor",
       };
 
@@ -130,7 +130,7 @@ async function sendNotificationEmail(emailData) {
       // Send the email with the generated content
       await sendEmail("template_4ow7iii", emailData.to, {
         fullname: emailData.fullname,
-        message: gptResponse.choices[0].message.content,
+        message: emailData.message,
         to: emailData.to,
       });
       return true;
@@ -148,8 +148,6 @@ async function sendFollowUpEmail(emailData) {
       message: emailData.message,
       to: emailData.to,
     });
-    if (emailData.userType == "doctor") {
-    }
     return true;
   } catch (error) {
     console.error("Error sending follow-up emails:", error);

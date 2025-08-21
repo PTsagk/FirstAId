@@ -14,6 +14,7 @@ import moment from 'moment';
 import { AccountService } from '../../../services/account.service';
 import { DoctorMessage } from '../../../models/message.model';
 import { NotificationService } from '../../../services/notification.service';
+import { AssistantService } from '../../../services/assistant.service';
 
 @Component({
   selector: 'app-send-message-dlg',
@@ -34,27 +35,35 @@ export class SendMessageDlgComponent implements OnInit {
   appointmentInfo!: Appointment;
   scheduleDateTime!: FormGroup;
   pending: boolean = false;
+  // messages: any[] = [
+  //   {
+  //     role: 'assistant',
+  //     content: 'loading',
+  //   },
+  // ];
+  messages: any[] = [];
   constructor(
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<SendMessageDlgComponent>,
     private accountService: AccountService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private assistantService: AssistantService
   ) {}
   ngOnInit(): void {
     this.scheduleDateTime = this.fb.group({
       date: [moment().format('YYYY-MM-DD')],
       time: [moment().format('hh:mm A')],
-      messageReason: [''],
+      message: [''],
     });
   }
-  sendMessage(form: FormGroup) {
+  sendMessage(form: FormGroup, message: string) {
     if (!form.valid) return;
     this.pending = true;
     const notification: DoctorMessage = {
       date: moment(form.value.date).format('YYYY-MM-DD'),
       time: form.value.time,
-      messageReason: form.value.messageReason,
+      message: message,
       to: this.appointmentInfo.email,
       from: this.accountService.userInfo.getValue().email,
       doctorNotes: this.appointmentInfo.doctorNotes as string,
@@ -75,6 +84,28 @@ export class SendMessageDlgComponent implements OnInit {
           verticalPosition: 'top',
           panelClass: ['snackbar-success'],
         });
+      });
+  }
+
+  generateMessage(helperMessage: string) {
+    this.messages.push({ role: 'doctor', content: helperMessage });
+    this.messages.push({ role: 'assistant', content: 'loading' });
+    this.assistantService
+      .generateDoctorMessage(
+        helperMessage,
+        this.appointmentInfo._id as string,
+        this.appointmentInfo.patientId as string
+      )
+      .subscribe((res: any) => {
+        this.messages.pop(); // Remove the 'loading' message
+        this.messages.push(
+          ...res
+            .map((msg: string) => ({
+              role: 'assistant',
+              content: msg,
+            }))
+            .filter((msg: any) => msg.content.length > 0)
+        );
       });
   }
 }

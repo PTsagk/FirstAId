@@ -8,7 +8,7 @@
     ></i>
   </div>
   <div class="messages">
-    @for(message of messages; track message.id){
+    @for(message of messages; track message){
     <div
       [ngStyle]="{
         'margin-left': message.userType === 'patient' ? 'auto' : 'initial'

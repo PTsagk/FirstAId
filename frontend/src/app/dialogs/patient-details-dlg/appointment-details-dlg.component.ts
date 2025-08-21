@@ -99,7 +99,7 @@ export class AppointmentDetailsDlgComponent {
 
   sendMessage(): void {
     const dlg = this.dialog.open(SendMessageDlgComponent, {
-      width: '500px',
+      width: '1200px',
       data: {
         appointmentInfo: this.appointmentInfo,
       },

@@ -1,7 +1,7 @@
 export interface DoctorMessage {
   date: string;
   time: string;
-  messageReason: string;
+  message: string;
   to: string;
   from: string;
   doctorNotes: string;

@@ -241,7 +241,16 @@ const updateAppointment = async (
 
     await collection.updateOne(
       { _id: new ObjectId(appointmentId), doctorId: doctorId },
-      { $set: appointmentInfo }
+      {
+        $set: {
+          date: appointmentInfo.date,
+          time: appointmentInfo.time,
+          email: appointmentInfo.email,
+          fullname: appointmentInfo.fullname,
+          description: appointmentInfo.description,
+          doctorNotes: appointmentInfo.doctorNotes,
+        },
+      }
     );
 
     if (!ignoreNotification) {

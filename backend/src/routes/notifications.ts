@@ -16,7 +16,7 @@ router.post("/doctor-message", async (req, res) => {
       !notification.to ||
       !notification.from ||
       !notification.fullname ||
-      !notification.messageReason ||
+      !notification.message ||
       !notification.appointmentId ||
       !notification.userId
     ) {
@@ -113,7 +113,7 @@ const createEmailNotification = async (notification) => {
       appointmentId: notification.appointmentId,
       doctorNotes: notification.doctorNotes,
       patientNotes: notification.patientNotes,
-      messageReason: notification.messageReason,
+      message: notification.message,
       type: "message",
       userType: "doctor",
     });

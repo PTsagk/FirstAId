@@ -1,60 +1,119 @@
 <form
   class="send-message-form"
   [formGroup]="scheduleDateTime"
-  (ngSubmit)="sendMessage(scheduleDateTime)"
+  (ngSubmit)="sendMessage(scheduleDateTime, messageInput.value)"
 >
-  <span style="margin-bottom: 20px; font-size: 18px">Send Message</span>
-  <p style="color: gray; margin-bottom: 10px">
-    Send a message to the patient based on your notes and their appointment
-    reason.
-  </p>
+  <div>
+    <span style="margin-bottom: 20px; font-size: 18px">Send Message</span>
+    <p style="color: gray; margin-bottom: 10px">
+      Send a message to the patient based on your notes and their appointment
+      reason.
+    </p>
 
-  <mat-form-field class="note-container">
-    <mat-label>Add the purpose of the message</mat-label>
-    <textarea
-      style="resize: none"
-      type="text"
-      required
-      matInput
-      formControlName="messageReason"
-    ></textarea>
-  </mat-form-field>
-  <div style="display: flex; justify-content: space-between; gap: 10px">
-    <!-- Date Picker -->
-    <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input
+    <mat-form-field
+      class="note-container"
+      style="width: 100%; margin-top: 10px"
+    >
+      <mat-label>Add the message content</mat-label>
+      <textarea
+        style="resize: none; height: 400px"
+        type="text"
         matInput
-        [matDatepicker]="datePicker"
-        formControlName="date"
-        required
-      />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="datePicker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #datePicker></mat-datepicker>
+        formControlName="message"
+        #messageInput
+      ></textarea>
     </mat-form-field>
+    <div style="display: flex; justify-content: space-between; gap: 10px">
+      <!-- Date Picker -->
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="datePicker"
+          formControlName="date"
+          required
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="datePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+      </mat-form-field>
 
-    <!-- Time Picker -->
-    <mat-form-field>
-      <mat-label>Choose a time</mat-label>
-      <input
-        [ngxMatTimepicker]="timePicker"
-        matInput
-        required
-        formControlName="time"
-      />
-      <ngx-mat-timepicker-toggle
-        matIconSuffix
-        [for]="timePicker"
-      ></ngx-mat-timepicker-toggle>
-      <ngx-mat-timepicker #timePicker></ngx-mat-timepicker>
-    </mat-form-field>
+      <!-- Time Picker -->
+      <mat-form-field>
+        <mat-label>Choose a time</mat-label>
+        <input
+          [ngxMatTimepicker]="timePicker"
+          matInput
+          required
+          formControlName="time"
+        />
+        <ngx-mat-timepicker-toggle
+          matIconSuffix
+          [for]="timePicker"
+        ></ngx-mat-timepicker-toggle>
+        <ngx-mat-timepicker #timePicker></ngx-mat-timepicker>
+      </mat-form-field>
+    </div>
+
+    <button style="width: 100%" mat-raised-button color="primary" type="submit">
+      Submit
+    </button>
+    @if(pending){
+    <div class="loading"><mat-spinner></mat-spinner></div>
+    }
   </div>
-
-  <button mat-raised-button color="primary" type="submit">Submit</button>
-  @if(pending){
-  <div class="loading"><mat-spinner></mat-spinner></div>
-  }
+  <div class="helper-section">
+    <span style="margin-bottom: 40px; font-size: 18px">Message helper</span>
+    <p style="color: gray; margin: 20px 0">
+      Specify the reason for this message and the AI will generate a message
+      based on the context and appointment information.
+    </p>
+    <div class="helper-messages">
+      @for(message of messages; track message){ @if(message.content ==
+      'loading'){<br />
+      <div
+        class="message {{ message.role }}-message"
+        style="text-align: center"
+      >
+        <i class="fa-solid fa-spinner fa-spin"></i>
+      </div>
+      } @if(message.content != 'loading'){ @if(message.role == 'assistant'){
+      <i
+        class="fa-solid fa-plus cursor-pointer"
+        (click)="
+          messageInput.value = messageInput.value
+            ? messageInput.value + message.content
+            : message.content
+        "
+      ></i>
+      }
+      <div
+        class="message {{ message.role }}-message"
+        [innerHTML]="message.content"
+      ></div>
+      } }
+    </div>
+    <form
+      class="input-container"
+      (ngSubmit)="generateMessage(helperInput.value); helperInput.value = ''"
+    >
+      <textarea
+        name="message"
+        #helperInput
+        class="message-input"
+        placeholder="Provide the context of the message you want to create (e.g. Create a dietary plan for the patient)"
+        (keyup.enter)="
+          generateMessage(helperInput.value); helperInput.value = ''
+        "
+      ></textarea>
+      <button
+        class="send-button text-primary"
+        (click)="generateMessage(helperInput.value); helperInput.value = ''"
+      >
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
 </form>

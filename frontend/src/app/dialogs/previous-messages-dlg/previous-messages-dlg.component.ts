@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { AppointmentService } from '../../../services/appointment.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -21,6 +21,7 @@ export class PreviousMessagesDlgComponent {
   constructor(
     private appointmentService: AppointmentService,
     private dialog: MatDialog,
+    private cd: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       appointmentInfo: Appointment;
@@ -33,12 +34,13 @@ export class PreviousMessagesDlgComponent {
       .subscribe((messages) => {
         this.messages = messages;
         this.pending = false;
+        this.cd.detectChanges();
       });
   }
 
   sendMessage() {
     const dlg = this.dialog.open(SendMessageDlgComponent, {
-      width: '500px',
+      width: '1200px',
       data: {
         appointmentInfo: this.appointmentInfo,
       },
