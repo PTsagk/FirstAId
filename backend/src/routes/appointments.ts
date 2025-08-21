@@ -249,6 +249,7 @@ const updateAppointment = async (
           fullname: appointmentInfo.fullname,
           description: appointmentInfo.description,
           doctorNotes: appointmentInfo.doctorNotes,
+          status: appointmentInfo.status,
         },
       }
     );

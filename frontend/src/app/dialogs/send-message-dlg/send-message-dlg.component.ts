@@ -95,17 +95,21 @@ export class SendMessageDlgComponent implements OnInit {
       .sendAdvisorMessage(this.messages, this.appointmentInfo)
       .subscribe({
         next: (res) => {
+          this.messages.pop(); // Remove the 'loading' message
           this.messages.push({
             role: 'assistant',
             content: marked(res as string),
           });
           this.pending = false;
+          this.scrollToBottom();
         },
         error: (err) => {
           console.error(err);
           this.pending = false;
         },
       });
+    this.messages.push({ role: 'assistant', content: 'loading' });
+    this.scrollToBottom();
   }
 
   generateMessage(helperMessage: string) {
@@ -132,6 +136,16 @@ export class SendMessageDlgComponent implements OnInit {
             }))
             .filter((msg: any) => msg.content.length > 0)
         );
+        this.scrollToBottom();
       });
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      const container = document.querySelector('.helper-messages');
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }, 100);
   }
 }

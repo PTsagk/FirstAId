@@ -35,10 +35,10 @@
   }
 
   .assistant-message {
-    width: 100%;
     background-color: white;
     box-sizing: border-box;
     margin-bottom: 20px;
+    width: fit-content;
   }
 }
 .input-container {

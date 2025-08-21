@@ -131,7 +131,6 @@ export class AppointmentDetailsDlgComponent {
             panelClass: ['snackbar-success'],
           });
           this.appointmentService.refreshAppointments();
-          this.dialog.closeAll();
         },
         error: (err) => {
           console.log(err);
