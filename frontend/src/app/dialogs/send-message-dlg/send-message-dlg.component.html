@@ -3,7 +3,7 @@
   [formGroup]="scheduleDateTime"
   (ngSubmit)="sendMessage(scheduleDateTime, messageInput.value)"
 >
-  <div>
+  <div [hidden]="appointmentActive" class="message-section">
     <span style="margin-bottom: 20px; font-size: 18px">Send Message</span>
     <p style="color: gray; margin-bottom: 10px">
       Send a message to the patient based on your notes and their appointment
@@ -65,11 +65,20 @@
     }
   </div>
   <div class="helper-section">
-    <span style="margin-bottom: 40px; font-size: 18px">Message helper</span>
+    <span style="margin-bottom: 40px; font-size: 18px">{{
+      appointmentActive ? "Doctor Advisor" : "Message helper"
+    }}</span>
+    @if(appointmentActive){
+    <p style="color: gray; margin: 20px 0">
+      Provide information about the patient's condition and the AI will help you
+      exam the patient
+    </p>
+    } @if(!appointmentActive){
     <p style="color: gray; margin: 20px 0">
       Specify the reason for this message and the AI will generate a message
       based on the context and appointment information.
     </p>
+    }
     <div class="helper-messages">
       @for(message of messages; track message){ @if(message.content ==
       'loading'){<br />
@@ -97,20 +106,32 @@
     </div>
     <form
       class="input-container"
-      (ngSubmit)="generateMessage(helperInput.value); helperInput.value = ''"
+      (ngSubmit)="
+        generateMessage(helperInput.value);
+        helperInput.value = '';
+        $event.preventDefault()
+      "
     >
       <textarea
         name="message"
         #helperInput
         class="message-input"
-        placeholder="Provide the context of the message you want to create (e.g. Create a dietary plan for the patient)"
+        [placeholder]="
+          appointmentActive
+            ? 'Add info about the patient\'s condition'
+            : 'Provide the context of the message you want to create (e.g. Create a dietary plan for the patient)'
+        "
         (keyup.enter)="
           generateMessage(helperInput.value); helperInput.value = ''
         "
       ></textarea>
       <button
         class="send-button text-primary"
-        (click)="generateMessage(helperInput.value); helperInput.value = ''"
+        (click)="
+          generateMessage(helperInput.value);
+          helperInput.value = '';
+          $event.preventDefault()
+        "
       >
         <i class="fa-solid fa-paper-plane"></i>
       </button>

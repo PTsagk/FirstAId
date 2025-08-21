@@ -4,9 +4,10 @@
   display: flex;
   align-content: center;
 }
-
+.message-section {
+  border-right: 1px solid #ccc;
+}
 .helper-section {
-  border-left: 1px solid #ccc;
   width: 100%;
   padding: 10px;
 }
@@ -22,7 +23,8 @@
   .message {
     padding: 8px;
   }
-  .doctor-message {
+  .doctor-message,
+  .user-message {
     width: fit-content;
 
     background-color: #3db7c7;

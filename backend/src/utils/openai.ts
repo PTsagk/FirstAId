@@ -363,6 +363,27 @@ const deleteThread = async (threadId: string) => {
   }
 };
 
+const createConversation = async (messages: any[], info) => {
+  try {
+    messages.push({
+      role: "system",
+      content: `You are an AI doctor Advisor doctor is usring during their appointments to exam the patients and provide recommendations based on their medical history. 
+      You help the doctors find relevant information quickly and efficiently. 
+      You are given the following information about the appointment, the patient and the doctor: ${JSON.stringify(
+        info
+      )}`,
+    });
+    openai.chat.completions.list();
+    const response = await openai.chat.completions.create({
+      model: "gpt-4.1-mini",
+      messages: messages,
+    });
+    return response.choices[0].message.content;
+  } catch (error) {
+    console.error("Error creating conversation:", error);
+  }
+};
+
 export {
   runDoctorAssistant,
   runPatientAssistant,
@@ -370,4 +391,5 @@ export {
   getAssistantMessages,
   createThreadId,
   deleteThread,
+  createConversation,
 };

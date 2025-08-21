@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SendMessageDlgComponent } from './send-message-dlg';
+import { SendMessageDlgComponent } from './send-message-dlg.component';
 
 describe('SendMessageDlgComponent', () => {
   let component: SendMessageDlgComponent;

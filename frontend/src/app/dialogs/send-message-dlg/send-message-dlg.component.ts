@@ -15,6 +15,7 @@ import { AccountService } from '../../../services/account.service';
 import { DoctorMessage } from '../../../models/message.model';
 import { NotificationService } from '../../../services/notification.service';
 import { AssistantService } from '../../../services/assistant.service';
+import { marked } from 'marked';
 
 @Component({
   selector: 'app-send-message-dlg',
@@ -33,6 +34,7 @@ import { AssistantService } from '../../../services/assistant.service';
 })
 export class SendMessageDlgComponent implements OnInit {
   appointmentInfo!: Appointment;
+  appointmentActive!: boolean;
   scheduleDateTime!: FormGroup;
   pending: boolean = false;
   // messages: any[] = [
@@ -87,9 +89,33 @@ export class SendMessageDlgComponent implements OnInit {
       });
   }
 
+  sendAdvisorMessage() {
+    this.pending = true;
+    this.assistantService
+      .sendAdvisorMessage(this.messages, this.appointmentInfo)
+      .subscribe({
+        next: (res) => {
+          this.messages.push({
+            role: 'assistant',
+            content: marked(res as string),
+          });
+          this.pending = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.pending = false;
+        },
+      });
+  }
+
   generateMessage(helperMessage: string) {
-    this.messages.push({ role: 'doctor', content: helperMessage });
+    this.messages.push({ role: 'user', content: helperMessage });
+    if (this.appointmentActive) {
+      this.sendAdvisorMessage();
+      return;
+    }
     this.messages.push({ role: 'assistant', content: 'loading' });
+
     this.assistantService
       .generateDoctorMessage(
         helperMessage,
@@ -102,7 +128,7 @@ export class SendMessageDlgComponent implements OnInit {
           ...res
             .map((msg: string) => ({
               role: 'assistant',
-              content: msg,
+              content: marked(msg),
             }))
             .filter((msg: any) => msg.content.length > 0)
         );

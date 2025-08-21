@@ -15,11 +15,19 @@
       style="padding: 5px"
       class="fa-solid fa-comments cursor-pointer"
     ></i>
+    @if(appointmentInfo.status === 'completed'){
     <i
       (click)="sendMessage()"
       style="padding: 5px"
       class="fa-solid fa-paper-plane cursor-pointer"
     ></i>
+    } @if(appointmentInfo.status !== 'completed'){
+    <i
+      (click)="sendMessage(true)"
+      style="padding: 5px"
+      class="fa-solid fa-robot cursor-pointer"
+    ></i>
+    }
     <i
       (click)="editAppointment()"
       style="padding: 5px"

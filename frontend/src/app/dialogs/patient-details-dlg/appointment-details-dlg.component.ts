@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDlgComponent } from '../confirmation-dlg/confirmation-dlg.component';
-import { SendMessageDlgComponent } from '../send-message-dlg/send-message-dlg';
+import { SendMessageDlgComponent } from '../send-message-dlg/send-message-dlg.component';
 import { PreviousMessagesDlgComponent } from '../previous-messages-dlg/previous-messages-dlg.component';
 
 @Component({
@@ -97,14 +97,15 @@ export class AppointmentDetailsDlgComponent {
       });
   }
 
-  sendMessage(): void {
+  sendMessage(appointmentActive = false): void {
     const dlg = this.dialog.open(SendMessageDlgComponent, {
-      width: '1200px',
+      width: appointmentActive ? '700px' : '1200px',
       data: {
         appointmentInfo: this.appointmentInfo,
       },
     });
     dlg.componentInstance.appointmentInfo = this.appointmentInfo;
+    dlg.componentInstance.appointmentActive = appointmentActive;
   }
 
   showPreviousMessages(): void {

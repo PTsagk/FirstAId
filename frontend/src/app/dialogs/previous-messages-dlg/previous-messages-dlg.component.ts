@@ -4,7 +4,7 @@ import { AppointmentService } from '../../../services/appointment.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgStyle } from '@angular/common';
-import { SendMessageDlgComponent } from '../send-message-dlg/send-message-dlg';
+import { SendMessageDlgComponent } from '../send-message-dlg/send-message-dlg.component';
 import { Appointment } from '../../../models/appointment.model';
 
 @Component({

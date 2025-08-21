@@ -8,6 +8,7 @@ import {
   createThreadId,
   deleteThread,
   runCompletion,
+  createConversation,
 } from "../utils/openai";
 router.post("/chat", async (req, res) => {
   try {
@@ -142,6 +143,29 @@ router.post("/message/generate", async (req, res) => {
   }
 });
 
+router.post("/advisor", async (req, res) => {
+  try {
+    const { messages, appointmentInfo } = req.body;
+    const db = await getDB();
+    const doctorInfo = await db
+      .collection("doctors")
+      .findOne({ _id: new ObjectId(appointmentInfo.doctorId) });
+    const patientInfo = await db
+      .collection("patients")
+      .findOne({ _id: new ObjectId(appointmentInfo.patientId) });
+    const info = {
+      doctorNotes: appointmentInfo.doctorNotes,
+      patientNotes: appointmentInfo.description,
+      doctorInfo: JSON.stringify(doctorInfo),
+      patientInfo: JSON.stringify(patientInfo),
+    };
+    const response = await createConversation(messages, info);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 router.get("/messages", async (req, res) => {
   try {
     const db = await getDB();

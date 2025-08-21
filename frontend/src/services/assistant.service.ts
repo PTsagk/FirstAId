@@ -69,4 +69,12 @@ export class AssistantService {
       { withCredentials: true }
     );
   }
+
+  sendAdvisorMessage(messages: any[], appointmentInfo: any) {
+    return this.http.post(
+      environment.api_url + '/doctor-assistant/advisor',
+      { messages, appointmentInfo },
+      { withCredentials: true }
+    );
+  }
 }
