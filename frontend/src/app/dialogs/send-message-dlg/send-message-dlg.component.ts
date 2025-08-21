@@ -132,7 +132,7 @@ export class SendMessageDlgComponent implements OnInit {
           ...res
             .map((msg: string) => ({
               role: 'assistant',
-              content: marked(msg),
+              content: msg,
             }))
             .filter((msg: any) => msg.content.length > 0)
         );
