@@ -89,6 +89,10 @@
         <i class="fa-solid fa-spinner fa-spin"></i>
       </div>
       } @if(message.content != 'loading'){ @if(message.role == 'assistant'){
+      @if(appointmentActive){
+
+      <i class="fa-solid fa-plus cursor-pointer" (click)="addNote(message)"></i>
+      } @if(!appointmentActive){
       <i
         class="fa-solid fa-plus cursor-pointer"
         (click)="
@@ -97,10 +101,10 @@
             : message.content
         "
       ></i>
-      }
+      } }
       <div
         class="message {{ message.role }}-message"
-        [innerHTML]="message.content"
+        [innerHTML]="message.content | markdown"
       ></div>
       } }
     </div>

@@ -363,22 +363,37 @@ const deleteThread = async (threadId: string) => {
   }
 };
 
-const createConversation = async (messages: any[], info) => {
+const createConversation = async (
+  messages: any[],
+  info: any,
+  question: string
+) => {
   try {
     messages.push({
       role: "system",
       content: `You are an AI doctor Advisor doctor is usring during their appointments to exam the patients and provide recommendations based on their medical history. 
       You help the doctors find relevant information quickly and efficiently. 
+      Here is the doctor's question: ${question}
       You are given the following information about the appointment, the patient and the doctor: ${JSON.stringify(
         info
-      )}`,
+      )}
+      The response format should be a JSON object with the following structure:
+      {
+        "text": "The assistant's response text",
+        "updatePrescription": "The name of the prescription that the doctor requested"
+      }
+      `,
     });
     openai.chat.completions.list();
     const response = await openai.chat.completions.create({
       model: "gpt-4.1-mini",
       messages: messages,
+      response_format: {
+        type: "json_object",
+      },
     });
-    return response.choices[0].message.content;
+    const chatResponse = JSON.parse(response.choices[0].message.content);
+    return chatResponse;
   } catch (error) {
     console.error("Error creating conversation:", error);
   }

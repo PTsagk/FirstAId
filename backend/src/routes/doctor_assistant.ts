@@ -145,7 +145,7 @@ router.post("/message/generate", async (req, res) => {
 
 router.post("/advisor", async (req, res) => {
   try {
-    const { messages, appointmentInfo } = req.body;
+    const { messages, appointmentInfo, question } = req.body;
     const db = await getDB();
     const doctorInfo = await db
       .collection("doctors")
@@ -159,7 +159,7 @@ router.post("/advisor", async (req, res) => {
       doctorInfo: JSON.stringify(doctorInfo),
       patientInfo: JSON.stringify(patientInfo),
     };
-    const response = await createConversation(messages, info);
+    const response = await createConversation(messages, info, question);
     res.json(response);
   } catch (error) {
     console.error(error);

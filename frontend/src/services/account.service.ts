@@ -62,6 +62,14 @@ export class AccountService {
     );
   }
 
+  updatePatientPrescriptions(patientId: string, prescriptions: any) {
+    return this.http.patch(
+      environment.api_url + `/users/prescriptions`,
+      { patientId, prescriptions },
+      { withCredentials: true }
+    );
+  }
+
   getDoctors() {
     return this.http.get(environment.api_url + `/users/doctors`, {
       withCredentials: true,

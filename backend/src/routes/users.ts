@@ -66,6 +66,21 @@ router.post("/:user/login", async (req: Request, res: Response) => {
   }
 });
 
+router.patch("/prescriptions", authenticateToken, async (req, res) => {
+  try {
+    const { patientId, prescriptions } = req.body;
+    const db = await getDB();
+    const collection = db.collection("patients");
+    await collection.updateOne(
+      { _id: new ObjectId(patientId) },
+      { $push: { prescriptions: { $each: prescriptions } } }
+    );
+    res.json("Prescriptions updated successfully");
+  } catch (err) {
+    return res.status(500).send("Internal Server Error");
+  }
+});
+
 router.get("/logout", (req: Request, res: Response) => {
   try {
     res.clearCookie("token", {

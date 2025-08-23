@@ -16,11 +16,14 @@ import { DoctorMessage } from '../../../models/message.model';
 import { NotificationService } from '../../../services/notification.service';
 import { AssistantService } from '../../../services/assistant.service';
 import { marked } from 'marked';
+import { AppointmentService } from '../../../services/appointment.service';
+import { MarkdownPipe } from '../../../pipes/markdown.pipe';
 
 @Component({
   selector: 'app-send-message-dlg',
   standalone: true,
   imports: [
+    MarkdownPipe,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     NgxMatTimepickerModule,
@@ -50,7 +53,8 @@ export class SendMessageDlgComponent implements OnInit {
     private dialogRef: MatDialogRef<SendMessageDlgComponent>,
     private accountService: AccountService,
     private notificationService: NotificationService,
-    private assistantService: AssistantService
+    private assistantService: AssistantService,
+    private appointmentService: AppointmentService
   ) {}
   ngOnInit(): void {
     this.scheduleDateTime = this.fb.group({
@@ -94,11 +98,12 @@ export class SendMessageDlgComponent implements OnInit {
     this.assistantService
       .sendAdvisorMessage(this.messages, this.appointmentInfo)
       .subscribe({
-        next: (res) => {
+        next: (res: any) => {
           this.messages.pop(); // Remove the 'loading' message
           this.messages.push({
             role: 'assistant',
-            content: marked(res as string),
+            content: res.text,
+            updatePrescription: res.updatePrescription,
           });
           this.pending = false;
           this.scrollToBottom();
@@ -147,5 +152,28 @@ export class SendMessageDlgComponent implements OnInit {
         container.scrollTop = container.scrollHeight;
       }
     }, 100);
+  }
+
+  addNote(message: any) {
+    if (this.appointmentInfo.doctorNotes) {
+      this.appointmentInfo.doctorNotes += '\n' + message.content;
+    } else {
+      this.appointmentInfo.doctorNotes = message.content;
+    }
+    this.appointmentService
+      .updateAppointment(this.appointmentInfo, true)
+      .subscribe({
+        next: (res: any) => {
+          this.appointmentService.refreshAppointments();
+          this.snackBar.open('Note saved', '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success'],
+          });
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 }
