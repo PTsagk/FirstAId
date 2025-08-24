@@ -98,7 +98,8 @@
         (click)="
           messageInput.value = messageInput.value
             ? messageInput.value + message.content
-            : message.content
+            : message.content;
+          prescriptions.push(message.prescription)
         "
       ></i>
       } }

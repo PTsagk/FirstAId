@@ -71,9 +71,18 @@ router.patch("/prescriptions", authenticateToken, async (req, res) => {
     const { patientId, prescriptions } = req.body;
     const db = await getDB();
     const collection = db.collection("patients");
+    const patientInfo = await collection.findOne({
+      _id: new ObjectId(patientId),
+    });
     await collection.updateOne(
       { _id: new ObjectId(patientId) },
-      { $push: { prescriptions: { $each: prescriptions } } }
+      {
+        $set: {
+          prescriptions: patientInfo.prescriptions
+            ? patientInfo.prescriptions + ", " + prescriptions.join(",")
+            : prescriptions.join(","),
+        },
+      }
     );
     res.json("Prescriptions updated successfully");
   } catch (err) {

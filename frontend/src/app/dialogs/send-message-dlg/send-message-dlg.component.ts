@@ -47,6 +47,7 @@ export class SendMessageDlgComponent implements OnInit {
   //   },
   // ];
   messages: any[] = [];
+  prescriptions: any[] = [];
   constructor(
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
@@ -64,7 +65,7 @@ export class SendMessageDlgComponent implements OnInit {
     });
   }
   sendMessage(form: FormGroup, message: string) {
-    if (!form.valid) return;
+    if (!form.valid || !message) return;
     this.pending = true;
     const notification: DoctorMessage = {
       date: moment(form.value.date).format('YYYY-MM-DD'),
@@ -91,6 +92,15 @@ export class SendMessageDlgComponent implements OnInit {
           panelClass: ['snackbar-success'],
         });
       });
+
+    if (this.prescriptions.length > 0) {
+      this.accountService
+        .updatePatientPrescriptions(
+          this.appointmentInfo.patientId as string,
+          this.prescriptions
+        )
+        .subscribe();
+    }
   }
 
   sendAdvisorMessage() {
@@ -103,7 +113,6 @@ export class SendMessageDlgComponent implements OnInit {
           this.messages.push({
             role: 'assistant',
             content: res.text,
-            updatePrescription: res.updatePrescription,
           });
           this.pending = false;
           this.scrollToBottom();
@@ -118,6 +127,7 @@ export class SendMessageDlgComponent implements OnInit {
   }
 
   generateMessage(helperMessage: string) {
+    if (!helperMessage) return;
     this.messages.push({ role: 'user', content: helperMessage });
     if (this.appointmentActive) {
       this.sendAdvisorMessage();
@@ -135,9 +145,10 @@ export class SendMessageDlgComponent implements OnInit {
         this.messages.pop(); // Remove the 'loading' message
         this.messages.push(
           ...res
-            .map((msg: string) => ({
+            .map((msg: any) => ({
               role: 'assistant',
-              content: msg,
+              content: msg.text,
+              prescription: msg.prescription,
             }))
             .filter((msg: any) => msg.content.length > 0)
         );
