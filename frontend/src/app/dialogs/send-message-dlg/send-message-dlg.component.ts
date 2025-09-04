@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environment/environment';
 import { Appointment } from '../../../models/appointment.model';
@@ -55,7 +55,8 @@ export class SendMessageDlgComponent implements OnInit {
     private accountService: AccountService,
     private notificationService: NotificationService,
     private assistantService: AssistantService,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private cd: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
     this.scheduleDateTime = this.fb.group({
@@ -116,6 +117,7 @@ export class SendMessageDlgComponent implements OnInit {
           });
           this.pending = false;
           this.scrollToBottom();
+          this.cd.detectChanges();
         },
         error: (err) => {
           console.error(err);

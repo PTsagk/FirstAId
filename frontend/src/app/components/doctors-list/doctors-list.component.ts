@@ -1,4 +1,9 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -73,7 +78,8 @@ export class DoctorsListComponent {
   constructor(
     private accountService: AccountService,
     private fb: FormBuilder,
-    private assistantService: AssistantService
+    private assistantService: AssistantService,
+    private cd: ChangeDetectorRef
   ) {
     this.getDoctors();
     this.messageForm = this.fb.group({
@@ -154,6 +160,7 @@ export class DoctorsListComponent {
             ) as string,
             role: 'assistant',
           });
+          this.cd.detectChanges();
         },
         error: (err) => {
           this.messages.pop(); // Remove the loading message
