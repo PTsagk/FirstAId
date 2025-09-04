@@ -57,6 +57,10 @@ router.post("/message/generate", async (req, res) => {
     const doctorInfo = await db
       .collection("doctors")
       .findOne({ _id: new ObjectId(doctorId) });
+    const generalPatientNotes = await db.collection("notes").findOne({
+      patientId: new ObjectId(patientId),
+      doctorId: new ObjectId(doctorId),
+    });
 
     const gptResponse = await runCompletion(`
       You are a clinical decision-support assistant. 
@@ -77,6 +81,9 @@ router.post("/message/generate", async (req, res) => {
         Patient notes: ${appointmentInfo.description}.
         Doctor info: ${JSON.stringify(doctorInfo)}
         Patient info: ${JSON.stringify(patientInfo)}
+        Doctor notes about the patient in general: ${JSON.stringify(
+          generalPatientNotes?.notes || ""
+        )}
        `);
     const options = JSON.parse(gptResponse.choices[0].message.content);
 
@@ -97,11 +104,16 @@ router.post("/advisor", async (req, res) => {
     const patientInfo = await db
       .collection("patients")
       .findOne({ _id: new ObjectId(appointmentInfo.patientId) });
+    const generalPatientNotes = await db.collection("notes").findOne({
+      patientId: new ObjectId(appointmentInfo.patientId),
+      doctorId: new ObjectId(appointmentInfo.doctorId),
+    });
     const info = {
       doctorNotes: appointmentInfo.doctorNotes,
       patientNotes: appointmentInfo.description,
       doctorInfo: JSON.stringify(doctorInfo),
       patientInfo: JSON.stringify(patientInfo),
+      generalPatientNotes: JSON.stringify(generalPatientNotes?.notes || ""),
     };
     const response = await createConversation(messages, info, question);
     res.json(response);

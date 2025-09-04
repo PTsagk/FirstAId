@@ -47,6 +47,15 @@ const createAppointment = async (
     }
     const workingStart = moment(doctor.workingStartTime, "hh:mm A");
     const workingEnd = moment(doctor.workingEndTime, "hh:mm A");
+    if (appointmentInfo.severity === "critical") {
+      const availableHours = await getAvailableHours(
+        doctorId,
+        appointmentInfo.date,
+        "critical"
+      );
+      if (Array.isArray(availableHours))
+        appointmentInfo.time = availableHours[0];
+    }
     const appointmentTime = moment(appointmentInfo.time, "hh:mm A");
     if (
       appointmentTime.isBefore(workingStart) ||
@@ -62,18 +71,15 @@ const createAppointment = async (
       }
     }
     const appointmentCollection = db.collection("appointments");
-    const appointmentStart = moment(appointmentInfo.time, "hh:mm A");
-    const appointmentEnd = appointmentStart
-      .clone()
-      .add(appointmentInfo.appointmentDuration, "minutes");
+    // const appointmentStart = moment(appointmentInfo.time, "hh:mm A");
+    // const appointmentEnd = appointmentStart
+    //   .clone()
+    //   .add(appointmentInfo.appointmentDuration, "minutes");
 
     const existingAppointment = await appointmentCollection.findOne({
       doctorId: appointmentInfo.doctorId,
       date: appointmentInfo.date,
-      time: {
-        $gte: appointmentStart.format("hh:mm A"),
-        $lt: appointmentEnd.format("hh:mm A"),
-      },
+      time: appointmentTime.format("hh:mm A"),
     });
     if (existingAppointment && appointmentInfo.severity != "critical") {
       if (assistant) {
@@ -95,7 +101,7 @@ const createAppointment = async (
         .toArray();
       for (const nextAppointment of nextAppointments) {
         const newTime = moment(nextAppointment.time, "hh:mm A")
-          .add(nextAppointment.appointmentDuration, "minutes")
+          .add(nextAppointment.duration, "minutes")
           .format("hh:mm A");
         await appointmentCollection.updateOne(
           { _id: nextAppointment._id },
@@ -217,7 +223,7 @@ const updateAppointment = async (
 
     const startTime = moment(appointmentInfo.time, "hh:mm A").format("hh:mm A");
     const endTime = moment(appointmentInfo.time, "hh:mm A")
-      .add(appointmentInfo.appointmentDuration, "minutes")
+      .add(appointmentInfo.duration, "minutes")
       .format("hh:mm A");
 
     // Check for overlapping appointments
@@ -418,8 +424,8 @@ const getAvailableHours = async (
     }
     for (let specialDate of doctor.specialDates) {
       if (
-        moment(specialDate.date).date() == moment(date).date() &&
-        moment(specialDate.date).month() == moment(date).month()
+        moment(specialDate, "MM/DD").date() == moment(date).date() &&
+        moment(specialDate, "MM/DD").month() == moment(date).month()
       ) {
         return "Doctor is not available on this date";
       }
@@ -597,6 +603,15 @@ router.get("/doctor/history", async (req: Request, res: Response) => {
         notes.find((note) => note.patientId.toString() == appt.patientId)
           ?.notes || "",
     }));
+    // remove duplicates
+    appointmentsPerPatient = appointmentsPerPatient.filter(
+      (appt, index, self) =>
+        index ===
+        self.findIndex(
+          (t) => t.patientId === appt.patientId && t.email === appt.email
+        )
+    );
+    // get patients info
     const patientsCollection = db.collection("patients");
     const patients = await patientsCollection
       .find({
