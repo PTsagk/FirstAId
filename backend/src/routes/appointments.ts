@@ -33,6 +33,18 @@ const createAppointment = async (
     const doctor = await doctorCollection.findOne({
       _id: new ObjectId(doctorId),
     });
+    for (let date of doctor.specialDates) {
+      if (
+        moment(date).date() == moment(appointmentInfo.date).date() &&
+        moment(date).month() == moment(appointmentInfo.date).month()
+      ) {
+        if (assistant) {
+          return "Doctor is not available on this date";
+        } else {
+          throw new Error("Doctor is not available on this date");
+        }
+      }
+    }
     const workingStart = moment(doctor.workingStartTime, "hh:mm A");
     const workingEnd = moment(doctor.workingEndTime, "hh:mm A");
     const appointmentTime = moment(appointmentInfo.time, "hh:mm A");
@@ -265,30 +277,42 @@ const updateAppointment = async (
         userId: appointmentInfo.doctorId,
       });
 
-      createNotification({
-        message:
-          "An appointment has been rescheduled for " +
-          appointmentInfo.fullname +
-          " for " +
-          appointmentInfo.date +
-          " at " +
-          appointmentInfo.time,
-        sent: false,
-        userId: appointmentInfo.doctorId,
-        createdAt: moment().format("YYYY-MM-DD HH:mm"),
-      });
+      if (
+        !moment(
+          previousAppointment.date + " " + previousAppointment.time,
+          "YYYY-MM-DD hh:mm A"
+        ).isSame(
+          moment(
+            appointmentInfo.date + " " + appointmentInfo.time,
+            "YYYY-MM-DD hh:mm A"
+          )
+        )
+      ) {
+        createNotification({
+          message:
+            "An appointment has been rescheduled for " +
+            appointmentInfo.fullname +
+            " for " +
+            appointmentInfo.date +
+            " at " +
+            appointmentInfo.time,
+          sent: false,
+          userId: appointmentInfo.doctorId,
+          createdAt: moment().format("YYYY-MM-DD HH:mm"),
+        });
 
-      // Add notification for patient
-      createNotification({
-        message:
-          "Your appointment has been scheduled for " +
-          appointmentInfo.date +
-          " at " +
-          appointmentInfo.time,
-        sent: false,
-        userId: appointmentInfo.patientId,
-        createdAt: moment().format("YYYY-MM-DD HH:mm"),
-      });
+        // Add notification for patient
+        createNotification({
+          message:
+            "Your appointment has been scheduled for " +
+            appointmentInfo.date +
+            " at " +
+            appointmentInfo.time,
+          sent: false,
+          userId: appointmentInfo.patientId,
+          createdAt: moment().format("YYYY-MM-DD HH:mm"),
+        });
+      }
     }
     return "OK";
   } catch (error) {
@@ -378,6 +402,14 @@ const getAvailableHours = async (
     const appointmentDay = appointmentDate.format("dddd"); // e.g. "Monday"
     if (!doctor.workingDays.includes(appointmentDay)) {
       return "Doctor is not working on this day";
+    }
+    for (let specialDate of doctor.specialDates) {
+      if (
+        moment(specialDate.date).date() == moment(date).date() &&
+        moment(specialDate.date).month() == moment(date).month()
+      ) {
+        return "Doctor is not available on this date";
+      }
     }
 
     // check working hours
