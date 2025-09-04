@@ -67,10 +67,10 @@ router.post("/message/generate", async (req, res) => {
        The output should never include a warning regarding that you can't provide valid prescriptions (I will inform the users about that)
        The doctor's question is: ${question}
        Format:
-        - Each prescription/recommendation is separate from each other
+        - Each prescription/recommendation is separate from each other (don't use words like alternative, another etc)
         - Do not include any title, context, numbers or bullet points about what each section is
         - Provide at least 3 alternative prescriptions/recommendations
-        - The response format should be from docto's perspective
+        - The response format should be from doctor's perspective
         - Return an array with the prescriptions where each element will be an object {text: "Prescription text", prescription: "The name of the prescription that the doctor requested"}
        Use the following context to make the sections relevant and supportive:
         Doctor notes: ${appointmentInfo.doctorNotes}

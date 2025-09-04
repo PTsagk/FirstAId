@@ -59,7 +59,7 @@
           <span><b>Prescriptions:</b></span>
           <span><b>Mental Health History:</b></span>
           <span><b>Past Surgeries:</b></span>
-          <span><b>Diet Preferences:</b></span>
+          <span style="white-space: nowrap"><b>Diet Preferences:</b></span>
         </div>
         <div style="display: flex; flex-direction: column; min-width: 100px">
           <span>{{ appointmentInfo.gender || "-" }}</span>
@@ -76,7 +76,7 @@
       </div>
       @if(appointmentInfo.status !== 'completed' && appointmentInfo.status) {
       <button
-        style="margin-top: 40px"
+        style="margin-top: 20px"
         (click)="completeAppointment(true)"
         mat-flat-button
         color="primary"
@@ -85,7 +85,7 @@
       </button>
       } @if(appointmentInfo.status === 'completed') {
       <button
-        style="margin-top: 40px"
+        style="margin-top: 20px"
         (click)="completeAppointment(false)"
         mat-flat-button
         color="primary"

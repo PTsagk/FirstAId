@@ -149,6 +149,19 @@ const createAppointment = async (
       userId: appointmentInfo.patientId,
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
+
+    await sendEmail("template_4ow7iii", appointmentInfo.email, {
+      fullname: appointmentInfo.fullname,
+      message:
+        "Your appointment with " +
+        doctor.name +
+        " has been scheduled for " +
+        appointmentInfo.date +
+        " at " +
+        appointmentInfo.time,
+      to: appointmentInfo.email,
+      from: doctor.email,
+    });
     return appointmentInfo;
   } catch (error) {
     console.error(error);

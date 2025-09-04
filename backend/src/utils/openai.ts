@@ -257,6 +257,15 @@ async function runPatientAssistant(
       if (["failed", "cancelled", "expired"].includes(runStatus.status)) {
         throw new Error(`Run failed: ${runStatus.status}`);
       }
+      if (runStatus.status === "completed") {
+        const activeRuns = await getActiveRuns(threadId);
+        if (activeRuns.length > 0) {
+          runStatus = await openai.beta.threads.runs.retrieve(
+            threadId,
+            activeRuns[0].id
+          );
+        }
+      }
       await new Promise((r) => setTimeout(r, 1000));
     }
 
@@ -298,6 +307,23 @@ async function runPatientAssistant(
   }
 }
 
+async function getActiveRuns(threadId) {
+  try {
+    const runs = await openai.beta.threads.runs.list(threadId);
+
+    const activeRuns = runs.data.filter((run) =>
+      ["queued", "in_progress", "requires_action"].includes(run.status)
+    );
+
+    activeRuns.forEach((run) => {
+      console.log(`Run ID: ${run.id}, Status: ${run.status}`);
+    });
+
+    return activeRuns;
+  } catch (error) {
+    console.error("Error fetching runs:", error);
+  }
+}
 async function getAssistantMessages(threadId: string) {
   try {
     const messages = await openai.beta.threads.messages.list(threadId);
