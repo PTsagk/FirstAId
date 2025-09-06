@@ -5,6 +5,7 @@ export interface Appointment {
   severity: 'appointment' | 'emergency' | 'critical';
   date: string;
   time: string;
+  icd_10?: string;
   appointmentDuration?: number;
   description?: string;
   lastAppointment?: string;

@@ -43,22 +43,25 @@
     <i class="fa-solid fa-user"></i>
     <h1>{{ appointmentInfo.fullname }}</h1>
     <span style="color: gray">{{ appointmentInfo.email }}</span>
-    <span class="severity severity-{{ appointmentInfo.severity }}">{{
-      appointmentInfo.severity
-    }}</span>
+    <div style="display: flex; align-items: center; gap: 10px">
+      <span class="severity severity-{{ appointmentInfo.severity }}">{{
+        appointmentInfo.severity
+      }}</span>
+      <span class="icd-10-code">{{ appointmentInfo.icd_10 }}</span>
+    </div>
     <div style="display: flex; flex-direction: column; width: 100%">
       <h3 style="text-align: center">Information</h3>
       <div style="display: flex; gap: 10px; justify-content: center">
         <div style="display: flex; flex-direction: column; text-align: end">
-          <span><b>Gender:</b></span>
-          <span><b>Blood Type:</b></span>
-          <span><b>Weight:</b></span>
-          <span><b>Height:</b></span>
-          <span><b>Allergies:</b></span>
-          <span><b>Chronic Conditions:</b></span>
-          <span><b>Prescriptions:</b></span>
-          <span><b>Mental Health History:</b></span>
-          <span><b>Past Surgeries:</b></span>
+          <span style="white-space: nowrap"><b>Gender:</b></span>
+          <span style="white-space: nowrap"><b>Blood Type:</b></span>
+          <span style="white-space: nowrap"><b>Weight:</b></span>
+          <span style="white-space: nowrap"><b>Height:</b></span>
+          <span style="white-space: nowrap"><b>Allergies:</b></span>
+          <span style="white-space: nowrap"><b>Chronic Conditions:</b></span>
+          <span style="white-space: nowrap"><b>Prescriptions:</b></span>
+          <span style="white-space: nowrap"><b>Mental Health History:</b></span>
+          <span style="white-space: nowrap"><b>Past Surgeries:</b></span>
           <span style="white-space: nowrap"><b>Diet Preferences:</b></span>
         </div>
         <div style="display: flex; flex-direction: column; min-width: 100px">

@@ -167,6 +167,7 @@ export class CalendarComponent implements OnInit {
   }
   renderEventContent(eventInfo: any) {
     const severity = eventInfo.event.extendedProps.severity || '';
+    const icd_10 = eventInfo.event.extendedProps.icd_10 || '';
     if (!severity) {
       return {
         html: `
@@ -186,7 +187,10 @@ export class CalendarComponent implements OnInit {
           `
           : ''
       }</div>
-          <div class="fc-event-severity">#${severity}</div>
+          <div class="fc-event-info">
+           <div class="fc-event-severity">#${severity}</div>
+          <div class="fc-event-icd_10">${icd_10}</div>
+          </div>
          
         </div>
       `,

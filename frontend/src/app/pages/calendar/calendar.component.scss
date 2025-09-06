@@ -35,4 +35,11 @@
   .fc-license-message {
     display: none !important;
   }
+  .fc-event-info {
+    display: flex;
+    padding: 2px;
+  }
+  .fc-event-icd_10 {
+    margin-left: auto;
+  }
 }

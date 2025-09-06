@@ -42,6 +42,7 @@ export class AppointmentListComponent implements AfterViewInit {
     'severity',
     'date',
     'time',
+    'icd_10',
     'status',
   ];
 
@@ -123,6 +124,9 @@ export class AppointmentListComponent implements AfterViewInit {
           case 'time':
             // For time, you might need to parse it properly
             return item.time;
+          case 'icd_10':
+            // For ICD-10, you might need to parse it properly
+            return item.icd_10;
           case 'status':
             const statusOrder = { pending: 0, completed: 1 };
             return statusOrder[item.status as keyof typeof statusOrder] || 0;
