@@ -89,6 +89,7 @@ export class CreateAppointmentComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       description: ['', Validators.required],
       // severity: ['', Validators.required],
+      icd_10: ['', Validators.required],
       date: ['', Validators.required],
       time: ['', Validators.required],
     });
@@ -107,6 +108,7 @@ export class CreateAppointmentComponent implements OnInit {
         email: this.data.appointmentInfo.email,
         description: this.data.appointmentInfo.description,
         // severity: this.data.appointmentInfo.severity,
+        icd_10: this.data.appointmentInfo.icd_10,
         date: this.data.appointmentInfo.date,
         time: this.data.appointmentInfo.time,
       });
