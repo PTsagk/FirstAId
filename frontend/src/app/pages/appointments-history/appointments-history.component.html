@@ -46,31 +46,16 @@
           <span style="font-weight: bold">Height:</span>
           {{ patient.height || "-" }}
         </div>
-        <div>
-          <span style="font-weight: bold">Allergies:</span>
-          {{ patient.allergies || "-" }}
-        </div>
-        <div>
-          <span style="font-weight: bold">Chronic Conditions:</span>
-          {{ patient.chronicConditions || "-" }}
-        </div>
-        <div>
-          <span style="font-weight: bold">Prescriptions:</span>
-          {{ patient.prescriptions || "-" }}
-        </div>
-        <div>
-          <span style="font-weight: bold">Mental Health History:</span>
-          {{ patient.mentalHealthHistory || "-" }}
-        </div>
-        <div>
-          <span style="font-weight: bold">Past Surgeries:</span>
-          {{ patient.pastSurgeries || "-" }}
-        </div>
-        <div>
-          <span style="font-weight: bold">Diet Preferences:</span>
-          {{ patient.dietPreferences || "-" }}
-        </div>
+        <button
+          style="margin-top: 20px"
+          mat-flat-button
+          color="primary"
+          (click)="viewMedicalHistory(patient)"
+        >
+          View medical history
+        </button>
       </div>
+
       <div class="doctor-notes">
         <div
           style="

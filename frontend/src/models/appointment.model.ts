@@ -23,4 +23,5 @@ export interface Appointment {
   dietPreferences?: string;
   patientId?: string;
   doctorId?: string;
+  medicalHistory?: [];
 }

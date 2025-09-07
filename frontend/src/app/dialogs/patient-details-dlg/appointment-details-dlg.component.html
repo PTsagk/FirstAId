@@ -51,32 +51,42 @@
     </div>
     <div style="display: flex; flex-direction: column; width: 100%">
       <h3 style="text-align: center">Information</h3>
-      <div style="display: flex; gap: 10px; justify-content: center">
+      <div
+        style="
+          display: flex;
+          gap: 10px;
+          justify-content: center;
+          margin-bottom: 20px;
+        "
+      >
         <div style="display: flex; flex-direction: column; text-align: end">
           <span style="white-space: nowrap"><b>Gender:</b></span>
           <span style="white-space: nowrap"><b>Blood Type:</b></span>
           <span style="white-space: nowrap"><b>Weight:</b></span>
           <span style="white-space: nowrap"><b>Height:</b></span>
-          <span style="white-space: nowrap"><b>Allergies:</b></span>
+          <!-- <span style="white-space: nowrap"><b>Allergies:</b></span>
           <span style="white-space: nowrap"><b>Chronic Conditions:</b></span>
           <span style="white-space: nowrap"><b>Prescriptions:</b></span>
           <span style="white-space: nowrap"><b>Mental Health History:</b></span>
           <span style="white-space: nowrap"><b>Past Surgeries:</b></span>
-          <span style="white-space: nowrap"><b>Diet Preferences:</b></span>
+          <span style="white-space: nowrap"><b>Diet Preferences:</b></span> -->
         </div>
         <div style="display: flex; flex-direction: column; min-width: 100px">
           <span>{{ appointmentInfo.gender || "-" }}</span>
           <span>{{ appointmentInfo.bloodType || "-" }}</span>
           <span>{{ appointmentInfo.weight || "-" }}</span>
           <span>{{ appointmentInfo.height || "-" }}</span>
-          <span>{{ appointmentInfo.allergies || "-" }}</span>
+          <!-- <span>{{ appointmentInfo.allergies || "-" }}</span>
           <span>{{ appointmentInfo.chronicConditions || "-" }}</span>
           <span>{{ appointmentInfo.prescriptions || "-" }}</span>
           <span>{{ appointmentInfo.mentalHealthHistory || "-" }}</span>
           <span>{{ appointmentInfo.pastSurgeries || "-" }}</span>
-          <span>{{ appointmentInfo.dietPreferences || "-" }}</span>
+          <span>{{ appointmentInfo.dietPreferences || "-" }}</span> -->
         </div>
       </div>
+      <button mat-flat-button color="secondary" (click)="viewMedicalHistory()">
+        View medical history
+      </button>
       @if(appointmentInfo.status !== 'completed' && appointmentInfo.status) {
       <button
         style="margin-top: 20px"

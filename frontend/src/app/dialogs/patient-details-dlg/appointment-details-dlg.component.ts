@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDlgComponent } from '../confirmation-dlg/confirmation-dlg.component';
 import { SendMessageDlgComponent } from '../send-message-dlg/send-message-dlg.component';
 import { PreviousMessagesDlgComponent } from '../previous-messages-dlg/previous-messages-dlg.component';
+import { PatientMedicalHistoryComponent } from '../patient-medical-history/patient-medical-history.component';
 
 @Component({
   selector: 'app-appointment-details-dlg',
@@ -136,5 +137,14 @@ export class AppointmentDetailsDlgComponent {
           console.log(err);
         },
       });
+  }
+
+  viewMedicalHistory(): void {
+    const dlg = this.dialog.open(PatientMedicalHistoryComponent, {
+      width: '90%',
+    });
+
+    dlg.componentInstance.medicalHistory =
+      this.appointmentInfo.medicalHistory || [];
   }
 }

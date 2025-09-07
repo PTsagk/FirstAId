@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppointmentService } from '../../../services/appointment.service';
 import { AccountService } from '../../../services/account.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PatientMedicalHistoryComponent } from '../../dialogs/patient-medical-history/patient-medical-history.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-appointments-history',
@@ -28,7 +30,8 @@ export class AppointmentsHistoryComponent {
   constructor(
     private snackBar: MatSnackBar,
     private appointmentService: AppointmentService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private dialog: MatDialog
   ) {
     this.pending = true;
     this.appointmentService.getAppointmentHistory().subscribe({
@@ -65,5 +68,12 @@ export class AppointmentsHistoryComponent {
         this.notesPending = false;
       },
     });
+  }
+
+  viewMedicalHistory(patient: any) {
+    const dlg = this.dialog.open(PatientMedicalHistoryComponent, {
+      width: '90%',
+    });
+    dlg.componentInstance.medicalHistory = patient.medicalHistory;
   }
 }

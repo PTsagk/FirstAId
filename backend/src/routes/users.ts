@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 const router = Express.Router();
 import { ObjectId } from "mongodb";
 import { authenticateToken } from "./auth";
+import { runCompletion } from "../utils/openai";
 router.post("/:user/register", async (req, res) => {
   try {
     const userType = req.params.user;
@@ -22,6 +23,8 @@ router.post("/:user/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = { ...req.body, password: hashedPassword, userType };
     delete user.confirmPassword;
+    const medicalHistory = await handleUserMedicalHistory(user);
+    user.medicalHistory = medicalHistory;
     await collection.insertOne(user);
     res.json("Account created successfully");
   } catch (error) {
@@ -135,5 +138,53 @@ router.get("/", authenticateToken, async (req: Request, res: Response) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+const handleUserMedicalHistory = async (user: any) => {
+  try {
+    const fhirFormatedHistory = await runCompletion(
+      `You are given a list of medical history items of a patient. Convert each item into a FHIR format using the ICD-10 coding only. Return an array of Objects where each object is the FHIR formatted medical history. Here is an example of a prescription format:
+   {
+  "resourceType": "The type of the history item, e.g., AllergyIntolerance, Condition, MedicationStatement, etc.",
+  "id": "A unique identifier for the history item",
+  "medicationCodeableConcept": {
+    "text": "The name of the medication (generate a random uuid)"
+  },
+  "subject": { "reference": "The name of the patient" },
+  "authoredOn": "The date the prescription was made",
+  "requester": { "reference": "Doctor's name" },
+  "reasonCode": [
+    {
+      "coding": [
+        {
+          "system": "http://hl7.org/fhir/sid/icd-10",
+          "code": "The ICD-10 code of the history item",
+          "display": "The description of the ICD-10 code"
+        }
+      ]
+    }
+  ],
+  "dosageInstruction": [
+    {
+      "text": "Dosage instructions in human-readable format",
+      "timing": { "repeat": { "frequency": 1, "period": 1, "periodUnit": "d" } },
+      "doseAndRate": [
+        {
+          "doseQuantity": { "value": 20, "unit": "mg" }
+        }
+      ]
+    }
+  ]
+}
+  The patient's medical history and information is: ${JSON.stringify(user)}
+  Today's date is ${new Date().toISOString().split("T")[0]}.
+  `
+    );
+    console.log(fhirFormatedHistory.choices[0].message.content);
+    return JSON.parse(fhirFormatedHistory.choices[0].message.content);
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
 
 export default router;

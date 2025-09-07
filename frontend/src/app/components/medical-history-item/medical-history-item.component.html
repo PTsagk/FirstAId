@@ -1,0 +1,38 @@
+<div class="medical-history">
+  <h2>Add your medical history</h2>
+  <p style="color: gray">
+    Please provide any relevant medical history information below like
+    allergies, past surgeries including dates and outcomes and medications as
+    well as their prescribed dosage and frequency.
+  </p>
+  <mat-form-field style="width: 100%; margin-top: 10px">
+    <mat-label>Type of history</mat-label>
+    <mat-select #historyType required>
+      <mat-option value="Allergy">Allergy</mat-option>
+      <mat-option value="Chronic condition">Chronic condition</mat-option>
+      <mat-option value="Prescription">Prescription</mat-option>
+      <mat-option value="Mental Health history"
+        >Mental Health history</mat-option
+      >
+      <mat-option value="Past Surgery">Past Surgery</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="medical-history-textarea">
+    <mat-label>Add your notes here</mat-label>
+    <textarea
+      style="width: 100%; height: 400px; resize: none"
+      #textInput
+      type="text"
+      required
+      matInput
+    ></textarea>
+  </mat-form-field>
+  <button
+    style="width: 100%"
+    (click)="save(textInput.value, historyType.value)"
+    mat-flat-button
+    color="primary"
+  >
+    Add
+  </button>
+</div>

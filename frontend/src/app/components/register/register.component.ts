@@ -3,7 +3,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../../../services/account.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -22,6 +22,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
+import { MedicalHistoryItemComponent } from '../medical-history-item/medical-history-item.component';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -39,6 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
     NgxMatTimepickerModule,
     MatDatepickerModule,
     MatIconModule,
+    MedicalHistoryItemComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -50,6 +52,7 @@ export class RegisterComponent {
   doctorInfo: FormGroup;
   pending: boolean = false;
   specialDates: string[] = [];
+  medicalHistory: { text: string; type: string }[] = [];
   daysArray: string[] = [
     'Monday',
     'Tuesday',
@@ -62,7 +65,8 @@ export class RegisterComponent {
   constructor(
     private dialogRef: MatDialogRef<RegisterComponent>,
     public accountService: AccountService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.patientInfo = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -77,12 +81,12 @@ export class RegisterComponent {
       bloodType: new FormControl([], [Validators.required]),
       weight: new FormControl('', [Validators.required]),
       height: new FormControl('', [Validators.required]),
-      allergies: new FormControl('', []),
-      chronicConditions: new FormControl('', []),
-      prescriptions: new FormControl('', []),
-      mentalHealthHistory: new FormControl('', []),
-      pastSurgeries: new FormControl('', []),
-      dietPreferences: new FormControl('', []),
+      // allergies: new FormControl('', []),
+      // chronicConditions: new FormControl('', []),
+      // prescriptions: new FormControl('', []),
+      // mentalHealthHistory: new FormControl('', []),
+      // pastSurgeries: new FormControl('', []),
+      medicalHistory: new FormControl([], []),
     });
 
     this.doctorInfo = new FormGroup({
@@ -103,16 +107,13 @@ export class RegisterComponent {
   }
 
   onSubmit(userInfo: FormGroup) {
-    // set proffesion to None
-    // if (!this.isDoctor) {
-    //   this.doctorInfo.patchValue({ workingStartTime: 'None' });
-    //   this.doctorInfo.patchValue({ workingEndTime: 'None' });
-    //   this.doctorInfo.patchValue({ specialDates: 'None' });
-    // }
     if (userInfo.status != 'VALID') return;
     this.pending = true;
     this.doctorInfo.patchValue({
       specialDates: this.specialDates,
+    });
+    this.patientInfo.patchValue({
+      medicalHistory: this.medicalHistory,
     });
     this.accountService.register(this.isDoctor, userInfo).subscribe({
       next: (res: any) => {
@@ -151,10 +152,29 @@ export class RegisterComponent {
     }
   }
 
+  addHistory() {
+    const dlg = this.dialog.open(MedicalHistoryItemComponent, {
+      width: '800px',
+    });
+
+    dlg.afterClosed().subscribe((result) => {
+      if (result && !this.medicalHistory.includes(result)) {
+        this.medicalHistory.push(result);
+      }
+    });
+  }
+
   removeDate(event: any) {
     const index = this.specialDates.indexOf(moment(event).format('MM/DD'));
     if (index > -1) {
       this.specialDates.splice(index, 1);
+    }
+  }
+
+  removeHistory(event: any) {
+    const index = this.medicalHistory.indexOf(event);
+    if (index > -1) {
+      this.medicalHistory.splice(index, 1);
     }
   }
 }

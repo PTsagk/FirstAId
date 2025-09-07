@@ -236,6 +236,11 @@
   } @if(!isDoctor){
 
   <div class="register-wizard">
+    @if(pending){
+    <div class="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    }
     <mat-stepper #doctor_stepper>
       <mat-step
         [stepControl]="patientInfo"
@@ -414,7 +419,29 @@
           (ngSubmit)="onSubmit(patientInfo)"
           style="justify-content: center"
         >
-          <mat-form-field class="cell">
+          <button
+            mat-flat-button
+            class="bg-primary text-secondary"
+            style="width: fit-content; margin-bottom: 30px"
+            (click)="addHistory(); $event.preventDefault()"
+            color="primary"
+          >
+            Add medical history
+            <mat-icon>add</mat-icon>
+          </button>
+          @for(history of medicalHistory; track history) {
+          <div class="selected-date">
+            <span>{{ history.text }}</span>
+            <button
+              mat-icon-button
+              (click)="removeHistory(history)"
+              color="warn"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          }
+          <!-- <mat-form-field class="cell">
             <mat-label>Prescriptions/Medications</mat-label>
             <input
               formControlName="prescriptions"
@@ -442,14 +469,15 @@
             />
           </mat-form-field>
           <mat-form-field class="cell">
-            <mat-label>Diet Preferences</mat-label>
+            <mat-label>Allergies</mat-label>
             <input
-              formControlName="dietPreferences"
-              name="dietPreferences"
+              formControlName="allergies"
+              name="allergies"
               type="text"
               matInput
             />
           </mat-form-field>
+        -->
           <div>
             <button mat-button matStepperPrevious>Back</button>
             <button
