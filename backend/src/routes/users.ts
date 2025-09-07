@@ -69,25 +69,29 @@ router.post("/:user/login", async (req: Request, res: Response) => {
   }
 });
 
-router.patch("/prescriptions", authenticateToken, async (req, res) => {
+router.patch("/medical-history", authenticateToken, async (req, res) => {
   try {
-    const { patientId, prescriptions } = req.body;
+    const { patientId, medicalHistory } = req.body;
     const db = await getDB();
     const collection = db.collection("patients");
     const patientInfo = await collection.findOne({
       _id: new ObjectId(patientId),
     });
+    let patientMedicalHistory = patientInfo.medicalHistory || [];
+    if (patientInfo.medicalHistory && patientInfo.medicalHistory.length > 0) {
+      patientMedicalHistory.push(...medicalHistory);
+    } else {
+      patientMedicalHistory = medicalHistory;
+    }
     await collection.updateOne(
       { _id: new ObjectId(patientId) },
       {
         $set: {
-          prescriptions: patientInfo.prescriptions
-            ? patientInfo.prescriptions + ", " + prescriptions.join(",")
-            : prescriptions.join(","),
+          medicalHistory: patientMedicalHistory,
         },
       }
     );
-    res.json("Prescriptions updated successfully");
+    res.json("Medical history updated successfully");
   } catch (err) {
     return res.status(500).send("Internal Server Error");
   }

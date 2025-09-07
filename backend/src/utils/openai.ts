@@ -411,6 +411,7 @@ const createConversation = async (
       `,
     });
     openai.chat.completions.list();
+
     const response = await openai.chat.completions.create({
       model: "gpt-4.1-mini",
       messages: messages,

@@ -47,7 +47,7 @@ export class SendMessageDlgComponent implements OnInit {
   //   },
   // ];
   messages: any[] = [];
-  prescriptions: any[] = [];
+  medicalHistory: any[] = [];
   constructor(
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
@@ -94,11 +94,11 @@ export class SendMessageDlgComponent implements OnInit {
         });
       });
 
-    if (this.prescriptions.length > 0) {
+    if (this.medicalHistory.length > 0) {
       this.accountService
-        .updatePatientPrescriptions(
+        .updatePatientMedicalHistory(
           this.appointmentInfo.patientId as string,
-          this.prescriptions
+          this.medicalHistory
         )
         .subscribe();
     }
@@ -110,7 +110,7 @@ export class SendMessageDlgComponent implements OnInit {
       .sendAdvisorMessage(this.messages, this.appointmentInfo)
       .subscribe({
         next: (res: any) => {
-          this.messages.pop(); // Remove the 'loading' message
+          this.messages.pop();
           this.messages.push({
             role: 'assistant',
             content: res.text,
@@ -149,8 +149,8 @@ export class SendMessageDlgComponent implements OnInit {
           ...res
             .map((msg: any) => ({
               role: 'assistant',
-              content: msg.text,
-              prescription: msg.prescription,
+              content: msg.humanText,
+              medicalHistory: msg,
             }))
             .filter((msg: any) => msg.content.length > 0)
         );

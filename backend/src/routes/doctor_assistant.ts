@@ -69,14 +69,55 @@ router.post("/message/generate", async (req, res) => {
       Provide a prescription and exact dosage if asked or advices/recommendations. 
        Include any important safety considerations (e.g., allergies, contraindications, drug interactions, age-related risks). 
        The output should never include a warning regarding that you can't provide valid prescriptions (I will inform the users about that)
+       The responses should be based on the FHIR (Fast Healthcare Interoperability Resources) standards and guidelines while using the ICD-10 coding.
+       Each prescription/recommendation is separate from each other (don't use words like alternative, another etc)
+       Do not include any title, context, numbers or bullet points about what each section is
+        Format the output as a JSON array of objects, where each object contains the following fields (create at least 3 elements/alternatives):
+        {
+          {
+            "humanText": "A detailed human-readable text of the prescription or advice. The format should be from doctor's perspective",
+            "resourceType": "The type of the care plan, e.g., CarePlan",
+            "id": "A unique identifier for the care plan (generate a random uuid)",
+            "intent": "plan",
+            "subject": { "reference": "The name of the patient" },
+            "title": "The title of the care plan",
+            "description": "A brief description of the care plan",
+            "created": "The date the care plan was created",
+            "author": { "reference": "The name of the doctor" },
+            "addresses": [
+              {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/sid/icd-10",
+                    "code": "The ICD-10 code of the condition",
+                    "display": "The description of the ICD-10 code"
+                  }
+                ]
+              }
+            ],
+            "activity": [
+              {
+                "detail": {
+                  "kind": "ServiceRequest",
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/sid/icd-10",
+                        "code": "Z13.220",
+                        "display": "Encounter for screening for lipoid disorders"
+                      }
+                    ]
+                  },
+                  "description": "Order fasting lipid panel"
+                }
+              },
+            ]
+          }
+        }
        The doctor's question is: ${question}
-       Format:
-        - Each prescription/recommendation is separate from each other (don't use words like alternative, another etc)
-        - Do not include any title, context, numbers or bullet points about what each section is
-        - Provide at least 3 alternative prescriptions/recommendations
-        - The response format should be from doctor's perspective
-        - Return an array with the prescriptions where each element will be an object {text: "Prescription text", prescription: "The name of the prescription that the doctor requested"}
+       
        Use the following context to make the sections relevant and supportive:
+       Today's date is ${new Date().toISOString().split("T")[0]}.
         Doctor notes: ${appointmentInfo.doctorNotes}
         Patient notes: ${appointmentInfo.description}.
         Doctor info: ${JSON.stringify(doctorInfo)}

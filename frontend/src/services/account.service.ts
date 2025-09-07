@@ -62,10 +62,10 @@ export class AccountService {
     );
   }
 
-  updatePatientPrescriptions(patientId: string, prescriptions: any) {
+  updatePatientMedicalHistory(patientId: string, medicalHistory: any) {
     return this.http.patch(
-      environment.api_url + `/users/prescriptions`,
-      { patientId, prescriptions },
+      environment.api_url + `/users/medical-history`,
+      { patientId, medicalHistory },
       { withCredentials: true }
     );
   }
