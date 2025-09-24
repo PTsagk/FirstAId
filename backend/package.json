@@ -16,6 +16,7 @@
     "@emailjs/nodejs": "^5.0.2",
     "@langfuse/openai": "^4.2.0",
     "@langfuse/otel": "^4.2.0",
+    "@langfuse/tracing": "^4.2.0",
     "@opentelemetry/sdk-node": "^0.204.0",
     "@types/express": "^4.17.21",
     "@types/node": "^22.5.0",

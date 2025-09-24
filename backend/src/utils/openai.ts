@@ -15,12 +15,11 @@ import {
   createEmailNotification,
   createFollowUpNotification,
 } from "../routes/notifications";
-const openai = observeOpenAI(
-  new OpenAI({
-    apiKey: process.env.OPEN_AI,
-  }),
-  { generationName: "healthcare-assistant", tags: ["backend"] }
-);
+import { startObservation } from "@langfuse/tracing";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI,
+});
 
 async function runDoctorAssistant(
   threadId: string,
@@ -37,6 +36,10 @@ async function runDoctorAssistant(
       metadata: {
         today: todayMessage,
       },
+    });
+
+    const trace = startObservation("Patient Assistant", {
+      input: { question },
     });
     const db = await getDB();
     const doctors = db.collection("doctors");
@@ -91,7 +94,15 @@ async function runDoctorAssistant(
             } else {
               result = `No handler for function: ${name}`;
             }
-
+            const toolSpan = trace.startObservation(
+              name,
+              {
+                input: { param: args },
+              },
+              { asType: "tool" }
+            );
+            toolSpan.update({ output: { result: result } });
+            toolSpan.end();
             return {
               tool_call_id: toolCall.id,
               output: JSON.stringify(result),
@@ -136,7 +147,12 @@ async function runDoctorAssistant(
         id: msg.id,
       };
     });
-
+    trace.update({
+      output: {
+        result: response[0]?.content?.message_text,
+      },
+    });
+    trace.end();
     return response;
   } catch (error) {
     console.error("Error running assistant:", error);
@@ -163,6 +179,9 @@ async function runPatientAssistant(
       metadata: {
         today: todayMessage,
       },
+    });
+    const trace = startObservation("Patient Assistant", {
+      input: { question },
     });
     const db = await getDB();
     const doctors = db.collection("doctors");
@@ -241,7 +260,15 @@ async function runPatientAssistant(
             } else {
               result = `No handler for function: ${name}`;
             }
-
+            const toolSpan = trace.startObservation(
+              name,
+              {
+                input: { param: args },
+              },
+              { asType: "tool" }
+            );
+            toolSpan.update({ output: { result: result } });
+            toolSpan.end();
             return {
               tool_call_id: toolCall.id,
               output: JSON.stringify(result),
@@ -300,6 +327,10 @@ async function runPatientAssistant(
         id: msg.id,
       };
     });
+    trace.update({
+      output: { result: response[0].content.message_text },
+    });
+    trace.end();
 
     return response;
   } catch (error) {
@@ -360,7 +391,10 @@ async function getAssistantMessages(threadId: string) {
 
 async function runCompletion(question: string) {
   try {
-    const response = await openai.chat.completions.create({
+    const response = await observeOpenAI(openai, {
+      generationName: "completion",
+      tags: ["backend"],
+    }).chat.completions.create({
       model: "o3-mini",
       messages: [
         {
@@ -416,7 +450,10 @@ const createConversation = async (
     });
     openai.chat.completions.list();
 
-    const response = await openai.chat.completions.create({
+    const response = await observeOpenAI(openai, {
+      generationName: "healthcare-assistant",
+      tags: ["backend"],
+    }).chat.completions.create({
       model: "gpt-4.1-mini",
       messages: messages,
       response_format: {
