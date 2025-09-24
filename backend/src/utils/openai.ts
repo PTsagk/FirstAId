@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { observeOpenAI } from "@langfuse/openai";
 import { getDB } from "./connect";
 import { ObjectId } from "mongodb";
 import moment from "moment";
@@ -14,9 +15,12 @@ import {
   createEmailNotification,
   createFollowUpNotification,
 } from "../routes/notifications";
-const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI,
-});
+const openai = observeOpenAI(
+  new OpenAI({
+    apiKey: process.env.OPEN_AI,
+  }),
+  { generationName: "healthcare-assistant", tags: ["backend"] }
+);
 
 async function runDoctorAssistant(
   threadId: string,
