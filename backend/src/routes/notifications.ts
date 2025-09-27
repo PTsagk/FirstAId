@@ -214,7 +214,7 @@ const sendSEENotification = async (sseConnections) => {
     // Mark as sent
     await notificationsCollection.updateOne(
       { _id: notification._id },
-      { $set: { sent: true, sentAt: new Date() } }
+      { $set: { sent: true } }
     );
   }
 };
