@@ -197,7 +197,7 @@ async function runPatientAssistant(
     run = await openai.beta.threads.runs.create(threadId, {
       assistant_id: "asst_YhszAb0grob0xcPbgF56r3Xm",
       additional_instructions:
-        "The doctors info is: " +
+        "The doctors info are: " +
         JSON.stringify(doctorInfo) +
         ". The patients info are: " +
         JSON.stringify({ patientInfo }) +
@@ -222,7 +222,7 @@ async function runPatientAssistant(
 
             console.log(`Handling tool call: ${name} with args: ${args}`);
             // Handle specific function call
-            if (name === "getAppointments") {
+            if (name === "getAvailableHours") {
               // result = await getAppointments(JSON.parse(args));
               const params = JSON.parse(args);
               result = await getAvailableHours(

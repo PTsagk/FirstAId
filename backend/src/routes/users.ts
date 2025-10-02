@@ -23,8 +23,10 @@ router.post("/:user/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = { ...req.body, password: hashedPassword, userType };
     delete user.confirmPassword;
-    const medicalHistory = await handleUserMedicalHistory(user);
-    user.medicalHistory = medicalHistory;
+    if (userType == "patients") {
+      const medicalHistory = await handleUserMedicalHistory(user);
+      user.medicalHistory = medicalHistory;
+    }
     await collection.insertOne(user);
     res.json("Account created successfully");
   } catch (error) {
