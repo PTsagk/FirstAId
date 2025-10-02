@@ -121,7 +121,9 @@ const createAppointment = async (
     const reminderEmailsCollection = db.collection("emails-queue");
     await reminderEmailsCollection.insertOne({
       date: appointmentInfo.date,
-      time: appointmentInfo.time,
+      time: moment(appointmentInfo.time, "hh:mm A")
+        .subtract(1, "hours")
+        .format("hh:mm A"),
       to: doctor.email,
       from: appointmentInfo.email,
       type: "reminder",
@@ -330,6 +332,15 @@ const updateAppointment = async (
           sent: false,
           userId: appointmentInfo.patientId,
           createdAt: moment().format("YYYY-MM-DD HH:mm"),
+        });
+
+        await sendEmail("template_4ow7iii", appointmentInfo.email, {
+          fullname: appointmentInfo.fullname,
+          message: `Your appointment has been rescheduled to ${
+            appointmentInfo.date + " at " + appointmentInfo.time
+          } because of an emergency.`,
+          to: appointmentInfo.email,
+          from: doctor.email,
         });
       }
     }
