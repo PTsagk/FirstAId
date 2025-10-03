@@ -448,7 +448,6 @@ const createConversation = async (
       }
       `,
     });
-    openai.chat.completions.list();
 
     const response = await observeOpenAI(openai, {
       generationName: "healthcare-assistant",
