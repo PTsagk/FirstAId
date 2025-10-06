@@ -107,7 +107,7 @@ const createAppointment = async (
           { _id: nextAppointment._id },
           { $set: { time: newTime } }
         );
-        await sendEmail("template_4ow7iii", nextAppointment.email, {
+        await sendEmail(nextAppointment.email, {
           fullname: nextAppointment.fullname,
           message: `Your appointment has been rescheduled to ${newTime} because of an emergency.`,
           to: nextAppointment.email,
@@ -158,7 +158,7 @@ const createAppointment = async (
       createdAt: moment().format("YYYY-MM-DD HH:mm"),
     });
 
-    await sendEmail("template_4ow7iii", appointmentInfo.email, {
+    await sendEmail(appointmentInfo.email, {
       fullname: appointmentInfo.fullname,
       message:
         "Your appointment with " +
@@ -334,7 +334,7 @@ const updateAppointment = async (
           createdAt: moment().format("YYYY-MM-DD HH:mm"),
         });
 
-        await sendEmail("template_4ow7iii", appointmentInfo.email, {
+        await sendEmail(appointmentInfo.email, {
           fullname: appointmentInfo.fullname,
           message: `Your appointment has been rescheduled to ${
             appointmentInfo.date + " at " + appointmentInfo.time

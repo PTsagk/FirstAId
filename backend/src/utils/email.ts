@@ -5,11 +5,9 @@ import { createNotification } from "../routes/notifications";
 import { ObjectId } from "mongodb";
 const moment = require("moment");
 
-const sendEmail = async (
-  templateID: string = "template_4ow7iii",
-  to: string,
-  messageInfo: any
-) => {
+const templateID: string = "template_4ow7iii";
+
+const sendEmail = async (to: string, messageInfo: any) => {
   // if (process.env.NODE_ENV === "development") return;
   try {
     let templateParams: any = {
@@ -17,16 +15,6 @@ const sendEmail = async (
       doctor_email: "test@gmail.com",
       patient_email: to,
     };
-
-    // if (
-    //   templateID === "template_4ow7iii" ||
-    //   templateID === "template_4ow7iii"
-    // ) {
-    //   templateParams.fullname = messageInfo.fullname;
-    //   templateParams.date = messageInfo.date;
-    //   templateParams.time = messageInfo.time;
-    // }
-
     Object.keys(messageInfo).forEach((key) => {
       templateParams[key] = messageInfo[key];
     });
@@ -46,7 +34,7 @@ async function sendReminderEmail(emailData) {
         .add(1, "hours")
         .isBefore(moment())
     ) {
-      await sendEmail("template_4ow7iii", emailData.to, {
+      await sendEmail(emailData.to, {
         fullname: emailData.fullname,
         message: `This is a reminder for your appointment on ${emailData.date} at ${emailData.time}.`,
         to: emailData.to,
@@ -128,7 +116,7 @@ async function sendNotificationEmail(emailData) {
         createdAt: moment().format("YYYY-MM-DD HH:mm"),
       });
       // Send the email with the generated content
-      await sendEmail("template_4ow7iii", emailData.to, {
+      await sendEmail(emailData.to, {
         fullname: emailData.fullname,
         message: emailData.message,
         to: emailData.to,
@@ -143,7 +131,7 @@ async function sendNotificationEmail(emailData) {
 
 async function sendFollowUpEmail(emailData) {
   try {
-    await sendEmail("template_4ow7iii", emailData.to, {
+    await sendEmail(emailData.to, {
       fullname: emailData.fullname,
       message: emailData.message,
       to: emailData.to,
