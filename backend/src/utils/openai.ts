@@ -38,7 +38,7 @@ async function runDoctorAssistant(
       },
     });
 
-    const trace = startObservation("Patient Assistant", {
+    const trace = startObservation("assistant-completion", {
       input: { question },
     });
     const db = await getDB();
@@ -152,6 +152,7 @@ async function runDoctorAssistant(
         result: response[0]?.content?.message_text,
       },
     });
+    trace.updateTrace({ sessionId: threadId });
     trace.end();
     return response;
   } catch (error) {
@@ -180,7 +181,7 @@ async function runPatientAssistant(
         today: todayMessage,
       },
     });
-    const trace = startObservation("Patient Assistant", {
+    const trace = startObservation("assistant-completion", {
       input: { question },
     });
     const db = await getDB();
@@ -330,6 +331,8 @@ async function runPatientAssistant(
     trace.update({
       output: { result: response[0].content.message_text },
     });
+
+    trace.updateTrace({ sessionId: threadId });
     trace.end();
 
     return response;
@@ -392,7 +395,7 @@ async function getAssistantMessages(threadId: string) {
 async function runCompletion(question: string) {
   try {
     const response = await observeOpenAI(openai, {
-      generationName: "completion",
+      generationName: "chat-completion",
       tags: ["backend"],
     }).chat.completions.create({
       model: "o3-mini",
@@ -435,7 +438,7 @@ const createConversation = async (
   try {
     messages.push({
       role: "system",
-      content: `You are an AI doctor Advisor doctor is usring during their appointments to exam the patients and provide recommendations based on their medical history. 
+      content: `You are an AI doctor Advisor doctor is using during their appointments to exam the patients and provide recommendations based on their medical history. 
       You help the doctors find relevant information quickly and efficiently taking into consideration the FHIR rules. 
       Here is the doctor's question: ${question}
       You are given the following information about the appointment, the patient and the doctor: ${JSON.stringify(
@@ -450,7 +453,7 @@ const createConversation = async (
     });
 
     const response = await observeOpenAI(openai, {
-      generationName: "healthcare-assistant",
+      generationName: "chat-completion",
       tags: ["backend"],
     }).chat.completions.create({
       model: "gpt-4.1-mini",

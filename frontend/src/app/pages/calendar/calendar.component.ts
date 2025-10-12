@@ -247,7 +247,11 @@ export class CalendarComponent implements OnInit {
           appointmentDuration: info.event.extendedProps.appointmentDuration,
           email: info.event.extendedProps.email,
           doctorId: info.event.extendedProps.doctorId,
+          doctorNotes: info.event.extendedProps.doctorNotes,
           patientId: info.event.extendedProps.patientId,
+          fullname: info.event.extendedProps.fullname,
+          description: info.event.extendedProps.description,
+          status: info.event.extendedProps.status,
         };
         this.appointmentService
           .updateAppointment(updatedAppointment)
