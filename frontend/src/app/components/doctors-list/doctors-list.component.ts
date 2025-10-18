@@ -149,6 +149,9 @@ export class DoctorsListComponent {
       text: 'loading',
       role: 'assistant',
     });
+    this.cd.detectChanges();
+    this.scrollToBottom();
+
     this.assistantService
       .sendPatientMessage(this.selectedDoctor._id, message)
       .subscribe({
@@ -161,6 +164,7 @@ export class DoctorsListComponent {
             role: 'assistant',
           });
           this.cd.detectChanges();
+          this.scrollToBottom();
         },
         error: (err) => {
           this.messages.pop(); // Remove the loading message
@@ -170,7 +174,6 @@ export class DoctorsListComponent {
           });
         },
       });
-    this.scrollToBottom();
   }
 
   openChat(doctor: any) {

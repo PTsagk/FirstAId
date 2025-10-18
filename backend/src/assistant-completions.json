@@ -1,0 +1,719 @@
+[
+  [
+    {
+      "question": "Hi doctor, I have one white lump around the tonsil area in my throat. It has been there a good few months now and the area is swollen. Is this cancer?\n"
+    },
+    {
+      "answer": "I'm sorry to hear about the lump and swelling in your throat. It's important to have this evaluated by a doctor to determine the cause. To help you further, I need to schedule an appointment with Dr. Peter Tsagkouris. Before that, could you please answer a few questions? \n\n1. Have you experienced any pain or difficulty swallowing?\n2. Do you have any other symptoms like fever, weight loss, or night sweats?\n3. Have you had any previous issues with your throat or tonsils?\n4. Are you currently on any medication?\n5. Do you have any allergies or chronic conditions?\n\nYour answers will help the doctor prepare for your appointment. When would you like to schedule the appointment? You can choose any available day from Tuesday to Friday, between 8:00 AM and 7:00 PM."
+    },
+    {
+      "question": "I don't feel any pain but some difficulty yes. No other symptoms can I have an appointment in tuesday\n"
+    },
+    {
+      "answer": "Thank you for the information. I'll check the available appointment slots for Dr. Peter Tsagkouris on Tuesday. Also, may I know if you prefer a morning or afternoon appointment? And what time would be more convenient for you on Tuesday? This will help me find the best available slot for you."
+    },
+    {
+      "question": "Morning hours preferable from 9am an later\n\\"
+    },
+    {
+      "answer": "The available appointment slots for Tuesday morning start from 8:00 AM. Since you prefer from 9:00 AM onwards, the available slots are: 9:00 AM, 9:30 AM, 10:00 AM, 10:30 AM, 11:00 AM, and 11:30 AM. Please let me know which exact time you would like to book your appointment."
+    },
+    {
+      "question": "9 am is perfect\n"
+    },
+    {
+      "answer": "Your appointment has been scheduled for Tuesday, October 21, 2025, at 9:00 AM with Dr. Peter Tsagkouris. The doctor will assess the white lump around your tonsil area. If you have any more questions or need to reschedule, feel free to ask. Is there anything else I can assist you with?",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "White lump around the tonsil area with swelling, difficulty swallowing, no pain or other symptoms yet",
+        "severity": "appointment",
+        "date": "2025-10-21",
+        "time": "09:00 AM",
+        "icd_10": "R22.0"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Can I schedule one in monday? I don't have any other medical conditions\n"
+    },
+    {
+      "answer": "Unfortunately, Dr. Peter Tsagkouris does not work on Mondays. His working days are Tuesday to Friday. Would you like me to check his available hours on the next working day, which is Tuesday? Also, do you have a preferred time of day for the appointment, such as morning or afternoon?"
+    },
+    {
+      "question": "yes in the morning please\n"
+    },
+    {
+      "answer": "The doctor has several available slots on Tuesday morning for your appointment: 8:00 AM, 8:30 AM, 9:00 AM, 9:30 AM, 10:00 AM, 10:30 AM, 11:00 AM, and 11:30 AM. Which time would you prefer for your appointment?"
+    },
+    {
+      "question": "9:30 am is perfect\n"
+    },
+    {
+      "answer": "Your appointment with Dr. Peter Tsagkouris has been scheduled for Tuesday, October 21, 2025, at 9:30 AM. The doctor will thoroughly evaluate your persistent dysphonia, throat pain, and related symptoms. Is there anything else you would like to ask or any concerns you want to share before your appointment?",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Persistent dysphonia with hoarseness, throat pain, swelling, difficulty speaking, and recent mental health distress including panic attacks. Symptoms ongoing since chest infection and pneumonia earlier this year. Currently on Omeprazole and Gaviscon but no relief. Requires thorough evaluation and management.",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "09:30 AM",
+        "icd_10": "R49.0"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I was suffering from an infection in my tonsil for the past four days. I went to an ENT specialist four days ago. He told me there is an infection and advised me antibiotic.Now my pain in the tonsil has gone, but I am still feeling something stuck in my left side of the throat where there was tonsil pain. I do not have any problem with swallowing. Kindly advise me the needful.\n"
+    },
+    {
+      "answer": "Thank you for sharing your symptoms with me. To better assist you, I would like to ask a few questions: \n1. Did the ENT specialist prescribe a specific antibiotic? If yes, are you currently taking it?\n2. Have you noticed any swelling, redness, or lumps on the left side of your throat?\n3. Do you have any fever or other symptoms like cough or hoarseness?\n4. Are you experiencing any pain or difficulty in opening your mouth?\n5. How severe would you rate the sensation of something stuck in your throat on a scale from 1 to 10?\n6. Do you have any history of frequent throat infections or any chronic conditions?\n7. Would you like to schedule an appointment for a thorough examination to ensure everything is fine?\nYour answers will help me provide the most appropriate advice and care."
+    },
+    {
+      "question": "I feel like a marble is stuck in my nose, i havent' taken any antibiotic or anything, shoud I?\n"
+    },
+    {
+      "answer": "Would you like me to schedule an appointment with Dr. Peter Tsagkouris, the General Surgeon, for a thorough examination of your throat and nose? If yes, please provide your preferred date and time, or I can find the next available slot for you."
+    },
+    {
+      "question": "yes Friday is find any time\n"
+    },
+    {
+      "answer": "On Friday, October 24th, there are many available appointment slots. Please choose a time that suits you best from these options: 08:00 AM, 08:30 AM, 09:00 AM, 09:30 AM, 10:00 AM, 10:30 AM, 11:00 AM, 11:30 AM, 12:00 PM, 12:30 PM, 01:00 PM, 01:30 PM, 02:00 PM, 02:30 PM, 03:00 PM, 03:30 PM, 04:00 PM, 04:30 PM, 05:00 PM, 05:30 PM, 06:00 PM, 06:30 PM."
+    },
+    {
+      "question": "6 pm is fine since I work in the morning\n"
+    },
+    {
+      "answer": "Your appointment with Dr. Peter Tsagkouris has been scheduled for Friday, October 24th at 6:00 PM. If you have any other questions or need further assistance, feel free to ask. Take care!",
+
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Patient complains of a sensation of something stuck in the left side of the throat and a feeling of a marble stuck in the nose following a recent tonsil infection. No antibiotics taken yet. Needs evaluation and possible treatment.",
+        "severity": "appointment",
+        "date": "2025-10-24",
+        "time": "06:00 PM",
+        "icd_10": "J02.9"
+      },
+      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I wanted to know if you could answer one question for me. I experienced an episode that lasted roughly about two to three minutes where I felt that I could not seem to catch my breath and it felt as if my heart had stopped beating. I checked my heart rate roughly three minutes after the incident and it was at 60 bpm and my oxygen was at 99 % under two weeks ago. I had a routine 24 tape which was clear (ectopic beats picked up but were benign). I suffer from anxiety and panic attacks. However, they generally come on during stressful situations. Could this be a panic attack symptom? I also wanted to add that this happened during intercourse (I am a 35-year-old male, height is 174 cm and weight is 100 kg). I look forward to your response and suggestions.\n"
+    },
+    {
+      "answer": "Thank you for sharing these details. It is possible that your symptoms could be related to a panic attack, especially considering your history of anxiety and panic attacks. However, given that this episode occurred during intercourse and involved feeling like your heart had stopped, it is important to rule out any cardiac issues or other medical causes. I recommend scheduling an appointment for a thorough evaluation to ensure your heart health and to discuss your symptoms in detail.\n\nTo proceed, could you please provide me with any current medications you are taking and if you have experienced any similar episodes before? Also, are you currently experiencing any chest pain, dizziness, or shortness of breath outside of this episode? This information will help in assessing your situation better and planning your appointment."
+    },
+    {
+      "question": "No it never happened before. After this episode I did feel some dizziness\n"
+    },
+    {
+      "answer": "Thank you for the additional information. The dizziness following the episode is an important symptom to consider. To ensure your safety and comprehensive evaluation, it would be best to schedule an appointment with Dr. Peter Tsagkouris, the General Surgeon. \n\nWould you like me to help you schedule an appointment? If yes, please let me know if you have any preferred dates or times for the appointment, and if there are any other symptoms or concerns you would like to discuss during the visit."
+    },
+    {
+      "question": "yes as soon as possible\n"
+    },
+    {
+      "answer": "The earliest available appointment with Dr. Peter Tsagkouris is on October 21, 2025. The available times are from 8:00 AM to 6:30 PM in 30-minute intervals. Could you please specify your preferred time for the appointment on that day?"
+    },
+    {
+      "question": "yes 8 am\n"
+    },
+    {
+      "answer": "Your appointment has been scheduled for October 21, 2025, at 8:00 AM with Dr. Peter Tsagkouris. If you have any other questions or need further assistance regarding your health or this appointment, please feel free to ask.",
+
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Episode of breathlessness and feeling heart stopped during intercourse, followed by dizziness. History of anxiety and panic attacks.",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "8:00 AM",
+        "icd_10": "R07.9"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I have been diagnosed with mild hereditary spherocytosis. My eyes still yellow. Is it unlikely hematologist who diagnosed me three years ago misdiagnosed? I do not doubt he knows his stuff. More about me getting worried. I lost weight a couple of months ago. I went very yellow in the eyes. I have always felt tired. I have had gallbladder out four years ago, I bruise easily, I do get little red skin dots at times, menstrual cycles can be irregular and spleen slightly enlarged.\n"
+    },
+    {
+      "answer": "Thank you for sharing your symptoms and history in detail. Given your concerns about hereditary spherocytosis, yellowing of the eyes (which may indicate jaundice), weight loss, fatigue, easy bruising, red skin dots, irregular menstrual cycles, and spleen enlargement, it is important to have a thorough evaluation. \n\nI recommend scheduling an appointment with me so we can review your current condition, do a comprehensive physical examination, and possibly order some blood tests and imaging studies to better understand your situation. \n\nTo proceed, could you please tell me if you would like to schedule an appointment soon? Also, please let me know if you have any specific questions or symptoms you want to focus on during the visit."
+    },
+    {
+      "question": "yes as soon as possible \n"
+    },
+    {
+      "answer": "To schedule your appointment as soon as possible, I need a few more details: \n1. Do you have any preferred date and time for the appointment? \n2. Are you experiencing any severe symptoms currently such as intense abdominal pain, difficulty breathing, or severe weakness? \n3. Would you prefer a morning or afternoon appointment? \n4. Do you have any other health conditions or medications we should be aware of besides the hereditary spherocytosis and your medical history already shared? \n\nThese will help me in arranging the most suitable appointment for you."
+    },
+    {
+      "question": "No other health conditions what is the next available appointment\n"
+    },
+    {
+      "answer": "The next available appointment with Dr. Peter Tsagkouris is on October 21, 2025. There are several time slots available throughout the day starting from 8:00 AM to 6:30 PM. Do you have a preferred time within this day for your appointment?"
+    },
+    {
+      "question": "8 am\n"
+    },
+    {
+      "answer": "Your appointment has been successfully scheduled for October 21, 2025, at 8:00 AM with Dr. Peter Tsagkouris. We will evaluate your symptoms related to mild hereditary spherocytosis, including jaundice, weight loss, fatigue, bruising, and other concerns. \n\nIs there anything else you would like to ask or discuss about your symptoms, medication, or the appointment?",
+
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Evaluation for symptoms related to mild hereditary spherocytosis including jaundice, weight loss, fatigue, easy bruising, red skin dots, irregular menstrual cycles, and spleen enlargement.",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "08:00 AM",
+        "icd_10": "D58.0"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I have red raised rashes in my legs and arms. I used Hydrocortisone cream, but there are no changes in it. Please help.\n"
+    },
+    {
+      "answer": "I am sorry to hear about the red raised rashes on your legs and arms. To help you better and schedule an appointment with Dr. Peter Tsagkouris, I need a bit more information: \n1. How long have you had these rashes?\n2. Are they itchy or painful?\n3. Do you have any other symptoms like fever or swelling?\n4. Have you had similar rashes before?\n5. Are you currently taking any medications?\n\nThis information will help the doctor assess the urgency and prepare for your appointment. Would you like me to check the next available appointment for you?"
+    },
+    {
+      "question": "About a week now they are not hurting but they do itch a lot i havent' taken anything else but the crea,\n"
+    },
+    {
+      "answer": "Thank you for the additional information. Since the rashes have been there for about a week, are itchy, and the Hydrocortisone cream hasn't helped, it is important to have a thorough examination. \n\nWould you like me to find the next available appointment with Dr. Peter Tsagkouris to have this checked? Also, could you please tell me if you have any other skin conditions, allergies, or relevant medical history that the doctor should be aware of?"
+    },
+    {
+      "question": "yes find my an appointment please\n"
+    },
+    {
+      "answer": "To schedule your appointment, can you please tell me if you have a preferred date or time? Also, do you have any urgency for this appointment or should it be a regular appointment? This will help me find the best available slot for you."
+    },
+    {
+      "question": "I have an urgency I want it as soon as possible\n"
+    },
+    {
+      "answer": "The earliest available appointment for Dr. Peter Tsagkouris is on 2025-10-21 at 08:00 AM. I will go ahead and book this appointment for you with the reason being the red itchy rashes that have not improved with Hydrocortisone cream. Is that okay?"
+    },
+    {
+      "question": "yes\n"
+    },
+    {
+      "answer": "Your appointment with Dr. Peter Tsagkouris is scheduled for 2025-10-21 at 08:00 AM regarding the red itchy rashes on your legs and arms. If you have any other questions about the appointment or your treatment, feel free to ask. Is there anything else I can assist you with?",
+
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Red raised rashes on legs and arms, itchy, not improving with Hydrocortisone cream for about a week, urgent consultation requested.",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "08:00 AM",
+        "icd_10": "L29"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hi doctor,I have been suffering from pain on the right side of my abdomen, from the past three days. It pains more when I press my abdomen. The pain is not very severe, and it comes and goes. I thought it is a gastric pain, so I took medicines for it. But, it did not help me get rid of the pain. What to do now?\n"
+    },
+    {
+      "answer": "I'm sorry to hear about the pain you're experiencing. To better assist you, I need to gather some more information. Could you please tell me: 1. Is the pain constant or does it come and go? 2. Do you have any other symptoms like fever, nausea, vomiting, or changes in bowel movements? 3. Have you had any recent injuries or surgeries? 4. Are you currently taking any medications besides the gastric medicines? 5. Do you have any known allergies or chronic conditions? This information will help determine the urgency of your condition and whether you need to schedule an appointment with Dr. Peter Tsagkouris."
+    },
+    {
+      "question": "The pain is constant but i don't hve any other symptoms\n"
+    },
+    {
+      "answer": "Thank you for the information. To provide the best care, I recommend scheduling an appointment with Dr. Peter Tsagkouris to thoroughly examine the pain you're experiencing. When would you prefer to come in for the appointment? Also, do you have any preferences regarding the date and time? This will help me find the next available slot for you."
+    },
+    {
+      "question": "As soon as possible\n"
+    },
+    {
+      "answer": "I will check the next available appointment slot with Dr. Peter Tsagkouris and book it for you as soon as possible. Before I proceed, could you please confirm if the pain is affecting your daily activities or if the pain is increasing in intensity? Also, do you have any known allergies or other medical conditions that might be relevant for the doctor to know during your visit?"
+    },
+    {
+      "question": "Yes it hurts too much\n"
+    },
+    {
+      "answer": "Your appointment with Dr. Peter Tsagkouris has been scheduled for October 21, 2025, at 8:00 AM to evaluate the severe and constant pain on the right side of your abdomen. If you have any other questions or need to reschedule, please let me know. Meanwhile, if the pain worsens or you experience new symptoms such as fever or vomiting, seek immediate medical attention.",
+
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Severe and constant pain on the right side of abdomen, needs urgent evaluation",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "8:00 AM",
+        "icd_10": "R10.31"
+      },
+      "context": ""
+    }
+  ],
+  [
+    {
+      "question": "Hi doctor,My lab tests are as follows:Seven months ago: blood glucose of 105 mg/dl, GTT one hour 160 mg/dl, two hours 118 mg/dl, morning insulin 6.2 \\\\xce\\\\xbcU/ml, HbA1c 5.2 %, A1 6.1 %. This month: BG 110 mg/dl, GTT one hour 184 mg/dl, two hours 115 mg/dl, morning insulin 5.3 \\\\xce\\\\xbcU/ml. Every other blood test within normal ranges. I am male 32 years old 1.86 cm 93 kg 13 to 14 % body fat athletic with healthy nutrition habits. No history of diabetes in the family. Could I be having cancer in pancreas judging from the insulin values you are seeing? I have had many years to do a blood test and with this random one seven months ago. I was told by my doctor that I had to keep monitoring my blood glucose since I could develop diabetes later on, and since I have never had a problem with blood sugar as a kid and no family history of diabetes, I was wondering what might be going on cause insulin levels dropped from my last test and since my diet was pretty much same with healthy choices why is this happening. My doctor for the last seven months kept telling me to calm down and that I do not have anything cause stressing is bad for my blood glucose too. Should I be telling him to get a pancreas MRI done?\n"
+    },
+    {
+      "answer": "Thank you for providing detailed information about your lab results and medical history. Your blood glucose and insulin levels suggest that you are currently being monitored for potential changes in glucose metabolism. While the changes in your insulin levels could be influenced by various factors, including stress, diet, and physical activity, these values alone do not specifically indicate pancreatic cancer. Pancreatic cancer is typically diagnosed based on a range of symptoms and diagnostic imaging tests rather than just blood glucose or insulin levels. It is important to continue monitoring your blood glucose levels regularly as advised. I would suggest discussing your concerns openly with your doctor, including whether additional imaging like a pancreas MRI is needed based on your symptoms and risk factors. Would you like me to help you schedule an appointment with Dr. Peter Tsagkouris to discuss your symptoms and concerns in detail? If so, could you please provide me with the preferred date and time for the appointment?"
+    },
+    {
+      "question": "yes can we have an appointment in tuesdsay\n"
+    },
+    {
+      "answer": "I can help you schedule an appointment on Tuesday with Dr. Peter Tsagkouris. Could you please specify the time you would prefer for the appointment on Tuesday? Morning or afternoon? Also, is there any specific concern or reason you would like to mention for the appointment notes?"
+    },
+    {
+      "question": "Can we do it in 5pm \n"
+    },
+    {
+      "answer": "The appointment can be scheduled for 5:00 PM on Tuesday, October 21, 2025. Please confirm if you would like to proceed and provide the reason or any specific concerns for the appointment notes."
+    },
+    {
+      "question": "yes\n"
+    },
+    {
+      "answer": "Your appointment with Dr. Peter Tsagkouris has been scheduled for Tuesday, October 21, 2025, at 5:00 PM. The appointment will be to discuss your insulin levels, blood glucose monitoring, and your concerns about pancreatic health, including evaluation of the need for further imaging like a pancreas MRI. Is there anything else you would like to prepare or ask before your appointment?",
+
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Discuss insulin levels, blood glucose monitoring, and concerns about pancreatic health. Evaluate the need for further imaging such as pancreas MRI.",
+        "severity": "appointment",
+        "date": "2025-10-21",
+        "time": "05:00 PM",
+        "icd_10": "R73.9"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,Last night, I fell from my bike on my right side as it got slipped while driving. My right hand and right shoulder directly hit the road and cause severe pain on the right side of the abdomen. A local doctor prescribed some medicine and I got relieved from my side pain. I went for an x-ray of the right chest, it was normal. But after 36 hours I am having pain in the right shoulder (scapula) and while sitting, or arising out of bed, or moving hand on the upper side the pain increases a lot. Is it normal or need better medical assistance?\n"
+    },
+    {
+      "answer": "I'm sorry to hear about your injury. It is not uncommon to experience increasing pain in the shoulder area after an injury like yours, but given your symptoms and the location of the pain, it is important to have a thorough medical evaluation to rule out any serious issues such as a fracture or soft tissue injury. To better assist you, could you please provide me with the following information:\n\n1. Have you noticed any swelling, bruising, or deformity in the shoulder area?\n2. Do you experience any numbness or tingling in your arm or hand?\n3. How would you rate your pain on a scale from 1 to 10?\n4. Are you currently taking any medication for the pain?\n5. Do you have any history of shoulder problems or injuries?\n\nBased on your answers, we may need to schedule an appointment for a detailed examination. Please let me know your availability so we can arrange a suitable time."
+    },
+    {
+      "question": "I have some pain around 3 out of 10 but some intense swelling should I take any medication?\n"
+    },
+    {
+      "answer": "Thank you for the information. The presence of intense swelling along with pain is a concern and should be evaluated by a doctor as soon as possible to prevent any complications. Meanwhile, please avoid any movements that cause pain or discomfort in your shoulder. Applying ice packs to the swollen area for 15-20 minutes several times a day can help reduce swelling. \n\nDo you have any allergies to medications or any existing medical conditions? Also, are you currently taking any medications? \n\nIt would be best to schedule an appointment for a physical examination and possibly further imaging to determine the extent of the injury. When would be a convenient time for you to come to the clinic?"
+    },
+    {
+      "question": "No I don't have any medical conditions, can I come to the clniic now?\n"
+    },
+    {
+      "answer": "The clinic is currently closed as it is 9:43 PM, and the doctor's working hours are from 8:00 AM to 7:00 PM on Tuesday to Friday. I recommend scheduling an appointment for the earliest available time during the doctor's working days. Would you like me to check the next available appointment for you? Also, if your pain worsens or you experience other symptoms like difficulty breathing, severe swelling, or numbness, please seek emergency medical care immediately."
+    },
+    {
+      "question": "Ok schedule the appointment as soon as possible\n"
+    },
+    {
+      "answer": "The earliest available appointment is on Tuesday, October 21st, starting at 8:00 AM. I will proceed to schedule your appointment for that time. Could you please confirm if the description \"Right shoulder and scapula pain with swelling after a bike accident\" and the ICD-10 code S43.4 (Sprain and strain of shoulder joint) are accurate for your condition?"
+    },
+    {
+      "question": "yes\n"
+    },
+    {
+      "answer": "Your appointment has been scheduled for Tuesday, October 21st at 8:00 AM with Dr. Peter Tsagkouris for your right shoulder and scapula pain with swelling after the bike accident. If you have any other questions or need further assistance, feel free to ask. Meanwhile, continue to avoid movements that cause pain and use ice packs to reduce swelling.",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Right shoulder and scapula pain with swelling after a bike accident",
+        "date": "2025-10-21",
+        "time": "08:00 AM",
+        "icd_10": "S43.4"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,So, I have hives, also known as chronic urticaria. Basically, I break out when the climate I am in is hot, or when I exercise. I visited my family doctor and he told me to get a blood test and he also gave me a Cetirizine (Zyrtec) prescription which is 20 mg. I have been taking this medication for about four days now, and I still get these itchy hives. If I were to get a blood test, will the doctor be able to prescribe the right medication, so I can get rid of these annoying hives?\n"
+    },
+    {
+      "answer": "Thank you for sharing the details about your condition. I have a few questions to better assist you: \n1. Have you noticed any other symptoms aside from the hives, such as swelling or difficulty breathing?\n2. Are you currently on any other medications besides Cetirizine?\n3. Do you have any known allergies, especially to medications or environmental factors?\n4. How severe is the itching and hives? Is it affecting your daily activities or sleep?\n5. When would you like to schedule an appointment for a thorough examination and to discuss potential blood tests and treatments?\n6. Have you tried any other treatments or remedies so far?\n\nRegarding your question, a blood test can help identify underlying causes or triggers of chronic urticaria, and based on the results, the doctor can prescribe the most effective medication. If needed, we can schedule an appointment for you to discuss this further and to explore treatment options."
+    },
+    {
+      "question": "No i don't have any othe symptoms and I don't any other meidcations I would an appointment through\n"
+    },
+    {
+      "answer": "Thank you for the information. To schedule your appointment, could you please provide me with the following details:\n1. Preferred date and time for the appointment?\n2. Any specific concerns or additional symptoms you would like to discuss during the appointment?\n3. Is this your first time seeing Dr. Peter Tsagkouris for this issue?\n\nThis will help to schedule your appointment effectively."
+    },
+    {
+      "question": "Is friday at 2pm available\n"
+    },
+    {
+      "answer": "Friday at 2:00 PM is available for an appointment. Would you like me to go ahead and schedule it for you? Also, please confirm if you want me to note down your condition as chronic urticaria and the need for blood tests and further evaluation for treatment."
+    },
+    {
+      "question": "yes I don't have any other notes\n"
+    },
+    {
+      "answer": "Your appointment for chronic urticaria evaluation and discussion about blood tests and treatment options has been scheduled for Friday, October 24, 2025, at 2:00 PM with Dr. Peter Tsagkouris. If you have any other questions or need to reschedule, feel free to ask.",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Appointment for chronic urticaria (hives) evaluation and discussion about blood tests and treatment options.",
+        "date": "2025-10-24",
+        "time": "02:00 PM",
+        "icd_10": "L50"
+      },
+      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I recently have noticed a slight blurriness in my right eye. It is only noticeable when I close my left eye, and so I am not sure how long it has taken for this to develop. I am going to see an optometrist and doctor early next week but am currently on the road for work.My main question is that when I look out of the corner of my right eye the blurriness seems to subside and I can see usually. I am wondering if this is a good sign. I have been dealing with severe anxiety the past couple months, and I am worried that might have raised my blood pressure enough to hurt my eyesight.Eyesight when looking with both eyes seems to be normal. I have also noticed floaters in my eyes. Kindly help.\n"
+    },
+    {
+      "answer": "Thank you for sharing your symptoms. To better assist you, could you please provide some additional information? Have you experienced any pain or discomfort in your eyes? Are you currently taking any medication for your anxiety or blood pressure? Do you have a history of any eye conditions or recent injuries? Have you noticed any other symptoms such as headaches, dizziness, or changes in your overall vision? Also, do you want to schedule an appointment with Dr. Peter Tsagkouris for a thorough examination of your symptoms? If so, please let me know your preferred date and time for the appointment."
+    },
+    {
+      "question": "Yes I have some pain in my eye mostly when I wake up. I dont' remember having any other symptoms or conditiion in the past\n"
+    },
+    {
+      "answer": "Thank you for the information. To proceed, would you like me to help you schedule an appointment with Dr. Peter Tsagkouris to further investigate your symptoms, including the eye pain and blurriness? If yes, please let me know your preferred date and time for the appointment, or if you want me to find the next available slot for you. Also, do you have any preferences or important information I should note for the doctor regarding your anxiety or blood pressure treatment?"
+    },
+    {
+      "question": "Yes I would like an appointment for saturday\n"
+    },
+    {
+      "answer": "Dr. Peter Tsagkouris works from Tuesday to Friday and is not available on Saturdays. Would you like me to find the next available appointment for you between Tuesday and Friday? Also, please let me know if you have any preference for the time of the appointment."
+    },
+    {
+      "question": "Okay thurday then at 11am\n"
+    },
+    {
+      "answer": "Your appointment with Dr. Peter Tsagkouris has been scheduled for Thursday, October 23rd at 11:00 AM. The appointment is to address the blurriness and pain in your right eye, presence of floaters, possible blood pressure-related issues, and effects of anxiety. If you have any other questions or need further assistance, please let me know.",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Blurriness and pain in right eye, presence of floaters, possible blood pressure related issues, anxiety effects",
+        "date": "2025-10-23",
+        "time": "11:00 AM",
+        "severity": "emergency",
+        "icd_10": "H53.8"
+      },
+      "context": "The available hours for appointments for the date 2025-10-23 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I sustained an injury recently and I had an X-ray. The X-ray shows I have an intraarticular fracture of the right fifth metacarpal with significant ulnar displacement for consideration of ORIF. I went to my local hospital and they did a CT Scan. They sent me home and said to wait for their call to be seen at the Fracture Clinic. I have only buddy taping on my little and next finger. People are telling me it should be strapped or cast right away. I am worried.\n"
+    },
+    {
+      "answer": "I understand your concern about the intraarticular fracture of your right fifth metacarpal. To assist you better and provide the appropriate care, I would like to ask a few questions:\n1. When did the injury occur?\n2. Are you experiencing severe pain, numbness, or loss of function in your hand or fingers?\n3. Do you have any other medical conditions that might affect your healing?\n4. Are you currently on any medications?\n5. Would you like to schedule an appointment to have your injury evaluated and discuss the treatment options?\n\nPlease provide these details so I can help you further."
+    },
+    {
+      "question": "About a week ago and I do feel some numbness in my fingers I think I would like an appointment\n"
+    },
+    {
+      "answer": "Thank you for the information. The numbness in your fingers is something we should evaluate as soon as possible. Could you please let me know if you have any preferred days or times for the appointment? Also, do you have any allergies or other health issues I should be aware of before the appointment?"
+    },
+    {
+      "question": "What about wednesday on 10am\n"
+    },
+    {
+      "answer": "Wednesday at 10:00 AM is available for an appointment. I will proceed to schedule your appointment with Dr. Peter Tsagkouris for the evaluation of your intraarticular fracture of the right fifth metacarpal and associated symptoms. Before I do, can you please confirm if you have any allergies or other health issues, and if you have any preference for follow-up or specific things to discuss during the appointment?"
+    },
+    {
+      "question": "No nothing else\n"
+    },
+    {
+      "answer": "Your appointment has been scheduled for Wednesday, October 22, 2025, at 10:00 AM with Dr. Peter Tsagkouris. The appointment is for the evaluation and treatment of your intraarticular fracture of the right fifth metacarpal along with the numbness in your fingers.\n\nIf you have any other questions or need further assistance before your appointment, please feel free to ask.",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Evaluation and treatment of intraarticular fracture of right fifth metacarpal with numbness in fingers, consideration for ORIF",
+        "date": "2025-10-22",
+        "time": "10:00 AM",
+        "icd_10": "S62.3"
+      },
+      "context": "The available hours for appointments for the date 2025-10-22 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I think a spider went up to my right nostril yesterday morning and I am worried about it and frightened. Since then, my nose has been blocked and sore.\n"
+    },
+    {
+      "answer": "I'm sorry to hear that you are experiencing this discomfort. To help you better, I need to ask a few questions:\n1. Have you tried any remedies or visited a doctor since this incident?\n2. Are you experiencing any other symptoms like difficulty breathing, swelling, or bleeding?\n3. Do you have any known allergies or chronic nasal conditions?\n4. Is the pain in your nose continuous or does it come and go?\n5. Are you currently taking any medications?\n\nBased on your answers, I can assist you in scheduling an appointment if necessary."
+    },
+    {
+      "question": "No i haven;t taken anything since then and I haven't been checked. I do have some breathing difficulty since my nose is blocked but other than that it's ok\n"
+    },
+    {
+      "answer": "Thank you for the information. Since you are experiencing breathing difficulty due to the blocked nose and soreness after the spider incident, it would be advisable to have a medical examination promptly. Would you like me to schedule an appointment for you with Dr. Peter Tsagkouris, our General Surgeon? If yes, please let me know your preferred date and time or if you would like me to find the earliest available slot for you."
+    },
+    {
+      "question": "yes I would prefer friday\n"
+    },
+    {
+      "answer": "We have several available appointment times on Friday, October 24th. Here are some options: 08:00 AM, 08:30 AM, 09:00 AM, 09:30 AM, 10:00 AM, 10:30 AM, 11:00 AM, 11:30 AM, 12:00 PM, 12:30 PM, 01:00 PM, 01:30 PM, 02:00 PM, 02:30 PM, 03:00 PM, 03:30 PM, 04:00 PM, 04:30 PM, 05:00 PM, 05:30 PM, 06:00 PM, 06:30 PM.\nPlease tell me your preferred time for the appointment."
+    },
+    {
+      "question": "9 am si fine\n"
+    },
+    {
+      "answer": "Your appointment has been scheduled for Friday, October 24th at 09:00 AM with Dr. Peter Tsagkouris regarding the spider incident in your right nostril. If you have any other questions or need to reschedule, feel free to ask. Is there anything else I can assist you with today?",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Spider in right nostril causing blockage, soreness, and breathing difficulty",
+        "severity": "emergency",
+        "date": "2025-10-24",
+        "time": "09:00 AM",
+        "icd_10": "T63.7X1A"
+      },
+      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,A few months before, I developed a gastric issue that required treatment with PPIs. Soon into using the drugs I developed headaches, dizziness, and nausea. I changed the type of PPI three times but the symptoms persisted. The symptoms included a feeling of pressure above my right ear and behind my right eye. Later, I came off the PPIs and after using over the counter headache painkillers for three days the severity of the headaches eased. But the feeling of pressure remains to this day on the right side of the face. I often feel heavy head or even light-headed with a slight dizziness, often as if I am hung over. The symptoms come and go, but are there every day for differing periods of time. And the constant is this feeling of slight pressure on the right side of my head above the ear and extending sometimes down to the cheek and behind the right eye.\n"
+    },
+    {
+      "answer": "I understand that you have been experiencing persistent pressure and discomfort on the right side of your head, accompanied by dizziness and light-headedness. To better assist you and possibly schedule an appointment, may I ask a few questions? 1. How long have you been experiencing these symptoms? 2. Have you noticed any specific triggers that worsen or relieve the symptoms? 3. Did you have any other medical conditions or previous surgeries related to your head or ear area? 4. Are you currently taking any medication or supplements other than the PPIs and painkillers? 5. Would you like to schedule a consultation with Dr. Peter Tsagkouris to further evaluate your condition and discuss potential treatment options? 6. Do you have any preference for the date and time of the appointment? Your answers will help provide better care and recommendations."
+    },
+    {
+      "question": "I have symptoms for aobut 1 month, I have notice anything triggering these symptoms but I would like an appointment\n"
+    },
+    {
+      "answer": "Thank you for the information. To schedule your appointment, could you please let me know if you have any preferred date and time for the visit to Dr. Peter Tsagkouris? Also, do you consider your symptoms urgent or can this be a regular appointment? Additionally, is there any other relevant information or concerns you would like the doctor to be aware of during your appointment?"
+    },
+    {
+      "question": "Thurday if possible any hour is fine\n"
+    },
+    {
+      "answer": "The next available Thursday for an appointment with Dr. Peter Tsagkouris is on 2025-10-23. There are several time slots available throughout the day starting from 08:00 AM to 06:30 PM. Do you have a preferred time slot for your appointment, or should I book the earliest available time for you? Also, please confirm if this is a regular appointment so I can proceed with the booking."
+    },
+    {
+      "question": "8 am is good\n"
+    },
+    {
+      "answer": "Your appointment with Dr. Peter Tsagkouris has been scheduled for October 23, 2025, at 8:00 AM. If you have any more questions or need assistance with anything else, please feel free to ask. Wishing you the best for your upcoming consultation!",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Persistent pressure on the right side of the head, headaches, dizziness, and light-headedness possibly related to previous PPI usage",
+        "severity": "appointment",
+        "date": "2025-10-23",
+        "time": "08:00 AM",
+        "icd_10": "R51"
+      },
+      "context": "The available hours for appointments for the date 2025-10-23 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hi doctor,I am suffering from a mild cold and severe clogging of ears. I am taking Afrin spray for an hour and one pill of Sudafed. I developed a similar condition of cold and sinus infection before six months. I had severe clogging of ears. I was given Amoxicillin for five days and Prednisone 5 mg. My ENT doctor examined my ears and told me that there was no issue with the eardrum. He diagnosed it as eustachian tube issue. Please help.\n"
+    },
+    {
+      "answer": "Thank you for sharing your symptoms and medical history. To better assist you, could you please answer a few questions?\n1. How long have you been experiencing the cold and ear clogging symptoms this time?\n2. Are you experiencing any fever, pain, or discharge from the ears?\n3. Do you have any allergies to medications?\n4. Have you noticed any hearing loss or dizziness?\n5. Are you currently taking any other medications besides Afrin spray and Sudafed?\n6. Would you like to schedule an appointment for a thorough examination and personalized treatment plan?\nThis information will help me to provide you with the best possible care."
+    },
+    {
+      "question": "I have these symptoms for about one week and I have some dizziness in the mornings. I would like to schedule an appointment as soon as possible\n"
+    },
+    {
+      "answer": "Thank you for the information. To schedule your appointment, could you please provide me with the following details?\n1. Your full name and email address for the appointment booking.\n2. Your preferred date and time for the appointment, or if you want me to find the earliest available slot for you.\n3. Any specific concerns or questions you want to address during the appointment besides the current symptoms.\nThis will help me to book your appointment accordingly."
+    },
+    {
+      "question": "John Doe, tsagouris500@gmail.com. Afternoon any day is fine\n"
+    },
+    {
+      "answer": "The earliest available hours for an appointment on October 21, 2025, are from 8:00 AM to 6:30 PM. You mentioned that afternoon any day is fine, so would you prefer an appointment on October 21 in the afternoon, such as at 12:00 PM or later? Please confirm your preferred time on that day or if you want me to check for another day."
+    },
+    {
+      "question": "5pm is perfect\n"
+    },
+    {
+      "answer": "Your appointment has been scheduled for October 21, 2025, at 5:00 PM with Dr. Peter Tsagkouris. The appointment is for your mild cold with severe ear clogging and dizziness, possibly related to eustachian tube dysfunction. If you have any other questions or need further assistance, please feel free to ask.",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Mild cold with severe ear clogging and dizziness, possible eustachian tube dysfunction",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "05:00 PM",
+        "icd_10": "J00"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,My body is getting severe itching after taking a bath or while sweating. Initially, it used to happen only in winter 4 to 5 years back and then gradually started in rainy days also. Now in summer also while sweating. It is so irritating like that I am going to be mad. I have stopped using soap and also took Clonafit 0.25 mg and Betonix- 10 prescribed by a dermatologist but there is no improvement. Please help me out of this.\n"
+    },
+    {
+      "answer": "I am sorry to hear about the severe itching you are experiencing. To better assist you, I would like to schedule an appointment with Dr. Peter Tsagkouris. Could you please provide me with the following details?\n\n1. Your full name and email address for the appointment.\n2. Your preferred date and time for the appointment.\n3. Any additional symptoms or relevant medical history related to this issue.\n\nAlso, have you noticed any specific triggers other than bathing or sweating that worsen the itching?\n\nThis information will help in scheduling your appointment and preparing the doctor for your visit."
+    },
+    {
+      "question": "John Doe tsagouris500@gmail.com, I have no other symptoms. Morning times are preferable\n"
+    },
+    {
+      "answer": "Thank you for the information, John Doe. I will now check Dr. Peter Tsagkouris' available morning appointment slots and book the earliest available time for you. Before I proceed, could you please let me know if this itching condition is causing you significant distress or if it has affected your daily activities? This will help me determine the severity of your appointment."
+    },
+    {
+      "question": "Yes it's quite intense for the whole day\n"
+    },
+    {
+      "answer": "Your appointment with Dr. Peter Tsagkouris is scheduled for October 21, 2025, at 8:00 AM. The reason for the appointment is severe itching after bathing and sweating, which has worsened over the years with no improvement from previous treatments. If you have any more questions or need further assistance, please let me know.",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Severe itching after bath and sweating, worsening over years, no improvement with previous treatment. Requires urgent consultation.",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "08:00 AM",
+        "icd_10": "L29.9"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,Some mornings during the week I get a quick flash of numbness over my left temple. It is never at night or during the day. It can happen more than once sometimes. If I move, roll over, or get up, I can make it stop. It does not hurt and is very fast. What does this sound like?\n"
+    },
+    {
+      "answer": "The quick flash of numbness over your left temple that you experience some mornings could be due to several possible causes such as nerve irritation, muscle spasms, or vascular issues. However, it's important to get a proper examination to determine the exact cause. To better assist you, could you please answer a few questions?\n\n1. How long has this been happening?\n2. Do you have any other associated symptoms like headaches, dizziness, or vision changes?\n3. Have you experienced any recent head injuries?\n4. Do you have any history of migraines or neurological conditions?\n5. Are you currently taking any medications?\n\nAlso, would you like to schedule an appointment to have this checked by Dr. Peter Tsagkouris?"
+    },
+    {
+      "question": "This is happening for about 2 weeks now, I dont' remember having any related injuries but I do get a lot of headaches lately\n"
+    },
+    {
+      "answer": "Thank you for the information. The headaches along with the numbness flashes could be related and warrant a thorough examination. Could you please tell me:\n\n1. Are the headaches localized to a specific area or general?\n2. How severe are the headaches on a scale of 1 to 10?\n3. Do the headaches occur before, after, or during the numbness episodes?\n4. Do you experience any nausea, vomiting, or sensitivity to light during headaches?\n5. Do you have any family history of migraines or neurological disorders?\n\nWould you like me to schedule an appointment for you with Dr. Peter Tsagkouris to evaluate your symptoms?"
+    },
+    {
+      "question": "I would say the pain is about a 6-7 and the headaches only happen after the numbness\n"
+    },
+    {
+      "answer": "Thank you for sharing more details. Since the headaches follow the numbness and are moderately severe, it is important to have a medical evaluation to rule out any serious conditions and to manage your symptoms effectively.\n\nWould you like me to schedule an appointment for you with Dr. Peter Tsagkouris? If yes, please let me know if you have any preferred date and time for the visit. Additionally, do you have any other symptoms like visual disturbances, weakness, or difficulty speaking?"
+    },
+    {
+      "question": "Yes at the next available hour\n"
+    },
+    {
+      "answer": "Dr. Peter Tsagkouris is not working on October 20, 2025. The next available working day for the doctor is October 21, 2025. Would you like me to book an appointment for you on that day? If yes, do you have any preferred time or should I select the earliest available hour for you?"
+    },
+    {
+      "question": "Yes 21 is fine the earliest available hour please\n"
+    },
+    {
+      "answer": "Your appointment has been scheduled with Dr. Peter Tsagkouris on October 21, 2025, at 8:00 AM. If you have any other questions or need further assistance, feel free to ask. Also, if you need information about your current medication or how to get it, I am here to help.",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Frequent flashes of numbness over left temple followed by moderate headaches.",
+        "severity": "appointment",
+        "date": "2025-10-21",
+        "time": "08:00 AM",
+        "icd_10": "R20.2"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I need advice after my second CT chest result. Six months back, I went for a CT scan because I have got chest pain which suddenly comes and goes and I wanted to go for a check-up. The CT showed a right-sided nodule measuring 3 mm and was advised to RPT interval scan in six months. I have done the second CT, the previous nodule is still there and they found another one.In the LLL, a 4 mm nodule is representative of an intrapulmonary lymph node. No suspicious lung lesion. Tiny 3 mm RLL nodule noted. No enlarged lymph nodes. Mild thymic hyperplasia. The partly visualized upper abdominal viscera appear unremarkable. No aggressive bony lesion. They said I do not need to do anything which is strange because there are two nodes now and the second one was not there six months ago. Do I need some kind of medicine therapy to clear my lung from this node or do I need to check if it is growing or not after one year?\n"
+    },
+    {
+      "answer": "Thank you for sharing your CT results. It is good that the report indicates no suspicious lung lesions or enlarged lymph nodes, and the findings point to mild thymic hyperplasia and an intrapulmonary lymph node, which are often benign. However, given your symptoms of chest pain and the presence of lung nodules, it would be prudent to further evaluate and monitor the condition closely. I recommend scheduling an appointment with the doctor to discuss your symptoms and the CT scan findings in detail. We can also plan a follow-up imaging schedule to monitor the nodules for any changes. Do you have any other symptoms like cough, fever, weight loss, or difficulty breathing? Would you like me to help you book an appointment for this consultation? Also, please let me know your preferred dates and times."
+    },
+    {
+      "question": "I do have some difficulty breathing I would like the appointment in the afternoon because I work in the morning\n"
+    },
+    {
+      "answer": "Thank you for the information. Before scheduling the appointment, may I ask if there are any other symptoms such as cough, fever, or any history of smoking or other lung conditions? Also, do you have any preference for the day of the week for the appointment in the afternoon? The doctor is available from Tuesday to Friday between 8:00 AM and 7:00 PM. This will help me find the best suitable time for you."
+    },
+    {
+      "question": "Tuesday is fine 5pm\n"
+    },
+    {
+      "answer": "Your appointment has been scheduled for Tuesday, October 21, 2025, at 5:00 PM with Dr. Peter Tsagkouris. Please prepare to discuss your chest pain, lung nodules, and difficulty breathing during the consultation. If you have any other questions or need further assistance, feel free to ask.",
+      "param": {
+        "date": "2025-10-21",
+        "description": "Patient with chest pain, presence of lung nodules on CT scan, difficulty breathing, needs consultation and evaluation for possible follow-up and treatment.",
+        "email": "tsagouris500@gmail.com",
+        "fullname": "John Doe",
+        "icd_10": "R07.9",
+        "severity": "emergency",
+        "time": "05:00 PM"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I just got one side of my wisdom teeth removed both upper and lower six days ago, and I have another one scheduled after two days for the left side. The upper is 100 % fine, which they pulled. The lower they pulled the tooth without removing the root because it was too close to the nerve. I do have some stitching in this area currently on the lower cheek. Noticed a hard lump about 1 inch between my lower jawline and cheek area. Is this normal because of swelling or something else. Currently taking Amoxicillin 500 mg and Ibuprofen 600 mg. Please let me know what this hard lump is, also generally on the lower side where this lump is, remains sore.\n"
+    },
+    {
+      "answer": "Thank you for sharing the details about your recent wisdom teeth removal. I have a few questions to better understand your condition:\n1. Is the hard lump painful to touch or is it just a firm swelling?\n2. Have you noticed any redness or warmth around the lump?\n3. Are you experiencing any fever or other systemic symptoms?\n4. How has the pain been since the surgery, and is the soreness increasing or decreasing?\n5. Have you experienced any difficulty opening your mouth or swallowing?\n6. Have you followed the post-operative care instructions given to you after the surgery?\n\nBased on your responses, I can provide more specific advice or schedule an appointment if necessary."
+    },
+    {
+      "question": "I have some fever and it definitely hurts when touching. Regarding the pain I would say it's stll the same from the day of the surgery\n"
+    },
+    {
+      "answer": "Thank you for the additional information. The presence of fever, pain upon touching the lump, and persistent pain since the surgery could indicate an infection or other complications such as an abscess. It is important to have this evaluated as soon as possible.\n\nWould you like me to help you schedule an emergency appointment with Dr. Peter Tsagkouris for a thorough examination and appropriate treatment? Also, could you please specify the earliest date and time you are available for the appointment?"
+    },
+    {
+      "question": "I don't have any specific time as soon as possible would be the best\n"
+    },
+    {
+      "answer": "I have scheduled an emergency appointment for you with Dr. Peter Tsagkouris on October 21, 2025, at 8:00 AM to evaluate the painful lump and fever after your wisdom teeth removal. Please make sure to continue your prescribed medication and if symptoms worsen, seek immediate medical attention. Is there anything else you would like to ask or discuss?",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Possible infection or abscess after wisdom teeth removal with fever and painful lump in lower jaw area.",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "8:00 AM",
+        "icd_10": "K08.8"
+      },
+      "context": ""
+    }
+  ],
+  [
+    {
+      "question": "Hello doctor,I had mumps five months ago and after that, I started to have an infection in my left testes. It was swollen and now it has shrunk to almost half the size of the other one. As I am sexually active, I feel a pain in each of the vas deferens after sex. If I do not have sex for days, they become sensitive. I was treated with Ceftum 500 mg, the first time I had an infection. Now my question is, is there any chance that the infection is still in my body? And, do I need to get examined for it? For the time being, please suggest some precautionary antibiotics for my relief.\n"
+    },
+    {
+      "answer": "Thank you for sharing your symptoms and history. It is important to evaluate the possibility of a persistent or recurrent infection, especially given your symptoms of pain in the vas deferens and testicular changes after the mumps infection. To provide the best care, I recommend scheduling an appointment for a thorough examination and possibly some tests to determine the current status of the infection.\n\nBefore arranging the appointment, may I ask a few questions? \n1. Have you noticed any fever, chills, or other systemic symptoms recently?\n2. Any discharge or unusual symptoms during urination?\n3. Have you had any recent sexual partners or changes in sexual activity?\n4. Are you currently taking any medications or antibiotics?\n5. Do you have any allergies to medications, especially antibiotics?\n\nAnswering these questions will help in assessing the urgency and the best course of action including antibiotic treatment if needed. Would you like me to help you book an appointment with Dr. Peter Tsagkouris for a detailed examination?"
+    },
+    {
+      "question": "I have only noticed a small pain during urination\n"
+    },
+    {
+      "answer": "Thank you for the information. The pain during urination could indicate a urinary tract or reproductive tract infection that needs medical evaluation. To proceed, I suggest scheduling an appointment with Dr. Peter Tsagkouris to perform a thorough examination and possibly order urine tests or ultrasound to assess the condition. \n\nWould you prefer a morning or afternoon appointment? Also, do you have any preferred day from Tuesday to Friday as Dr. Tsagkouris is available on these days? This will help me find the earliest available slot for you."
+    },
+    {
+      "question": "Tuesday is fine in the morning\n"
+    },
+    {
+      "answer": "The earliest available appointment on Tuesday morning, October 21, 2025, with Dr. Peter Tsagkouris is at 08:00 AM. Shall I book this time slot for you? Also, can you please confirm if the reason for your appointment is to evaluate the persistent or recurrent infection and pain in your left testis and vas deferens after mumps infection and pain during urination? This will help categorize the appointment accurately."
+    },
+    {
+      "question": "Yes\n"
+    },
+    {
+      "answer": "Your appointment for evaluation of persistent infection and pain in your left testis and vas deferens after mumps infection, along with pain during urination, has been scheduled with Dr. Peter Tsagkouris on Tuesday, October 21, 2025, at 08:00 AM. If you have any more questions or need further assistance, please let me know.",
+      "param": {
+        "fullname": "John Doe",
+        "email": "tsagouris500@gmail.com",
+        "description": "Evaluation of persistent/recurrent infection and pain in left testis and vas deferens after mumps infection, with pain during urination.",
+        "severity": "emergency",
+        "date": "2025-10-21",
+        "time": "08:00 AM",
+        "icd_10": "N45.9"
+      },
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    }
+  ]
+]
