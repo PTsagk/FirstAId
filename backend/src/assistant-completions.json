@@ -1,6 +1,9 @@
 [
   [
     {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
+    {
       "question": "Hi doctor, I have one white lump around the tonsil area in my throat. It has been there a good few months now and the area is swollen. Is this cancer?\n"
     },
     {
@@ -31,11 +34,13 @@
         "date": "2025-10-21",
         "time": "09:00 AM",
         "icd_10": "R22.0"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Can I schedule one in monday? I don't have any other medical conditions\n"
     },
@@ -61,11 +66,13 @@
         "date": "2025-10-21",
         "time": "09:30 AM",
         "icd_10": "R49.0"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I was suffering from an infection in my tonsil for the past four days. I went to an ENT specialist four days ago. He told me there is an infection and advised me antibiotic.Now my pain in the tonsil has gone, but I am still feeling something stuck in my left side of the throat where there was tonsil pain. I do not have any problem with swallowing. Kindly advise me the needful.\n"
     },
@@ -98,11 +105,13 @@
         "date": "2025-10-24",
         "time": "06:00 PM",
         "icd_10": "J02.9"
-      },
-      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I wanted to know if you could answer one question for me. I experienced an episode that lasted roughly about two to three minutes where I felt that I could not seem to catch my breath and it felt as if my heart had stopped beating. I checked my heart rate roughly three minutes after the incident and it was at 60 bpm and my oxygen was at 99 % under two weeks ago. I had a routine 24 tape which was clear (ectopic beats picked up but were benign). I suffer from anxiety and panic attacks. However, they generally come on during stressful situations. Could this be a panic attack symptom? I also wanted to add that this happened during intercourse (I am a 35-year-old male, height is 174 cm and weight is 100 kg). I look forward to your response and suggestions.\n"
     },
@@ -126,7 +135,6 @@
     },
     {
       "answer": "Your appointment has been scheduled for October 21, 2025, at 8:00 AM with Dr. Peter Tsagkouris. If you have any other questions or need further assistance regarding your health or this appointment, please feel free to ask.",
-
       "param": {
         "fullname": "John Doe",
         "email": "tsagouris500@gmail.com",
@@ -135,11 +143,13 @@
         "date": "2025-10-21",
         "time": "8:00 AM",
         "icd_10": "R07.9"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I have been diagnosed with mild hereditary spherocytosis. My eyes still yellow. Is it unlikely hematologist who diagnosed me three years ago misdiagnosed? I do not doubt he knows his stuff. More about me getting worried. I lost weight a couple of months ago. I went very yellow in the eyes. I have always felt tired. I have had gallbladder out four years ago, I bruise easily, I do get little red skin dots at times, menstrual cycles can be irregular and spleen slightly enlarged.\n"
     },
@@ -172,11 +182,13 @@
         "date": "2025-10-21",
         "time": "08:00 AM",
         "icd_10": "D58.0"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I have red raised rashes in my legs and arms. I used Hydrocortisone cream, but there are no changes in it. Please help.\n"
     },
@@ -215,11 +227,13 @@
         "date": "2025-10-21",
         "time": "08:00 AM",
         "icd_10": "L29"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": ""
+    },
     {
       "question": "Hi doctor,I have been suffering from pain on the right side of my abdomen, from the past three days. It pains more when I press my abdomen. The pain is not very severe, and it comes and goes. I thought it is a gastric pain, so I took medicines for it. But, it did not help me get rid of the pain. What to do now?\n"
     },
@@ -252,11 +266,13 @@
         "date": "2025-10-21",
         "time": "8:00 AM",
         "icd_10": "R10.31"
-      },
-      "context": ""
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hi doctor,My lab tests are as follows:Seven months ago: blood glucose of 105 mg/dl, GTT one hour 160 mg/dl, two hours 118 mg/dl, morning insulin 6.2 \\\\xce\\\\xbcU/ml, HbA1c 5.2 %, A1 6.1 %. This month: BG 110 mg/dl, GTT one hour 184 mg/dl, two hours 115 mg/dl, morning insulin 5.3 \\\\xce\\\\xbcU/ml. Every other blood test within normal ranges. I am male 32 years old 1.86 cm 93 kg 13 to 14 % body fat athletic with healthy nutrition habits. No history of diabetes in the family. Could I be having cancer in pancreas judging from the insulin values you are seeing? I have had many years to do a blood test and with this random one seven months ago. I was told by my doctor that I had to keep monitoring my blood glucose since I could develop diabetes later on, and since I have never had a problem with blood sugar as a kid and no family history of diabetes, I was wondering what might be going on cause insulin levels dropped from my last test and since my diet was pretty much same with healthy choices why is this happening. My doctor for the last seven months kept telling me to calm down and that I do not have anything cause stressing is bad for my blood glucose too. Should I be telling him to get a pancreas MRI done?\n"
     },
@@ -289,11 +305,13 @@
         "date": "2025-10-21",
         "time": "05:00 PM",
         "icd_10": "R73.9"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,Last night, I fell from my bike on my right side as it got slipped while driving. My right hand and right shoulder directly hit the road and cause severe pain on the right side of the abdomen. A local doctor prescribed some medicine and I got relieved from my side pain. I went for an x-ray of the right chest, it was normal. But after 36 hours I am having pain in the right shoulder (scapula) and while sitting, or arising out of bed, or moving hand on the upper side the pain increases a lot. Is it normal or need better medical assistance?\n"
     },
@@ -330,11 +348,13 @@
         "date": "2025-10-21",
         "time": "08:00 AM",
         "icd_10": "S43.4"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,So, I have hives, also known as chronic urticaria. Basically, I break out when the climate I am in is hot, or when I exercise. I visited my family doctor and he told me to get a blood test and he also gave me a Cetirizine (Zyrtec) prescription which is 20 mg. I have been taking this medication for about four days now, and I still get these itchy hives. If I were to get a blood test, will the doctor be able to prescribe the right medication, so I can get rid of these annoying hives?\n"
     },
@@ -365,11 +385,13 @@
         "date": "2025-10-24",
         "time": "02:00 PM",
         "icd_10": "L50"
-      },
-      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-23 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I recently have noticed a slight blurriness in my right eye. It is only noticeable when I close my left eye, and so I am not sure how long it has taken for this to develop. I am going to see an optometrist and doctor early next week but am currently on the road for work.My main question is that when I look out of the corner of my right eye the blurriness seems to subside and I can see usually. I am wondering if this is a good sign. I have been dealing with severe anxiety the past couple months, and I am worried that might have raised my blood pressure enough to hurt my eyesight.Eyesight when looking with both eyes seems to be normal. I have also noticed floaters in my eyes. Kindly help.\n"
     },
@@ -401,11 +423,13 @@
         "time": "11:00 AM",
         "severity": "emergency",
         "icd_10": "H53.8"
-      },
-      "context": "The available hours for appointments for the date 2025-10-23 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-22 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I sustained an injury recently and I had an X-ray. The X-ray shows I have an intraarticular fracture of the right fifth metacarpal with significant ulnar displacement for consideration of ORIF. I went to my local hospital and they did a CT Scan. They sent me home and said to wait for their call to be seen at the Fracture Clinic. I have only buddy taping on my little and next finger. People are telling me it should be strapped or cast right away. I am worried.\n"
     },
@@ -436,11 +460,13 @@
         "date": "2025-10-22",
         "time": "10:00 AM",
         "icd_10": "S62.3"
-      },
-      "context": "The available hours for appointments for the date 2025-10-22 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I think a spider went up to my right nostril yesterday morning and I am worried about it and frightened. Since then, my nose has been blocked and sore.\n"
     },
@@ -472,11 +498,13 @@
         "date": "2025-10-24",
         "time": "09:00 AM",
         "icd_10": "T63.7X1A"
-      },
-      "context": "The available hours for appointments for the date 2025-10-24 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-23 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,A few months before, I developed a gastric issue that required treatment with PPIs. Soon into using the drugs I developed headaches, dizziness, and nausea. I changed the type of PPI three times but the symptoms persisted. The symptoms included a feeling of pressure above my right ear and behind my right eye. Later, I came off the PPIs and after using over the counter headache painkillers for three days the severity of the headaches eased. But the feeling of pressure remains to this day on the right side of the face. I often feel heavy head or even light-headed with a slight dizziness, often as if I am hung over. The symptoms come and go, but are there every day for differing periods of time. And the constant is this feeling of slight pressure on the right side of my head above the ear and extending sometimes down to the cheek and behind the right eye.\n"
     },
@@ -508,11 +536,13 @@
         "date": "2025-10-23",
         "time": "08:00 AM",
         "icd_10": "R51"
-      },
-      "context": "The available hours for appointments for the date 2025-10-23 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hi doctor,I am suffering from a mild cold and severe clogging of ears. I am taking Afrin spray for an hour and one pill of Sudafed. I developed a similar condition of cold and sinus infection before six months. I had severe clogging of ears. I was given Amoxicillin for five days and Prednisone 5 mg. My ENT doctor examined my ears and told me that there was no issue with the eardrum. He diagnosed it as eustachian tube issue. Please help.\n"
     },
@@ -544,11 +574,13 @@
         "date": "2025-10-21",
         "time": "05:00 PM",
         "icd_10": "J00"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,My body is getting severe itching after taking a bath or while sweating. Initially, it used to happen only in winter 4 to 5 years back and then gradually started in rainy days also. Now in summer also while sweating. It is so irritating like that I am going to be mad. I have stopped using soap and also took Clonafit 0.25 mg and Betonix- 10 prescribed by a dermatologist but there is no improvement. Please help me out of this.\n"
     },
@@ -574,11 +606,13 @@
         "date": "2025-10-21",
         "time": "08:00 AM",
         "icd_10": "L29.9"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,Some mornings during the week I get a quick flash of numbness over my left temple. It is never at night or during the day. It can happen more than once sometimes. If I move, roll over, or get up, I can make it stop. It does not hurt and is very fast. What does this sound like?\n"
     },
@@ -616,11 +650,13 @@
         "date": "2025-10-21",
         "time": "08:00 AM",
         "icd_10": "R20.2"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I need advice after my second CT chest result. Six months back, I went for a CT scan because I have got chest pain which suddenly comes and goes and I wanted to go for a check-up. The CT showed a right-sided nodule measuring 3 mm and was advised to RPT interval scan in six months. I have done the second CT, the previous nodule is still there and they found another one.In the LLL, a 4 mm nodule is representative of an intrapulmonary lymph node. No suspicious lung lesion. Tiny 3 mm RLL nodule noted. No enlarged lymph nodes. Mild thymic hyperplasia. The partly visualized upper abdominal viscera appear unremarkable. No aggressive bony lesion. They said I do not need to do anything which is strange because there are two nodes now and the second one was not there six months ago. Do I need some kind of medicine therapy to clear my lung from this node or do I need to check if it is growing or not after one year?\n"
     },
@@ -646,11 +682,11 @@
         "icd_10": "R07.9",
         "severity": "emergency",
         "time": "05:00 PM"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ],
   [
+    { "context": "" },
     {
       "question": "Hello doctor,I just got one side of my wisdom teeth removed both upper and lower six days ago, and I have another one scheduled after two days for the left side. The upper is 100 % fine, which they pulled. The lower they pulled the tooth without removing the root because it was too close to the nerve. I do have some stitching in this area currently on the lower cheek. Noticed a hard lump about 1 inch between my lower jawline and cheek area. Is this normal because of swelling or something else. Currently taking Amoxicillin 500 mg and Ibuprofen 600 mg. Please let me know what this hard lump is, also generally on the lower side where this lump is, remains sore.\n"
     },
@@ -676,11 +712,13 @@
         "date": "2025-10-21",
         "time": "8:00 AM",
         "icd_10": "K08.8"
-      },
-      "context": ""
+      }
     }
   ],
   [
+    {
+      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+    },
     {
       "question": "Hello doctor,I had mumps five months ago and after that, I started to have an infection in my left testes. It was swollen and now it has shrunk to almost half the size of the other one. As I am sexually active, I feel a pain in each of the vas deferens after sex. If I do not have sex for days, they become sensitive. I was treated with Ceftum 500 mg, the first time I had an infection. Now my question is, is there any chance that the infection is still in my body? And, do I need to get examined for it? For the time being, please suggest some precautionary antibiotics for my relief.\n"
     },
@@ -712,8 +750,7 @@
         "date": "2025-10-21",
         "time": "08:00 AM",
         "icd_10": "N45.9"
-      },
-      "context": "The available hours for appointments for the date 2025-10-21 are: [\"08:00 AM\",\"08:30 AM\",\"09:00 AM\",\"09:30 AM\",\"10:00 AM\",\"10:30 AM\",\"11:00 AM\",\"11:30 AM\",\"12:00 PM\",\"12:30 PM\",\"01:00 PM\",\"01:30 PM\",\"02:00 PM\",\"02:30 PM\",\"03:00 PM\",\"03:30 PM\",\"04:00 PM\",\"04:30 PM\",\"05:00 PM\",\"05:30 PM\",\"06:00 PM\",\"06:30 PM\"]"
+      }
     }
   ]
 ]

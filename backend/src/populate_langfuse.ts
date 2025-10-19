@@ -390,4 +390,50 @@ const generateMessage = async (patientDisease) => {
   }
 };
 
-export { generateDoctorAdvice, generateMessage };
+const evaluateAssistantCompletion = async (messages) => {
+  try {
+    const question = `You are given a conversation between a patient and an AI medical assistant responsible for appointment sceduling and preliminary medical advice.
+    Evaluate the assistants responses based on the following criteria:
+    1. Accuracy: Evaluate wether the advice or prescription output provided is correct. Use established clinical guidelines and general medical knowledge as your reference.
+    2. Evaluate wether the output is focussed in the query of the user and only contains the information that where requested without any additional unnecessary or irrelevant information.
+    3. Evaluate the hallucination level of the output based on the input data provided. Assign a score from 0 to 1 where 0 means that no hallucinations occurred in the output and 1 means that the output had unreliable data and misleading knowledge and made up facts.
+    4. Evaluate the relevance of the context provided. Assign a score from 0 to 1 where 0 is no relevance and 1 is full relevance. A context is considered relevant when the model output has used information of the context in order to generate an appropriate response. 
+    Every criteria should be rated on a scale from 0 to 1 where 0 means that the criteria was not met at all and 1 means that the criteria was fully satisfied.
+    Here is the conversation: ${JSON.stringify(messages)}
+    Format the output as a JSON object with the following structure:
+    {
+      "accuracy": "score from 0 to 1",
+      "conciseness": "score from 0 to 1",
+      "hallucination": "score from 0 to 1",
+      "contextRelevance": "score from 0 to 1"
+    }
+    `;
+    const trace = startObservation("assistant-completion-eval", {
+      input: { question },
+    });
+    const gptResponse = await openai.chat.completions.create({
+      model: "gpt-4.1-nano",
+      messages: [
+        {
+          role: "user",
+          content: question,
+        },
+      ],
+      response_format: {
+        type: "json_object",
+      },
+    });
+    const response = JSON.parse(gptResponse.choices[0].message.content);
+    console.log(response);
+    trace.update({
+      output: {
+        result: response,
+      },
+    });
+    trace.end();
+  } catch (error) {
+    console.error("Error evaluating assistant completion:", error);
+  }
+};
+
+export { generateDoctorAdvice, generateMessage, evaluateAssistantCompletion };
